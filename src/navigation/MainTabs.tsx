@@ -25,6 +25,7 @@ import {
   shouldHideFloatingTabBarForRoute,
 } from '../components/navigation/FloatingTabBar';
 import { DEFAULT_GRADIENT_COLORS } from '../components/common/AnimatedBackground';
+import { SupportPill } from '../components/common/SupportPill';
 import { CommunityStack } from './CommunityStack';
 import { CasesStack } from './CasesStack';
 import { ChatScreen } from '../screens/ChatScreen';
@@ -166,6 +167,10 @@ export const MainTabs: React.FC = () => {
           }}
         />
       </Tab.Navigator>
+
+      {/* SupportPill — persistent crisis off-ramp visible on every authenticated
+          screen. Hidden when the keyboard is up so it doesn't fight with input. */}
+      {!keyboardVisible ? <SupportPill /> : null}
     </View>
   );
 };

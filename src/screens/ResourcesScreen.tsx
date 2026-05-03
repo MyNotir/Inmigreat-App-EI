@@ -23,7 +23,6 @@ import {
   RefreshControl,
   Platform,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Circle, Line, Rect } from 'react-native-svg';
 import Animated, {
   useAnimatedStyle,
@@ -32,7 +31,7 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 
-import { AnimatedBackground } from '../components/common/AnimatedBackground';
+import { WarmScreen } from '../components/common/WarmScreen';
 import { GlassCard } from '../components/common/GlassCard';
 import { PlatformBottomSheet } from '../components/common/PlatformBottomSheet';
 import { ProfileSheet } from '../components/ProfileSheet';
@@ -778,14 +777,14 @@ export const ResourcesScreen: React.FC = () => {
   }, [glossarySearch, sampleGlossary]);
 
   return (
-    <AnimatedBackground>
-      <SafeAreaView style={styles.container} edges={['top']}>
+    <WarmScreen edges={['top']}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerEyebrow}>{resourcesTx('header.eyebrow', 'TU GUÍA')}</Text>
             <Text style={styles.headerTitle}>{resourcesTx('header.title', 'Recursos')}</Text>
             <Text style={styles.headerSubtitle}>
-              {resourcesTx('header.subtitle', 'Informacion y herramientas utiles')}
+              {resourcesTx('header.subtitle', 'Abogados, calculadora y guías escritas en español claro')}
             </Text>
           </View>
           <TouchableOpacity
@@ -938,8 +937,7 @@ export const ResourcesScreen: React.FC = () => {
         >
           <ProfileSheet embedded onClose={handleCloseProfile} />
         </PlatformBottomSheet>
-      </SafeAreaView>
-    </AnimatedBackground>
+    </WarmScreen>
   );
 };
 
@@ -995,15 +993,26 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },
+  headerEyebrow: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.6,
+    textTransform: 'uppercase',
+    marginBottom: spacing.xs,
+  },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.bold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
+    letterSpacing: -0.4,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.medium,
     color: colors.warm.inkSoft,
     marginTop: spacing.xs,
+    lineHeight: typography.fontSize.sm * 1.4,
   },
 
   // Scroll view styles

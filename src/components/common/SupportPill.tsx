@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   pillContainer: {
     position: "absolute",
     right: spacing.base,
-    bottom: spacing["3xl"],
+    bottom: spacing["5xl"] + spacing.lg, // sit above FloatingTabBar
     zIndex: 50,
   },
   pill: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: colors.success,
+    backgroundColor: colors.warm.sage,
   },
   pulseDot: {
     width: 8,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   ctaPrimary: {
-    backgroundColor: colors.accent,
+    backgroundColor: colors.warm.clay,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     borderRadius: 999,
@@ -196,7 +196,8 @@ const styles = StyleSheet.create({
   ctaPrimaryText: {
     fontFamily: typography.fontFamily.extrabold,
     fontSize: 13,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
+    letterSpacing: 0.4,
   },
   ctaSecondary: {
     backgroundColor: "rgba(255,255,255,0.8)",
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 1.4,
     textTransform: "uppercase",
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   crisisHint: {
     fontFamily: typography.fontFamily.medium,

@@ -19,12 +19,11 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { AnimatedBackground } from '../components/common/AnimatedBackground';
+import { WarmScreen } from '../components/common/WarmScreen';
 import { BrandedLoadingState } from '../components/common/BrandedLoadingState';
 import { GlassCard } from '../components/common/GlassCard';
 import { CreateGroupSheet } from '../components/community/CreateGroupSheet';
@@ -475,20 +474,20 @@ export const CommunityScreen: React.FC = () => {
   );
 
   return (
-    <AnimatedBackground>
-      <SafeAreaView style={styles.container} edges={['top']}>
+    <WarmScreen edges={['top']}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerEyebrow}>{tx('header.eyebrow', 'TU GENTE')}</Text>
             <Text style={styles.headerTitle}>{tx('header.title', 'Comunidad')}</Text>
             <Text style={styles.headerSubtitle}>
               {isLoading
-                ? tx('header.loadingSubtitle', 'Preparando grupos')
+                ? tx('header.loadingSubtitle', 'Encontrando a quienes ya pasaron por esto')
                 : error && groups.length === 0
-                  ? tx('header.backendWaitingSubtitle', 'Esperando respuesta del backend')
+                  ? tx('header.backendWaitingSubtitle', 'Conectando con la comunidad...')
                 : groups.length === 0
-                  ? tx('header.emptySubtitle', 'Crea el primer grupo de la comunidad')
-                  : tx('header.availableGroups', '{{count}} grupos disponibles', { count: groups.length })}
+                  ? tx('header.emptySubtitle', 'Sé el primero en armar un espacio de apoyo')
+                  : tx('header.availableGroups', 'No estás solo · {{count}} grupos activos', { count: groups.length })}
             </Text>
           </View>
           <View style={styles.headerActions}>
@@ -582,8 +581,7 @@ export const CommunityScreen: React.FC = () => {
           initialType={createGroupType}
           isSubmitting={isCreatingGroup}
         />
-      </SafeAreaView>
-    </AnimatedBackground>
+    </WarmScreen>
   );
 };
 
@@ -607,41 +605,53 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  headerEyebrow: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.6,
+    textTransform: 'uppercase',
+    marginBottom: spacing.xs,
+  },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.bold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
+    letterSpacing: -0.4,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.medium,
     color: colors.warm.inkSoft,
     marginTop: spacing.xs,
+    lineHeight: typography.fontSize.sm * 1.4,
   },
   createHeaderButton: {
-    backgroundColor: `${COMMUNITY_ACCENT}14`,
-    borderWidth: 1,
-    borderColor: `${COMMUNITY_ACCENT}28`,
+    backgroundColor: colors.warm.clay,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
     marginRight: spacing.sm,
   },
   createHeaderButtonText: {
-    fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.semibold,
-    color: COMMUNITY_ACCENT,
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.cream,
+    letterSpacing: 0.4,
   },
   proBadge: {
-    backgroundColor: colors.pro,
-    paddingHorizontal: spacing.md,
+    backgroundColor: colors.warm.sand,
+    borderWidth: 1,
+    borderColor: colors.warm.clay,
+    paddingHorizontal: spacing.sm + 2,
     paddingVertical: spacing.xs,
     borderRadius: borderRadius.full,
   },
   proBadgeText: {
-    color: colors.warm.cream,
-    fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.bold,
-    letterSpacing: 0.5,
+    color: colors.warm.clay,
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    letterSpacing: 1,
   },
   
   // Scroll view styles
