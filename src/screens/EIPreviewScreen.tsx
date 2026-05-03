@@ -25,6 +25,11 @@ import { WarmCard } from "../components/common/WarmCard"
 import { StressBanner } from "../components/common/StressBanner"
 import { SupportPill } from "../components/common/SupportPill"
 import { ToneAwareMessageBubble } from "../components/common/ToneAwareMessageBubble"
+import { WarmButton } from "../components/common/WarmButton"
+import { WarmInput } from "../components/common/WarmInput"
+import { WarmListItem } from "../components/common/WarmListItem"
+import { WarmHeader } from "../components/common/WarmHeader"
+import { WarmDivider } from "../components/common/WarmDivider"
 
 const SECTION_GAP = spacing["2xl"]
 
@@ -225,6 +230,115 @@ export function EIPreviewScreen() {
           />
         </View>
 
+        {/* Primitives v2 — atomic building blocks */}
+        <SectionLabel
+          title="Primitives nuevos"
+          subtitle="Atómicos que componen todas las pantallas del redesign"
+        />
+
+        <WarmCard intensity="calm" style={styles.cardSpacing}>
+          <Text style={styles.primTitle}>WarmHeader</Text>
+          <Text style={styles.primSub}>
+            Header de pantalla con back, título, soporte y trailing slot.
+          </Text>
+          <View style={styles.primDemoBox}>
+            <WarmHeader
+              title="Tu caso"
+              supporting="I-485 · Hialeah · próximo paso en 14 días"
+              onBack={() => {}}
+              intensity="elevated"
+            />
+          </View>
+        </WarmCard>
+
+        <WarmCard intensity="calm" style={styles.cardSpacing}>
+          <Text style={styles.primTitle}>WarmInput</Text>
+          <Text style={styles.primSub}>
+            Tres estados — neutral, foco, error. Sin rojo agresivo.
+          </Text>
+          <View style={{ gap: spacing.md, marginTop: spacing.base }}>
+            <WarmInput
+              label="Correo electrónico"
+              placeholder="tu@email.com"
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+            <WarmInput
+              label="A-Number"
+              placeholder="A-123 456 789"
+              helper="Opcional · 9 dígitos después de la A"
+            />
+            <WarmInput
+              label="Contraseña"
+              placeholder="••••••••"
+              secureTextEntry
+              error="Esa contraseña no coincide. Probemos otra vez."
+            />
+          </View>
+        </WarmCard>
+
+        <WarmCard intensity="calm" style={styles.cardSpacing}>
+          <Text style={styles.primTitle}>WarmButton</Text>
+          <Text style={styles.primSub}>
+            Variantes primary, secondary, ghost. Tonos default, urgent, sage.
+          </Text>
+          <View style={styles.btnRow}>
+            <WarmButton label="Continuar" onPress={() => {}} variant="primary" />
+            <WarmButton label="Más tarde" onPress={() => {}} variant="secondary" />
+            <WarmButton label="Saltar" onPress={() => {}} variant="ghost" size="sm" />
+          </View>
+          <WarmDivider label="acción urgente" />
+          <View style={styles.btnRow}>
+            <WarmButton
+              label="Hablar con un humano"
+              onPress={() => {}}
+              variant="primary"
+              tone="urgent"
+              fullWidth
+            />
+          </View>
+          <View style={styles.btnRow}>
+            <WarmButton
+              label="Caso al día"
+              onPress={() => {}}
+              variant="secondary"
+              tone="sage"
+            />
+          </View>
+        </WarmCard>
+
+        <WarmCard intensity="calm" style={styles.cardSpacing}>
+          <Text style={styles.primTitle}>WarmListItem</Text>
+          <Text style={styles.primSub}>
+            Filas para casos, recursos, abogados, settings. attention=true tinte peach.
+          </Text>
+          <View style={{ gap: spacing.sm, marginTop: spacing.base }}>
+            <WarmListItem
+              title="I-485 · Ajuste de Estatus"
+              subtitle="Biométricos completados · próximo paso en 14 días"
+              meta="ON TRACK"
+              onPress={() => {}}
+              trailing={<Text style={styles.chev}>›</Text>}
+            />
+            <WarmListItem
+              title="Subir prueba de domicilio"
+              subtitle="USCIS pidió Form I-9 actualizado · vence en 4 días"
+              meta="ATENCIÓN"
+              onPress={() => {}}
+              attention
+              trailing={<Text style={styles.chev}>›</Text>}
+            />
+            <WarmListItem
+              title="Audiencia · Corte Miami"
+              subtitle="Mañana 9:00 AM · Hon. R. Martínez · Sala 4"
+              meta="MAÑANA"
+              onPress={() => {}}
+              attention
+              trailing={<Text style={styles.chev}>›</Text>}
+            />
+          </View>
+        </WarmCard>
+
         {/* Closing block */}
         <View style={styles.closing}>
           <Text style={styles.closingTitle}>El SupportPill siempre está ahí</Text>
@@ -415,6 +529,38 @@ const styles = StyleSheet.create({
     color: colors.warm.inkSoft,
     marginTop: spacing.sm,
     lineHeight: 19,
+  },
+  primTitle: {
+    fontFamily: typography.fontFamily.extrabold,
+    fontSize: 17,
+    color: colors.warm.ink,
+  },
+  primSub: {
+    fontFamily: typography.fontFamily.medium,
+    fontSize: 13,
+    color: colors.warm.inkSoft,
+    marginTop: spacing.xs,
+    lineHeight: 18,
+  },
+  primDemoBox: {
+    marginTop: spacing.base,
+    backgroundColor: "rgba(255,255,255,0.45)",
+    borderRadius: borderRadius.large,
+    borderWidth: 1,
+    borderColor: colors.border.warm,
+  },
+  btnRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: spacing.sm,
+    marginTop: spacing.base,
+    marginBottom: spacing.sm,
+    alignItems: "center",
+  },
+  chev: {
+    fontFamily: typography.fontFamily.bold,
+    fontSize: 22,
+    color: colors.warm.clay,
   },
 })
 
