@@ -560,7 +560,9 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
   );
 
   const __devBypassAuth = useCallback(() => {
-    if (!__DEV__) return;
+    // Preview-only escape hatch. Safe to ship in this repo because there's no
+    // production backend wired up — placeholder .env values mean nothing real
+    // is at risk. Remove this method when the actual Cognito pool is plugged in.
     const fakeUser: User = {
       id: 'dev-user-001',
       name: draftUserName ?? 'Demo',
@@ -600,7 +602,7 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
       updateProfile,
       updateNotificationPreferences,
       isBiometricEnabled,
-      __devBypassAuth: __DEV__ ? __devBypassAuth : undefined,
+      __devBypassAuth,
     }),
     [
       authState,

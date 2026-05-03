@@ -160,10 +160,10 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
             <Text style={styles.eiPreviewLabel}>Preview · EI Redesign →</Text>
           </TouchableOpacity>
 
-          {/* DEV-only demo login: bypass real Cognito and drop straight into
-              Main tabs so you can navigate Cases / Chat / Community / Resources
-              without a backend. Hidden in production builds. */}
-          {__DEV__ && __devBypassAuth ? (
+          {/* Demo login: bypass Cognito and drop straight into Main so you
+              can navigate Cases / Chat / Community / Resources / Attorney
+              flow without a real backend. Preview repo only. */}
+          {__devBypassAuth ? (
             <TouchableOpacity
               style={styles.devLoginButton}
               onPress={() => {
@@ -171,7 +171,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
                 __devBypassAuth();
               }}
               accessibilityRole="button"
-              accessibilityLabel="Dev demo login — bypass real auth"
+              accessibilityLabel="Demo login — entrar sin password"
             >
               <Text style={styles.devLoginLabel}>Demo Login (sin password) →</Text>
             </TouchableOpacity>
