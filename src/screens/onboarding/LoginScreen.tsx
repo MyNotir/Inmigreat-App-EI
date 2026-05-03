@@ -1,41 +1,54 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+/**
+ * LoginScreen — Emotional Intelligence redesign.
+ *
+ * Warm-minimalism auth surface. Same Cognito + social flow as before, just
+ * wearing the EI skin: cream WarmCard with WarmInput fields, WarmButton CTAs,
+ * and a soft sage notice instead of cold success-green. Errors use urgentWarm
+ * (burnt orange) inline — never alarmist red.
+ *
+ * Auth logic, validation, error mapping, and OAuth handlers are preserved
+ * verbatim from the previous implementation.
+ */
+
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import {
   ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Animated from 'react-native-reanimated';
-import { StackScreenProps } from '@react-navigation/stack';
-import Svg, { Path, Rect } from 'react-native-svg';
+} from "react-native"
+import Animated from "react-native-reanimated"
+import type { StackScreenProps } from "@react-navigation/stack"
+import Svg, { Path, Rect } from "react-native-svg"
 
-import { AnimatedBackground } from '../../components/common/AnimatedBackground';
-import { GlassCard } from '../../components/common/GlassCard';
-import { useAuth } from '../../context/AuthContext';
-import { useAppAlert } from '../../context/AppAlertContext';
-import { ApiException } from '../../services/api';
-import { useFadeUp, usePressAnimation } from '../../styles/animations';
-import { borderRadius, colors, spacing, typography } from '../../styles/theme';
-import type { OnboardingStackParamList } from '../../types/navigation';
-import { getKeyboardBehavior, getKeyboardVerticalOffset, isIOS } from '../../utils/platform';
-import { useViewTranslation } from '../../i18n';
+import { WarmScreen } from "../../components/common/WarmScreen"
+import { WarmCard } from "../../components/common/WarmCard"
+import { WarmInput } from "../../components/common/WarmInput"
+import { WarmButton } from "../../components/common/WarmButton"
+import { WarmDivider } from "../../components/common/WarmDivider"
+import { useAuth } from "../../context/AuthContext"
+import { useAppAlert } from "../../context/AppAlertContext"
+import { ApiException } from "../../services/api"
+import { useFadeUp } from "../../styles/animations"
+import { borderRadius, colors, spacing, typography } from "../../styles/theme"
+import type { OnboardingStackParamList } from "../../types/navigation"
+import { getKeyboardBehavior, getKeyboardVerticalOffset, isIOS } from "../../utils/platform"
+import { useViewTranslation } from "../../i18n"
 
-type LoginScreenProps = StackScreenProps<OnboardingStackParamList, 'Login'>;
-type ScreenMode = 'login' | 'register';
+type LoginScreenProps = StackScreenProps<OnboardingStackParamList, "Login">
+type ScreenMode = "login" | "register"
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const STRONG_PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const STRONG_PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
 
-const LOGIN_GRADIENT_COLORS = ['#FFFCF6', '#FFF8EE', '#FFFFFF', '#F8F7FF'] as const;
-
-const GoogleIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
+const GoogleIcon: React.FC<{ size?: number }> = ({ size = 18 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24">
     <Path
       d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -54,969 +67,710 @@ const GoogleIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
       fill="#EA4335"
     />
   </Svg>
-);
+)
 
-const AppleIcon: React.FC<{ size?: number; color?: string }> = ({
-  size = 20,
-  color = '#000000',
-}) => (
+const AppleIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = "#FFFFFF" }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
     <Path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
   </Svg>
-);
+)
 
-const MailIcon: React.FC<{ size?: number; color?: string }> = ({
-  size = 20,
-  color = colors.text.secondary,
-}) => (
-  <Svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={1.8}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+const MailIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = colors.warm.clay }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
     <Rect x="2" y="4" width="20" height="16" rx="2" />
     <Path d="M22 6l-10 7L2 6" />
   </Svg>
-);
+)
 
-const LockIcon: React.FC<{ size?: number; color?: string }> = ({
-  size = 20,
-  color = colors.text.secondary,
-}) => (
-  <Svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke={color}
-    strokeWidth={1.8}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+const LockIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = colors.warm.clay }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
     <Rect x="3" y="11" width="18" height="11" rx="2" />
     <Path d="M7 11V7a5 5 0 0 1 10 0v4" />
   </Svg>
-);
+)
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
-  const { loginWithCredentials, registerUser, loginWithSocial, userName, language } = useAuth();
-  const { showAlert, showError } = useAppAlert();
-  const { t } = useViewTranslation('onboarding');
+  const { loginWithCredentials, registerUser, loginWithSocial, userName, language } = useAuth()
+  const { showAlert, showError } = useAppAlert()
+  const { t } = useViewTranslation("onboarding")
 
   const tx = (key: string, defaultValue: string, options?: Record<string, unknown>) =>
-    t(key, { defaultValue, ...(options ?? {}) });
+    t(key, { defaultValue, ...(options ?? {}) })
 
-  const [mode, setMode] = useState<ScreenMode>('login');
-  const [email, setEmail] = useState(route.params?.email ?? '');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [notice, setNotice] = useState<string | null>(route.params?.notice ?? null);
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [socialLoading, setSocialLoading] = useState<'google' | 'apple' | null>(null);
+  const [mode, setMode] = useState<ScreenMode>("login")
+  const [email, setEmail] = useState(route.params?.email ?? "")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [notice, setNotice] = useState<string | null>(route.params?.notice ?? null)
+  const [emailError, setEmailError] = useState<string | null>(null)
+  const [passwordError, setPasswordError] = useState<string | null>(null)
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [socialLoading, setSocialLoading] = useState<"google" | "apple" | null>(null)
 
-  const passwordInputRef = useRef<TextInput>(null);
-  const confirmPasswordInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null)
+  const confirmPasswordInputRef = useRef<TextInput>(null)
 
-  const { animatedStyle: titleAnimatedStyle, fadeIn: titleFadeIn } = useFadeUp({
-    duration: 400,
-    delay: 100,
-    distance: 20,
-  });
-  const { animatedStyle: subtitleAnimatedStyle, fadeIn: subtitleFadeIn } = useFadeUp({
-    duration: 400,
-    delay: 180,
-    distance: 16,
-  });
-  const { animatedStyle: formAnimatedStyle, fadeIn: formFadeIn } = useFadeUp({
-    duration: 400,
-    delay: 260,
-    distance: 18,
-  });
-  const { animatedStyle: footerAnimatedStyle, fadeIn: footerFadeIn } = useFadeUp({
-    duration: 400,
-    delay: 340,
-    distance: 14,
-  });
-  const { animatedStyle: submitPressStyle, onPressIn: submitPressIn, onPressOut: submitPressOut } = usePressAnimation();
+  const { animatedStyle: titleStyle, fadeIn: titleFadeIn } = useFadeUp({ duration: 420, delay: 100, distance: 18 })
+  const { animatedStyle: subtitleStyle, fadeIn: subtitleFadeIn } = useFadeUp({ duration: 420, delay: 180, distance: 14 })
+  const { animatedStyle: formStyle, fadeIn: formFadeIn } = useFadeUp({ duration: 460, delay: 260, distance: 16 })
+  const { animatedStyle: footerStyle, fadeIn: footerFadeIn } = useFadeUp({ duration: 420, delay: 360, distance: 12 })
 
   useEffect(() => {
-    titleFadeIn();
-    subtitleFadeIn();
-    formFadeIn();
-    footerFadeIn();
-  }, [footerFadeIn, formFadeIn, subtitleFadeIn, titleFadeIn]);
+    titleFadeIn()
+    subtitleFadeIn()
+    formFadeIn()
+    footerFadeIn()
+  }, [footerFadeIn, formFadeIn, subtitleFadeIn, titleFadeIn])
 
   useEffect(() => {
-    if (route.params?.email) {
-      setEmail(route.params.email);
-    }
-    if (route.params?.notice) {
-      setNotice(route.params.notice);
-    }
-  }, [route.params?.email, route.params?.notice]);
+    if (route.params?.email) setEmail(route.params.email)
+    if (route.params?.notice) setNotice(route.params.notice)
+  }, [route.params?.email, route.params?.notice])
 
   const headerTitle = useMemo(() => {
-    if (mode === 'register') {
+    if (mode === "register") {
       return userName
-        ? tx('login.title.createWithName', 'Crea tu cuenta, {{name}}', { name: userName })
-        : tx('login.title.create', 'Crea tu cuenta');
+        ? tx("login.title.createWithName", "Crea tu cuenta, {{name}}", { name: userName })
+        : tx("login.title.create", "Crea tu cuenta")
     }
     return userName
-      ? tx('login.title.welcomeWithName', 'Bienvenido, {{name}}', { name: userName })
-      : tx('login.title.welcome', 'Bienvenido');
-  }, [mode, t, userName]);
+      ? tx("login.title.welcomeWithName", "Bienvenido, {{name}}", { name: userName })
+      : tx("login.title.welcome", "Bienvenido")
+  }, [mode, t, userName])
 
   const validateEmail = (value: string): boolean => {
     if (!value.trim()) {
-      setEmailError(tx('login.validation.emailRequired', 'El correo electronico es requerido.'));
-      return false;
+      setEmailError(tx("login.validation.emailRequired", "El correo electrónico es requerido."))
+      return false
     }
-
     if (!EMAIL_REGEX.test(value.trim())) {
-      setEmailError(tx('login.validation.emailInvalid', 'Ingresa un correo electronico valido.'));
-      return false;
+      setEmailError(tx("login.validation.emailInvalid", "Ingresa un correo electrónico válido."))
+      return false
     }
-
-    setEmailError(null);
-    return true;
-  };
+    setEmailError(null)
+    return true
+  }
 
   const validatePassword = (value: string, currentMode: ScreenMode): boolean => {
     if (!value) {
-      setPasswordError(tx('login.validation.passwordRequired', 'La contrasena es requerida.'));
-      return false;
+      setPasswordError(tx("login.validation.passwordRequired", "La contraseña es requerida."))
+      return false
     }
-
-    if (currentMode === 'register' && !STRONG_PASSWORD_REGEX.test(value)) {
+    if (currentMode === "register" && !STRONG_PASSWORD_REGEX.test(value)) {
       setPasswordError(
         tx(
-          'login.validation.strongPassword',
-          'Usa al menos 8 caracteres, una mayuscula, una minuscula y un numero.',
+          "login.validation.strongPassword",
+          "Usa al menos 8 caracteres, una mayúscula, una minúscula y un número.",
         ),
-      );
-      return false;
+      )
+      return false
     }
-
-    setPasswordError(null);
-    return true;
-  };
+    setPasswordError(null)
+    return true
+  }
 
   const validateConfirmPassword = (value: string, sourcePassword: string): boolean => {
-    if (mode !== 'register') {
-      setConfirmPasswordError(null);
-      return true;
+    if (mode !== "register") {
+      setConfirmPasswordError(null)
+      return true
     }
-
     if (!value) {
-      setConfirmPasswordError(
-        tx('login.validation.confirmPasswordRequired', 'Confirma tu contrasena.'),
-      );
-      return false;
+      setConfirmPasswordError(tx("login.validation.confirmPasswordRequired", "Confirma tu contraseña."))
+      return false
     }
-
     if (value !== sourcePassword) {
-      setConfirmPasswordError(
-        tx('login.validation.confirmPasswordMismatch', 'Las contrasenas no coinciden.'),
-      );
-      return false;
+      setConfirmPasswordError(tx("login.validation.confirmPasswordMismatch", "Las contraseñas no coinciden."))
+      return false
     }
-
-    setConfirmPasswordError(null);
-    return true;
-  };
+    setConfirmPasswordError(null)
+    return true
+  }
 
   const handleModeChange = (nextMode: ScreenMode) => {
-    setMode(nextMode);
-    setPassword('');
-    setConfirmPassword('');
-    setPasswordError(null);
-    setConfirmPasswordError(null);
-    setNotice(null);
-  };
+    setMode(nextMode)
+    setPassword("")
+    setConfirmPassword("")
+    setPasswordError(null)
+    setConfirmPasswordError(null)
+    setNotice(null)
+  }
 
   const applyApiError = (error: unknown, normalizedEmail: string) => {
     if (!(error instanceof ApiException)) {
-      const fallbackMessage = tx(
-        'login.alert.authFallback',
-        'No fue posible completar la autenticacion. Intenta de nuevo.',
-      );
-      setPasswordError(fallbackMessage);
+      const fallbackMessage = tx("login.alert.authFallback", "No fue posible completar la autenticación. Intenta de nuevo.")
+      setPasswordError(fallbackMessage)
       showError(error, {
         title:
-          mode === 'login'
-            ? tx('login.alert.loginFailed', 'No pudimos iniciar sesion')
-            : tx('login.alert.registerFailed', 'No pudimos crear tu cuenta'),
+          mode === "login"
+            ? tx("login.alert.loginFailed", "No pudimos iniciar sesión")
+            : tx("login.alert.registerFailed", "No pudimos crear tu cuenta"),
         fallbackMessage,
-      });
-      return;
+      })
+      return
     }
 
-    const normalizedMessage = error.message.toLowerCase();
+    const normalizedMessage = error.message.toLowerCase()
 
-    if (error.details?.email?.[0]) {
-      setEmailError(error.details.email[0]);
-    }
+    if (error.details?.email?.[0]) setEmailError(error.details.email[0])
+    if (error.details?.password?.[0]) setPasswordError(error.details.password[0])
 
-    if (error.details?.password?.[0]) {
-      setPasswordError(error.details.password[0]);
-    }
-
-    if (
-      error.type === 'auth_error' &&
-      normalizedMessage.includes('confirmar tu correo')
-    ) {
+    if (error.type === "auth_error" && normalizedMessage.includes("confirmar tu correo")) {
       showAlert({
-        title: tx('login.alert.confirmEmailTitle', 'Confirma tu correo'),
+        title: tx("login.alert.confirmEmailTitle", "Confirma tu correo"),
         message: tx(
-          'login.alert.confirmEmailMessage',
-          'Necesitamos verificar tu correo antes de iniciar sesion. Te llevaremos al siguiente paso para completar la confirmacion.',
+          "login.alert.confirmEmailMessage",
+          "Necesitamos verificar tu correo antes de iniciar sesión. Te llevaremos al siguiente paso.",
         ),
-        tone: 'info',
+        tone: "info",
         actions: [
           {
-            label: tx('login.alert.continue', 'Continuar'),
-            onPress: () => navigation.navigate('ConfirmRegistration', { email: normalizedEmail }),
+            label: tx("login.alert.continue", "Continuar"),
+            onPress: () => navigation.navigate("ConfirmRegistration", { email: normalizedEmail }),
           },
         ],
-      });
-      return;
+      })
+      return
     }
 
     if (error.code === 428) {
       if (!userName?.trim()) {
         showAlert({
-          title: tx('login.alert.completeProfileTitle', 'Completa tu perfil'),
+          title: tx("login.alert.completeProfileTitle", "Completa tu perfil"),
           message: tx(
-            'login.alert.completeProfileMessage',
-            'Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.',
+            "login.alert.completeProfileMessage",
+            "Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.",
           ),
-          tone: 'info',
+          tone: "info",
           actions: [
             {
-              label: tx('login.alert.continue', 'Continuar'),
-              onPress: () => navigation.navigate('Name', {
-                email: normalizedEmail,
-                notice: tx(
-                  'login.alert.completeProfileMessage',
-                  'Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.',
-                ),
-                completePendingProvisioning: true,
-              }),
+              label: tx("login.alert.continue", "Continuar"),
+              onPress: () =>
+                navigation.navigate("Name", {
+                  email: normalizedEmail,
+                  notice: tx(
+                    "login.alert.completeProfileMessage",
+                    "Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.",
+                  ),
+                  completePendingProvisioning: true,
+                }),
             },
           ],
-        });
-        return;
+        })
+        return
       } else {
-        setNotice(error.message);
+        setNotice(error.message)
       }
-      setPasswordError(error.message);
-      showError(error, { title: tx('login.alert.completeProfileTitle', 'Completa tu perfil') });
-      return;
+      setPasswordError(error.message)
+      showError(error, { title: tx("login.alert.completeProfileTitle", "Completa tu perfil") })
+      return
     }
 
-    if (normalizedMessage.includes('no encontramos una cuenta')) {
-      setEmailError(error.message);
+    if (normalizedMessage.includes("no encontramos una cuenta")) {
+      setEmailError(error.message)
     } else if (!error.details?.password?.[0]) {
-      setPasswordError(error.message);
+      setPasswordError(error.message)
     }
 
     showError(error, {
       title:
-        mode === 'login'
-          ? tx('login.alert.loginFailed', 'No pudimos iniciar sesion')
-          : tx('login.alert.registerFailed', 'No pudimos crear tu cuenta'),
+        mode === "login"
+          ? tx("login.alert.loginFailed", "No pudimos iniciar sesión")
+          : tx("login.alert.registerFailed", "No pudimos crear tu cuenta"),
       preferInlineValidation: true,
-    });
-  };
+    })
+  }
 
   const handleSubmit = async () => {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
+    const normalizedEmail = email.trim().toLowerCase()
+    const isEmailValid = validateEmail(normalizedEmail)
+    const isPasswordValid = validatePassword(password, mode)
+    const isConfirmPasswordValid = validateConfirmPassword(confirmPassword, password)
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const isEmailValid = validateEmail(normalizedEmail);
-    const isPasswordValid = validatePassword(password, mode);
-    const isConfirmPasswordValid = validateConfirmPassword(confirmPassword, password);
+    if (!isEmailValid || !isPasswordValid || !isConfirmPasswordValid) return
 
-    if (!isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
-      return;
-    }
-
-    setIsLoading(true);
-    setNotice(null);
+    setIsLoading(true)
+    setNotice(null)
 
     try {
-      if (mode === 'login') {
-        await loginWithCredentials({
-          email: normalizedEmail,
-          password,
-        });
-        navigation.navigate('Biometric');
-        return;
+      if (mode === "login") {
+        await loginWithCredentials({ email: normalizedEmail, password })
+        navigation.navigate("Biometric")
+        return
       }
 
-      const registrationName = userName?.trim() || normalizedEmail.split('@')[0];
+      const registrationName = userName?.trim() || normalizedEmail.split("@")[0]
       const result = await registerUser({
         email: normalizedEmail,
         password,
         name: registrationName,
         language,
-      });
+      })
 
       if (result.userConfirmed) {
-        await loginWithCredentials({ email: normalizedEmail, password });
-        navigation.navigate('Biometric');
-        return;
+        await loginWithCredentials({ email: normalizedEmail, password })
+        navigation.navigate("Biometric")
+        return
       }
 
-      navigation.navigate('ConfirmRegistration', { email: normalizedEmail });
+      navigation.navigate("ConfirmRegistration", { email: normalizedEmail })
     } catch (error) {
-      applyApiError(error, normalizedEmail);
+      applyApiError(error, normalizedEmail)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
-  const handleGoogleSignIn = async () => {
-    setSocialLoading('google');
-
+  const handleSocial = async (provider: "google" | "apple") => {
+    setSocialLoading(provider)
     try {
-      await loginWithSocial({
-        provider: 'google',
-      });
-
-      navigation.navigate('Biometric');
+      await loginWithSocial({ provider })
+      navigation.navigate("Biometric")
     } catch (error) {
-      if (error instanceof ApiException && error.code === 499) {
-        return;
-      }
+      if (error instanceof ApiException && error.code === 499) return
 
       if (error instanceof ApiException && error.code === 428) {
         const noticeMessage = tx(
-          'login.alert.completeProfileMessage',
-          'Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.',
-        );
-
+          "login.alert.completeProfileMessage",
+          "Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.",
+        )
         if (!userName?.trim()) {
           showAlert({
-            title: tx('login.alert.completeProfileTitle', 'Completa tu perfil'),
+            title: tx("login.alert.completeProfileTitle", "Completa tu perfil"),
             message: noticeMessage,
-            tone: 'info',
+            tone: "info",
             actions: [
               {
-                label: tx('login.alert.continue', 'Continuar'),
-                onPress: () => navigation.navigate('Name', {
-                  notice: noticeMessage,
-                  completePendingProvisioning: true,
-                }),
+                label: tx("login.alert.continue", "Continuar"),
+                onPress: () =>
+                  navigation.navigate("Name", {
+                    notice: noticeMessage,
+                    completePendingProvisioning: true,
+                  }),
               },
             ],
-          });
-          return;
+          })
+          return
         }
-
-        setNotice(error.message);
+        setNotice(error.message)
       }
 
-      if (error instanceof ApiException) {
-        setPasswordError(error.message);
-      }
+      if (error instanceof ApiException) setPasswordError(error.message)
       showError(error, {
-        title: tx('login.alert.googleFailed', 'No pudimos iniciar sesion con Google'),
-      });
+        title:
+          provider === "google"
+            ? tx("login.alert.googleFailed", "No pudimos iniciar sesión con Google")
+            : tx("login.alert.appleFailed", "No pudimos iniciar sesión con Apple"),
+      })
     } finally {
-      setSocialLoading(null);
+      setSocialLoading(null)
     }
-  };
-
-  const handleAppleSignIn = async () => {
-    setSocialLoading('apple');
-
-    try {
-      await loginWithSocial({
-        provider: 'apple',
-      });
-
-      navigation.navigate('Biometric');
-    } catch (error) {
-      if (error instanceof ApiException && error.code === 499) {
-        return;
-      }
-
-      if (error instanceof ApiException && error.code === 428) {
-        const noticeMessage = tx(
-          'login.alert.completeProfileMessage',
-          'Necesitamos tu nombre para terminar de crear tu perfil en Inmigreat.',
-        );
-
-        if (!userName?.trim()) {
-          showAlert({
-            title: tx('login.alert.completeProfileTitle', 'Completa tu perfil'),
-            message: noticeMessage,
-            tone: 'info',
-            actions: [
-              {
-                label: tx('login.alert.continue', 'Continuar'),
-                onPress: () => navigation.navigate('Name', {
-                  notice: noticeMessage,
-                  completePendingProvisioning: true,
-                }),
-              },
-            ],
-          });
-          return;
-        }
-
-        setNotice(error.message);
-      }
-
-      if (error instanceof ApiException) {
-        setPasswordError(error.message);
-      }
-      showError(error, {
-        title: tx('login.alert.appleFailed', 'No pudimos iniciar sesion con Apple'),
-      });
-    } finally {
-      setSocialLoading(null);
-    }
-  };
+  }
 
   const handleForgotPassword = () => {
-    navigation.navigate('ForgotPassword', {
+    navigation.navigate("ForgotPassword", {
       email: email.trim() ? email.trim().toLowerCase() : undefined,
-    });
-  };
-
-  const dismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
+    })
+  }
 
   const isFormValid = Boolean(
     email.trim() &&
       password &&
-      (mode === 'login' || confirmPassword) &&
+      (mode === "login" || confirmPassword) &&
       !emailError &&
       !passwordError &&
       !confirmPasswordError,
-  );
-  const isAnyLoading = isLoading || socialLoading !== null;
+  )
+  const isAnyLoading = isLoading || socialLoading !== null
 
   return (
-    <AnimatedBackground colors={LOGIN_GRADIENT_COLORS}>
-      <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView
-          style={styles.keyboardAvoid}
-          behavior={getKeyboardBehavior()}
-          keyboardVerticalOffset={getKeyboardVerticalOffset()}
-        >
-          <TouchableWithoutFeedback onPress={dismissKeyboard}>
-            <View style={styles.content}>
-              <View style={styles.header}>
-                <Animated.View style={titleAnimatedStyle}>
-                  <Text style={styles.title}>{headerTitle}</Text>
-                </Animated.View>
-                <Animated.View style={subtitleAnimatedStyle}>
-                  <Text style={styles.subtitle}>
-                    {mode === 'login'
-                      ? tx(
-                          'login.subtitle.login',
-                          'Inicia sesion con tu correo para continuar con tu seguimiento de casos.',
-                        )
-                      : tx(
-                          'login.subtitle.register',
-                          'Registra tu correo y contrasena para crear tu acceso en Cognito.',
-                        )}
-                  </Text>
-                </Animated.View>
-              </View>
+    <WarmScreen scroll edges={["top", "right", "left"]}>
+      <KeyboardAvoidingView
+        style={styles.kb}
+        behavior={getKeyboardBehavior()}
+        keyboardVerticalOffset={getKeyboardVerticalOffset()}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.content}>
+            <Animated.View style={titleStyle}>
+              <Text style={styles.eyebrow}>
+                {mode === "login"
+                  ? tx("login.eyebrow.welcome", "BIENVENIDO DE VUELTA")
+                  : tx("login.eyebrow.create", "EMPECEMOS")}
+              </Text>
+              <Text style={styles.title}>{headerTitle}</Text>
+            </Animated.View>
 
-              <View style={styles.formSection}>
-                <Animated.View style={formAnimatedStyle}>
-                  <GlassCard
-                    style={styles.formCard}
-                    opacity={Platform.OS === 'android' ? 1 : undefined}
-                    blurIntensity={Platform.OS === 'android' ? 0 : undefined}
-                  >
-                    <View style={styles.modeRow}>
-                      <TouchableOpacity
-                        style={[styles.modeChip, mode === 'login' && styles.modeChipActive]}
-                        onPress={() => handleModeChange('login')}
-                        disabled={isLoading}
-                      >
-                        <Text style={[styles.modeChipText, mode === 'login' && styles.modeChipTextActive]}>
-                          {tx('login.mode.login', 'Iniciar sesion')}
-                        </Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[styles.modeChip, mode === 'register' && styles.modeChipActive]}
-                        onPress={() => handleModeChange('register')}
-                        disabled={isLoading}
-                      >
-                        <Text style={[styles.modeChipText, mode === 'register' && styles.modeChipTextActive]}>
-                          {tx('login.mode.register', 'Crear cuenta')}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-
-                    {notice && <Text style={styles.noticeText}>{notice}</Text>}
-
-                    <View style={styles.inputContainer}>
-                      <View style={styles.inputIconContainer}>
-                        <MailIcon size={20} color={emailError ? colors.error : colors.text.secondary} />
-                      </View>
-                      <TextInput
-                        style={[styles.textInput, emailError && styles.textInputError]}
-                        placeholder={tx('login.field.emailPlaceholder', 'Correo electronico')}
-                        placeholderTextColor={colors.text.tertiary}
-                        value={email}
-                        onChangeText={(text) => {
-                          setEmail(text);
-                          if (emailError) {
-                            validateEmail(text);
-                          }
-                        }}
-                        onBlur={() => validateEmail(email)}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        returnKeyType="next"
-                        onSubmitEditing={() => passwordInputRef.current?.focus()}
-                        editable={!isAnyLoading}
-                      />
-                    </View>
-                    {emailError && <Text style={styles.errorText}>{emailError}</Text>}
-
-                    <View style={[styles.inputContainer, styles.inputSpacing]}>
-                      <View style={styles.inputIconContainer}>
-                        <LockIcon size={20} color={passwordError ? colors.error : colors.text.secondary} />
-                      </View>
-                      <TextInput
-                        ref={passwordInputRef}
-                        style={[styles.textInput, passwordError && styles.textInputError]}
-                        placeholder={
-                          mode === 'login'
-                            ? tx('login.field.passwordPlaceholder', 'Contrasena')
-                            : tx('login.field.securePasswordPlaceholder', 'Crea una contrasena segura')
-                        }
-                        placeholderTextColor={colors.text.tertiary}
-                        value={password}
-                        onChangeText={(text) => {
-                          setPassword(text);
-                          if (passwordError) {
-                            validatePassword(text, mode);
-                          }
-                          if (confirmPasswordError) {
-                            validateConfirmPassword(confirmPassword, text);
-                          }
-                        }}
-                        onBlur={() => validatePassword(password, mode)}
-                        secureTextEntry
-                        returnKeyType={mode === 'register' ? 'next' : 'done'}
-                        onSubmitEditing={() => {
-                          if (mode === 'register') {
-                            confirmPasswordInputRef.current?.focus();
-                            return;
-                          }
-                          handleSubmit();
-                        }}
-                        editable={!isAnyLoading}
-                      />
-                    </View>
-                    {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
-
-                    {mode === 'register' && (
-                      <>
-                        <View style={[styles.inputContainer, styles.inputSpacing]}>
-                          <View style={styles.inputIconContainer}>
-                            <LockIcon size={20} color={confirmPasswordError ? colors.error : colors.text.secondary} />
-                          </View>
-                          <TextInput
-                            ref={confirmPasswordInputRef}
-                            style={[styles.textInput, confirmPasswordError && styles.textInputError]}
-                            placeholder={tx(
-                              'login.field.confirmPasswordPlaceholder',
-                              'Confirma tu contrasena',
-                            )}
-                            placeholderTextColor={colors.text.tertiary}
-                            value={confirmPassword}
-                            onChangeText={(text) => {
-                              setConfirmPassword(text);
-                              if (confirmPasswordError) {
-                                validateConfirmPassword(text, password);
-                              }
-                            }}
-                            onBlur={() => validateConfirmPassword(confirmPassword, password)}
-                            secureTextEntry
-                            returnKeyType="done"
-                            onSubmitEditing={handleSubmit}
-                            editable={!isAnyLoading}
-                          />
-                        </View>
-                        {confirmPasswordError && <Text style={styles.errorText}>{confirmPasswordError}</Text>}
-                        <Text style={styles.helperText}>
-                          {tx(
-                            'login.helper.passwordPolicy',
-                            'La contrasena debe tener mayuscula, minuscula y numero.',
-                          )}
-                        </Text>
-                      </>
+            <Animated.View style={subtitleStyle}>
+              <Text style={styles.subtitle}>
+                {mode === "login"
+                  ? tx(
+                      "login.subtitle.login",
+                      "Tu caso, tus pasos, tus avances — todo donde lo dejaste.",
+                    )
+                  : tx(
+                      "login.subtitle.register",
+                      "Tu correo y una contraseña — eso es todo lo que necesitamos para empezar.",
                     )}
+              </Text>
+            </Animated.View>
 
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      onPressIn={submitPressIn}
-                      onPressOut={submitPressOut}
-                      onPress={handleSubmit}
-                      disabled={!isFormValid || isAnyLoading}
-                      style={styles.primaryButtonContainer}
-                    >
-                      <Animated.View style={submitPressStyle}>
-                        <View
-                          style={[
-                            styles.primaryButton,
-                            (!isFormValid || isAnyLoading) && styles.primaryButtonDisabled,
-                          ]}
-                        >
-                          {isLoading ? (
-                            <ActivityIndicator color={colors.text.inverse} size="small" />
-                          ) : (
-                            <Text
-                              style={[
-                                styles.primaryButtonText,
-                                (!isFormValid || isAnyLoading) && styles.primaryButtonTextDisabled,
-                              ]}
-                            >
-                              {mode === 'login'
-                                ? tx('login.action.login', 'Entrar')
-                                : tx('login.action.register', 'Continuar con registro')}
-                            </Text>
-                          )}
-                        </View>
-                      </Animated.View>
-                    </TouchableOpacity>
-
-                    {mode === 'register' && (
-                      <Text style={styles.socialNotice}>
-                        {tx(
-                          'login.helper.socialNotice',
-                          'Google y Apple ya estan disponibles desde el modo de inicio de sesion.',
-                        )}
-                      </Text>
-                    )}
-                  </GlassCard>
-                </Animated.View>
-
-                {mode === 'login' && (
-                  <>
-                    <View style={styles.dividerContainer}>
-                      <View style={styles.dividerLine} />
-                      <Text style={styles.dividerText}>
-                        {tx('login.helper.divider', 'o continua con')}
-                      </Text>
-                      <View style={styles.dividerLine} />
-                    </View>
-
-                    <View style={styles.socialButtonsContainer}>
-                      <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={handleGoogleSignIn}
-                        disabled={isAnyLoading}
-                        style={styles.socialButtonWrapper}
-                      >
-                        <View style={[styles.socialButton, isAnyLoading && styles.socialButtonDisabled]}>
-                          {socialLoading === 'google' ? (
-                            <ActivityIndicator color={colors.text.primary} size="small" />
-                          ) : (
-                            <>
-                              <GoogleIcon size={20} />
-                              <Text style={styles.socialButtonText}>Google</Text>
-                            </>
-                          )}
-                        </View>
-                      </TouchableOpacity>
-
-                      {isIOS && (
-                        <TouchableOpacity
-                          activeOpacity={1}
-                          onPress={handleAppleSignIn}
-                          disabled={isAnyLoading}
-                          style={styles.socialButtonWrapper}
-                        >
-                          <View style={[styles.socialButton, styles.appleButton, isAnyLoading && styles.socialButtonDisabled]}>
-                            {socialLoading === 'apple' ? (
-                              <ActivityIndicator color={colors.text.inverse} size="small" />
-                            ) : (
-                              <>
-                                <AppleIcon size={20} color={colors.text.inverse} />
-                                <Text style={[styles.socialButtonText, styles.appleButtonText]}>Apple</Text>
-                              </>
-                            )}
-                          </View>
-                        </TouchableOpacity>
-                      )}
-                    </View>
-
-                    <TouchableOpacity
-                      onPress={handleForgotPassword}
-                      disabled={isAnyLoading}
-                      style={styles.forgotPasswordContainer}
-                    >
-                      <Text style={[styles.forgotPasswordText, isAnyLoading && styles.forgotPasswordTextDisabled]}>
-                        {tx('login.helper.forgotPassword', 'Olvidaste tu contrasena?')}
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-
-                <Animated.View style={footerAnimatedStyle}>
-                  <TouchableOpacity
-                    onPress={() => handleModeChange(mode === 'login' ? 'register' : 'login')}
-                    disabled={isAnyLoading}
+            <Animated.View style={[styles.formWrap, formStyle]}>
+              <WarmCard intensity="elevated">
+                <View style={styles.modeRow}>
+                  <Pressable
+                    style={[styles.modeChip, mode === "login" && styles.modeChipActive]}
+                    onPress={() => handleModeChange("login")}
+                    disabled={isLoading}
                   >
-                    <Text style={styles.footerText}>
-                      {mode === 'login'
-                        ? tx('login.helper.footerCreate', 'Todavia no tienes cuenta? Crear cuenta')
-                        : tx('login.helper.footerLogin', 'Ya tienes cuenta? Iniciar sesion')}
+                    <Text style={[styles.modeChipText, mode === "login" && styles.modeChipTextActive]}>
+                      {tx("login.mode.login", "Iniciar sesión")}
                     </Text>
-                  </TouchableOpacity>
-                </Animated.View>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
-    </AnimatedBackground>
-  );
-};
+                  </Pressable>
+                  <Pressable
+                    style={[styles.modeChip, mode === "register" && styles.modeChipActive]}
+                    onPress={() => handleModeChange("register")}
+                    disabled={isLoading}
+                  >
+                    <Text style={[styles.modeChipText, mode === "register" && styles.modeChipTextActive]}>
+                      {tx("login.mode.register", "Crear cuenta")}
+                    </Text>
+                  </Pressable>
+                </View>
+
+                {notice ? (
+                  <View style={styles.notice}>
+                    <Text style={styles.noticeText}>{notice}</Text>
+                  </View>
+                ) : null}
+
+                <View style={styles.fieldGap}>
+                  <WarmInput
+                    label={tx("login.field.emailLabel", "Correo electrónico")}
+                    placeholder="tu@email.com"
+                    value={email}
+                    onChangeText={(text) => {
+                      setEmail(text)
+                      if (emailError) validateEmail(text)
+                    }}
+                    onBlur={() => validateEmail(email)}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    returnKeyType="next"
+                    onSubmitEditing={() => passwordInputRef.current?.focus()}
+                    editable={!isAnyLoading}
+                    error={emailError ?? undefined}
+                    leadingIcon={<MailIcon color={emailError ? colors.status.urgentWarm : colors.warm.clay} />}
+                  />
+                </View>
+
+                <View style={styles.fieldGap}>
+                  <WarmInput
+                    label={tx("login.field.passwordLabel", "Contraseña")}
+                    placeholder={
+                      mode === "login"
+                        ? tx("login.field.passwordPlaceholder", "Tu contraseña")
+                        : tx("login.field.securePasswordPlaceholder", "Crea una segura")
+                    }
+                    value={password}
+                    onChangeText={(text) => {
+                      setPassword(text)
+                      if (passwordError) validatePassword(text, mode)
+                      if (confirmPasswordError) validateConfirmPassword(confirmPassword, text)
+                    }}
+                    onBlur={() => validatePassword(password, mode)}
+                    secureTextEntry
+                    returnKeyType={mode === "register" ? "next" : "done"}
+                    onSubmitEditing={() => {
+                      if (mode === "register") {
+                        confirmPasswordInputRef.current?.focus()
+                        return
+                      }
+                      handleSubmit()
+                    }}
+                    editable={!isAnyLoading}
+                    error={passwordError ?? undefined}
+                    leadingIcon={<LockIcon color={passwordError ? colors.status.urgentWarm : colors.warm.clay} />}
+                    helper={
+                      mode === "register"
+                        ? tx("login.helper.passwordPolicy", "Mín. 8 caracteres, mayúscula, minúscula, número.")
+                        : undefined
+                    }
+                  />
+                </View>
+
+                {mode === "register" ? (
+                  <View style={styles.fieldGap}>
+                    <WarmInput
+                      label={tx("login.field.confirmPasswordLabel", "Confirma tu contraseña")}
+                      placeholder={tx("login.field.confirmPasswordPlaceholder", "Una vez más")}
+                      value={confirmPassword}
+                      onChangeText={(text) => {
+                        setConfirmPassword(text)
+                        if (confirmPasswordError) validateConfirmPassword(text, password)
+                      }}
+                      onBlur={() => validateConfirmPassword(confirmPassword, password)}
+                      secureTextEntry
+                      returnKeyType="done"
+                      onSubmitEditing={handleSubmit}
+                      editable={!isAnyLoading}
+                      error={confirmPasswordError ?? undefined}
+                      leadingIcon={
+                        <LockIcon color={confirmPasswordError ? colors.status.urgentWarm : colors.warm.clay} />
+                      }
+                    />
+                  </View>
+                ) : null}
+
+                <View style={styles.submitWrap}>
+                  <WarmButton
+                    label={
+                      mode === "login"
+                        ? tx("login.action.login", "Entrar")
+                        : tx("login.action.register", "Continuar con registro")
+                    }
+                    onPress={handleSubmit}
+                    variant="primary"
+                    fullWidth
+                    disabled={!isFormValid || isAnyLoading}
+                    trailingIcon={
+                      isLoading ? <ActivityIndicator color={colors.warm.cream} size="small" /> : undefined
+                    }
+                  />
+                </View>
+
+                {mode === "login" ? (
+                  <Pressable
+                    onPress={handleForgotPassword}
+                    disabled={isAnyLoading}
+                    style={styles.forgotWrap}
+                  >
+                    <Text style={[styles.forgotText, isAnyLoading && styles.forgotDisabled]}>
+                      {tx("login.helper.forgotPassword", "¿Olvidaste tu contraseña?")}
+                    </Text>
+                  </Pressable>
+                ) : null}
+              </WarmCard>
+
+              {mode === "login" ? (
+                <View style={styles.socialBlock}>
+                  <WarmDivider label={tx("login.helper.divider", "o continúa con")} />
+                  <View style={styles.socialRow}>
+                    <TouchableOpacity
+                      activeOpacity={0.85}
+                      onPress={() => handleSocial("google")}
+                      disabled={isAnyLoading}
+                      style={[styles.socialBtn, isAnyLoading && styles.socialBtnDisabled]}
+                    >
+                      {socialLoading === "google" ? (
+                        <ActivityIndicator color={colors.warm.ink} size="small" />
+                      ) : (
+                        <>
+                          <GoogleIcon size={18} />
+                          <Text style={styles.socialText}>Google</Text>
+                        </>
+                      )}
+                    </TouchableOpacity>
+
+                    {isIOS ? (
+                      <TouchableOpacity
+                        activeOpacity={0.85}
+                        onPress={() => handleSocial("apple")}
+                        disabled={isAnyLoading}
+                        style={[
+                          styles.socialBtn,
+                          styles.appleBtn,
+                          isAnyLoading && styles.socialBtnDisabled,
+                        ]}
+                      >
+                        {socialLoading === "apple" ? (
+                          <ActivityIndicator color="#FFFFFF" size="small" />
+                        ) : (
+                          <>
+                            <AppleIcon size={18} color="#FFFFFF" />
+                            <Text style={[styles.socialText, styles.appleText]}>Apple</Text>
+                          </>
+                        )}
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                </View>
+              ) : null}
+
+              <Animated.View style={[styles.footerWrap, footerStyle]}>
+                <Pressable
+                  onPress={() => handleModeChange(mode === "login" ? "register" : "login")}
+                  disabled={isAnyLoading}
+                >
+                  <Text style={styles.footerText}>
+                    {mode === "login"
+                      ? tx("login.helper.footerCreate", "¿Todavía no tienes cuenta?  ")
+                      : tx("login.helper.footerLogin", "¿Ya tienes cuenta?  ")}
+                    <Text style={styles.footerLink}>
+                      {mode === "login"
+                        ? tx("login.helper.footerCreateAction", "Crear cuenta")
+                        : tx("login.helper.footerLoginAction", "Iniciar sesión")}
+                    </Text>
+                  </Text>
+                </Pressable>
+              </Animated.View>
+            </Animated.View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </WarmScreen>
+  )
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  keyboardAvoid: {
-    flex: 1,
-  },
+  kb: { flex: 1 },
   content: {
-    flex: 1,
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing['2xl'],
-    justifyContent: 'center',
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing["2xl"],
+    paddingBottom: spacing["2xl"],
   },
-  header: {
-    marginBottom: spacing['2xl'],
+  eyebrow: {
+    fontFamily: typography.fontFamily.extrabold,
+    fontSize: 11,
+    letterSpacing: 2,
+    color: colors.warm.clay,
+    textTransform: "uppercase",
+    marginBottom: spacing.sm,
   },
   title: {
-    fontSize: typography.fontSize['3xl'],
-    fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
-    textAlign: 'center',
-    marginBottom: spacing.sm,
+    fontSize: typography.fontSize["2xl"],
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.ink,
+    letterSpacing: -0.4,
   },
   subtitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
-    textAlign: 'center',
-    lineHeight: typography.fontSize.md * typography.lineHeight.normal,
-    paddingHorizontal: spacing.md,
+    color: colors.warm.inkSoft,
+    lineHeight: typography.fontSize.md * 1.45,
+    marginTop: spacing.md,
+    marginBottom: spacing.xl,
   },
-  formSection: {
-    width: '100%',
-  },
-  formCard: {
-    padding: spacing.lg,
-    backgroundColor: colors.background.primary,
-    borderColor: colors.border.light,
+  formWrap: {
+    width: "100%",
   },
   modeRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: spacing.sm,
-    marginBottom: spacing.sm,
+    backgroundColor: colors.warm.sand,
+    padding: 4,
+    borderRadius: borderRadius.full,
+    marginBottom: spacing.lg,
   },
   modeChip: {
     flex: 1,
-    borderRadius: borderRadius.full,
-    borderWidth: 1,
-    borderColor: colors.border.medium,
     paddingVertical: spacing.sm + 2,
-    alignItems: 'center',
-    backgroundColor: colors.background.secondary,
+    alignItems: "center",
+    borderRadius: borderRadius.full,
   },
   modeChipActive: {
-    backgroundColor: colors.accent,
-    borderColor: colors.accent,
+    backgroundColor: colors.warm.cream,
+    shadowColor: colors.warm.ink,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 1,
   },
   modeChipText: {
-    fontSize: typography.fontSize.base,
+    fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   modeChipTextActive: {
-    color: colors.text.inverse,
+    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.extrabold,
+  },
+  notice: {
+    backgroundColor: "rgba(184, 201, 185, 0.25)",
+    borderColor: colors.warm.sage,
+    borderWidth: 1,
+    borderRadius: borderRadius.large,
+    padding: spacing.md,
+    marginBottom: spacing.md,
   },
   noticeText: {
-    color: colors.success,
-    fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    marginBottom: spacing.xs,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.background.secondary,
-    borderRadius: borderRadius.large,
-    borderWidth: 1,
-    borderColor: colors.border.medium,
-  },
-  inputSpacing: {
-    marginTop: spacing.md,
-  },
-  inputIconContainer: {
-    paddingLeft: spacing.md,
-    paddingRight: spacing.sm,
-  },
-  textInput: {
-    flex: 1,
-    fontSize: typography.fontSize.base,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
-    paddingVertical: spacing.md,
-    paddingRight: spacing.md,
-  },
-  textInputError: {
-    borderColor: colors.error,
-  },
-  errorText: {
     fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.error,
-    marginTop: spacing.xs,
-    marginLeft: spacing.xs,
+    color: colors.warm.ink,
+    lineHeight: typography.fontSize.sm * 1.4,
   },
-  helperText: {
-    color: colors.text.secondary,
+  fieldGap: {
+    marginBottom: spacing.md,
+  },
+  submitWrap: {
+    marginTop: spacing.sm,
+  },
+  forgotWrap: {
+    alignItems: "center",
+    marginTop: spacing.lg,
+    paddingVertical: spacing.xs,
+  },
+  forgotText: {
     fontSize: typography.fontSize.sm,
-    lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
+    fontFamily: typography.fontFamily.semibold,
+    color: colors.warm.clay,
   },
-  primaryButtonContainer: {
+  forgotDisabled: {
+    opacity: 0.4,
+  },
+  socialBlock: {
+    marginTop: spacing.xl,
+  },
+  socialRow: {
+    flexDirection: "row",
+    gap: spacing.md,
     marginTop: spacing.lg,
   },
-  primaryButton: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
-    borderRadius: borderRadius.large,
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: 48,
-    backgroundColor: colors.accent,
-  },
-  primaryButtonDisabled: {
-    backgroundColor: colors.border.medium,
-  },
-  primaryButtonText: {
-    color: colors.text.inverse,
-    fontSize: typography.fontSize.md,
-    fontFamily: typography.fontFamily.bold,
-  },
-  primaryButtonTextDisabled: {
-    color: colors.text.tertiary,
-  },
-  linkText: {
-    marginTop: spacing.xl,
-    paddingVertical: spacing.sm,
-    color: colors.text.link,
-    textAlign: 'center',
-    fontSize: typography.fontSize.base,
-    fontFamily: typography.fontFamily.medium,
-  },
-  socialNotice: {
-    marginTop: spacing.xl,
-    paddingVertical: spacing.sm,
-    color: colors.text.tertiary,
-    textAlign: 'center',
-    fontSize: typography.fontSize.base,
-    fontFamily: typography.fontFamily.medium,
-  },
-  dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: spacing.xl,
-  },
-  dividerLine: {
+  socialBtn: {
     flex: 1,
-    height: 1,
-    backgroundColor: colors.border.light,
-  },
-  dividerText: {
-    fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.text.tertiary,
-    paddingHorizontal: spacing.md,
-  },
-  socialButtonsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: spacing.md,
-  },
-  socialButtonWrapper: {
-    flex: 1,
-    maxWidth: 160,
-  },
-  socialButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.background.secondary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.warm.cream,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
-    borderRadius: borderRadius.large,
+    borderRadius: borderRadius.full,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
     gap: spacing.sm,
     minHeight: 48,
   },
-  socialButtonDisabled: {
+  socialBtnDisabled: {
     opacity: 0.6,
   },
-  appleButton: {
-    backgroundColor: '#000000',
-    borderColor: '#000000',
+  appleBtn: {
+    backgroundColor: "#000000",
+    borderColor: "#000000",
   },
-  socialButtonText: {
+  socialText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
-  appleButtonText: {
-    color: colors.text.inverse,
+  appleText: {
+    color: "#FFFFFF",
   },
-  forgotPasswordContainer: {
-    alignItems: 'center',
+  footerWrap: {
+    alignItems: "center",
     marginTop: spacing.xl,
-    paddingVertical: spacing.sm,
-  },
-  forgotPasswordText: {
-    fontSize: typography.fontSize.base,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.text.link,
-  },
-  forgotPasswordTextDisabled: {
-    color: colors.text.tertiary,
   },
   footerText: {
-    textAlign: 'center',
-    color: colors.text.primary,
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    marginTop: spacing.xl,
+    color: colors.warm.inkSoft,
+    textAlign: "center",
   },
-});
+  footerLink: {
+    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.extrabold,
+  },
+})
 
-export default LoginScreen;
+export default LoginScreen
