@@ -100,25 +100,93 @@ Path: `src/components/common/ToneAwareMessageBubble.tsx`.
 
 ## Implementation status
 
-The current commit covers:
+### Foundation
 
 - ✅ Theme tokens (palette + StressLevel type)
-- ✅ `<WarmCard>` (paper-grain via inline SVG, three intensities)
-- ✅ `<SupportPill>` (floating + modal sheet + AILA hotline)
-- ✅ `<StressBanner>` (context-aware emotion-first banner)
-- ✅ `<ToneAwareMessageBubble>` (keyword-driven tone shifting)
-- ✅ This `DESIGN-EI.md` (the source of truth for the system)
+- ✅ Warm gradient as `AnimatedBackground` default — every screen still
+  using AnimatedBackground inherits the cream→sand→cream→peach cycle
+- ✅ `glassmorphism.ts` — `createGlassBackground` flipped to cream tint,
+  `createGlassBorder` flipped to clay. Every `GlassCard` system-wide is
+  now warm by default without per-component edits
 
-Followups in next branch:
+### Primitives
 
-- Wire `ChatScreen` to use `ToneAwareMessageBubble`
-- Wire `CaseDetailScreen` to render `StressBanner` + `WarmCard` on
-  RFE / hearing / denial states
-- Mount `SupportPill` in the root navigator so it shows everywhere
-- `CasesScreen` warm variant for stress-state cards
-- Audit existing copy for "tone before info" pattern
-- Add stress-aware empty states ("No hay nada por ahora, eso es buena
-  señal")
+- ✅ `<WarmCard intensity="calm|elevated|acute">` — paper-grain SVG, three
+  stress treatments
+- ✅ `<WarmButton>` — primary / secondary / ghost × default / urgent / sage
+  tones × sm / md / lg sizes, soft press feedback (scale + opacity)
+- ✅ `<WarmInput>` — cream surface, clay focus ring, urgentWarm error
+- ✅ `<WarmScreen>` — full-screen warm gradient wrapper with default /
+  acute / calm presets and safe-area handling
+- ✅ `<WarmListItem>` — list row with attention prop for peach-tinted
+  flagged rows
+- ✅ `<WarmHeader>` — compact warm screen header with optional acute
+  underline accent
+- ✅ `<WarmDivider>`, `<WarmSectionLabel>` — tertiary scaffolding
+- ✅ `<SupportPill>` — floating crisis off-ramp, mounted at root nav so
+  it shows on every authenticated screen, auto-hides with keyboard
+- ✅ `<StressBanner>` — context-aware emotion-first banner, used by
+  `CasesScreen` to surface acute / elevated cases at the top
+- ✅ `<ToneAwareMessageBubble>` — keyword-driven tone shifting
+
+### Screens deep-rebuilt (full warm rewrite, EI copy, primitives)
+
+- ✅ `SplashScreen` — warm gradient hero, 3 reassurance bullets
+- ✅ `LanguageScreen` — WarmListItem rows with flag medallions
+- ✅ `NameScreen` — WarmCard form, sage notice strip
+- ✅ `LoginScreen` — WarmCard with WarmInput stack + WarmButton, sand
+  pill toggle for login/register, social buttons preserved
+- ✅ `ForgotPasswordScreen` — 'Le pasa a todos. Te lo recuperamos.'
+- ✅ `ConfirmRegistrationScreen` — sand-tinted email chip + WarmInput
+  6-digit code + WarmInput password, sage 'código reenviado' notice
+- ✅ `ResetPasswordScreen` — 3-WarmInput form
+- ✅ `BiometricScreen` — 'Tu cara, tu llave' calm reframe
+- ✅ `ChatScreen` — warm header (sage online dot, clay typing dot),
+  warm context chips, sage memory badge, full-bleed warm welcome
+- ✅ `CasesScreen` — eyebrow / warm header / StressBanner-at-top
+  surfacing the first acute or elevated case
+- ✅ `EIPreviewScreen` — primitives showcase, accessible from Splash
+  without auth
+
+### Components deep-rebuilt
+
+- ✅ `ChatInput`, `MessageBubble` (tone-aware), `TypingIndicator`,
+  `SuggestedQuestions`
+- ✅ `CasesEmptyState` — 'Empezar puede dar miedo. Aquí lo hacemos juntos.'
+- ✅ `CaseTimeline` polish — sage done dots, cream future dots, clay border
+
+### Screens with palette swap (structure preserved, colors warm)
+
+- ✅ `CaseDetailScreen` — text/border/error tokens swapped warm
+- ✅ `CommunityScreen` — wrapped with `WarmScreen`, EI eyebrow + warmer
+  copy in header, clay 'Crear' button
+- ✅ `ResourcesScreen` — wrapped with `WarmScreen`, EI eyebrow + warmer
+  subtitle, GlassCard surfaces inherit cream via the foundational tweak
+- ✅ `GroupDetailScreen`, `ThreadViewScreen` (palette swap)
+- ✅ All Pro tabs: `ForecastTab`, `IntelligenceTab`, `AcceleratorsTab`,
+  `AlertsTab`
+- ✅ `AddCaseSheet`, `EoirCaptchaModal`, `LoadingPreviewScreen`
+- ✅ Community: `PostCard`, `GroupRow`, `ThreadView`, `ComposeSheet`,
+  `CreateGroupSheet`, `ReportContentSheet`
+- ✅ `ProfileSheet`, `PremiumPaywallModal`
+- ✅ `FloatingTabBar` — palette flipped to warm-ink shelf with cream
+  active chip
+- ✅ All common surfaces: `IconPill`, `StatusPill`, `AppAlertModal`,
+  `PushToast`, `OfflineIndicator`, `BrandedLoadingState`,
+  `PlatformBottomSheet`
+
+### Followups (next pass)
+
+- Deep-rebuild `CaseDetailScreen` with WarmCard sections for case state
+  (RFE / hearing / denial trigger acute surface)
+- Deep-rebuild `GroupDetailScreen` (4400 lines — careful split into
+  warm WarmCard sections)
+- Wire StressBanner into `ChatScreen` (acute keyword detected → banner
+  with 'Hablar con un humano' CTA)
+- Auto-detect support keywords in community posts and overlay
+  `<StressBanner>`
+- Stress-aware empty states across the app ('No hay nada por ahora,
+  eso es buena señal')
 
 ## Don't
 

@@ -575,7 +575,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.warm.cream,
   },
   containerEmbedded: {
     backgroundColor: 'transparent',
@@ -598,8 +598,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.bold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
+    letterSpacing: -0.4,
   },
   closeButton: {
     width: 32,
