@@ -31,6 +31,9 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated';
 
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+
 import { WarmScreen } from '../components/common/WarmScreen';
 import { GlassCard } from '../components/common/GlassCard';
 import { PlatformBottomSheet } from '../components/common/PlatformBottomSheet';
@@ -38,6 +41,7 @@ import { ProfileSheet } from '../components/ProfileSheet';
 import { useAuth } from '../context/AuthContext';
 import { useViewTranslation } from '../i18n';
 import { getMainTabAccent } from '../navigation/tabAccents';
+import type { ResourcesStackParamList } from '../types/navigation';
 import {
   createColoredGlassBackground,
   createGlassBorder,
@@ -716,6 +720,7 @@ const ProcessingTimeCalculator: React.FC<ProcessingTimeCalculatorProps> = ({ pro
 // ============================================================================
 
 export const ResourcesScreen: React.FC = () => {
+  const navigation = useNavigation<StackNavigationProp<ResourcesStackParamList, 'ResourcesList'>>();
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [glossarySearch, setGlossarySearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -826,18 +831,42 @@ export const ResourcesScreen: React.FC = () => {
         >
           {/* Attorneys Section */}
           <ExpandableSection
-            title={resourcesTx('section.attorneys.title', 'Abogados')}
-            icon={<BriefcaseIcon color={colors.pro} />}
-            iconColor={colors.pro}
+            title={resourcesTx('section.attorneys.title', 'Abogados verificados')}
+            icon={<BriefcaseIcon color={colors.warm.clay} />}
+            iconColor={colors.warm.clay}
             expanded={expandedSection === 'attorneys'}
             onToggle={() => handleToggleSection('attorneys')}
           >
             <Text style={styles.sectionDescription}>
               {resourcesTx(
                 'section.attorneys.description',
-                'Abogados de inmigracion recomendados por la comunidad',
+                'Red de abogados verificados con su colegio. Tú decides qué compartir cuando los contactes — nada sale antes.',
               )}
             </Text>
+            <TouchableOpacity
+              style={styles.attorneyDirectoryCta}
+              onPress={() => navigation.navigate('AttorneyDirectory')}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+            >
+              <View style={styles.attorneyDirectoryBody}>
+                <Text style={styles.attorneyDirectoryEyebrow}>RED COMPLETA</Text>
+                <Text style={styles.attorneyDirectoryTitle}>
+                  {resourcesTx(
+                    'section.attorneys.directoryTitle',
+                    'Buscar abogado por especialidad, idioma o caso',
+                  )}
+                </Text>
+                <Text style={styles.attorneyDirectoryHint}>
+                  {resourcesTx(
+                    'section.attorneys.directoryHint',
+                    'Sliding scale, 15 min gratis, atención en español. Crisis fast-path AILA pinned al tope.',
+                  )}
+                </Text>
+              </View>
+              <Text style={styles.attorneyDirectoryArrow}>→</Text>
+            </TouchableOpacity>
+            <Text style={styles.attorneySpotlightLabel}>FAVORITOS DE LA COMUNIDAD</Text>
             {sampleAttorneys.map(attorney => (
               <AttorneyCard key={attorney.id} attorney={attorney} tx={resourcesTx} />
             ))}
@@ -1061,6 +1090,62 @@ const styles = StyleSheet.create({
     color: colors.warm.inkSoft,
     marginTop: spacing.md,
     marginBottom: spacing.md,
+  },
+
+  attorneyDirectoryCta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.warm.cream,
+    borderWidth: 1,
+    borderColor: colors.warm.clay,
+    borderRadius: borderRadius.xl,
+    padding: spacing.lg,
+    marginTop: spacing.sm,
+    marginBottom: spacing.md,
+    shadowColor: colors.warm.ink,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
+  },
+  attorneyDirectoryBody: {
+    flex: 1,
+    paddingRight: spacing.md,
+  },
+  attorneyDirectoryEyebrow: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.4,
+    textTransform: 'uppercase',
+    marginBottom: spacing.xs,
+  },
+  attorneyDirectoryTitle: {
+    fontSize: typography.fontSize.md,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.ink,
+    letterSpacing: -0.2,
+    marginBottom: spacing.xs,
+  },
+  attorneyDirectoryHint: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.medium,
+    color: colors.warm.inkSoft,
+    lineHeight: typography.fontSize.xs * 1.5,
+  },
+  attorneyDirectoryArrow: {
+    fontSize: typography.fontSize['2xl'],
+    fontFamily: typography.fontFamily.bold,
+    color: colors.warm.clay,
+  },
+  attorneySpotlightLabel: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.4,
+    textTransform: 'uppercase',
+    marginTop: spacing.md,
+    marginBottom: spacing.sm,
   },
 
   // Attorney card styles

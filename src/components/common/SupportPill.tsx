@@ -87,7 +87,14 @@ export function SupportPill({ label = "¿Necesitas hablar?" }: Props) {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("Cases")}
+                onPress={() => {
+                  setOpen(false)
+                  // Navigate to Resources tab and open the AttorneyDirectory inside.
+                  // Using 'any' typing here because SupportPill is mounted at root
+                  // and doesn't know which navigator wraps it.
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  ;(navigation as any).navigate("Resources", { screen: "AttorneyDirectory" })
+                }}
                 style={styles.ctaSecondary}
               >
                 <Text style={styles.ctaSecondaryText}>Buscar abogado humano</Text>

@@ -39,6 +39,11 @@ export type MainTabParamList = {
   Resources: undefined;
 };
 
+export type ResourcesEntryParams = {
+  /** When set, AttorneyDirectory pre-filters by case type tag. */
+  caseTypeFilter?: string;
+};
+
 export type CasesStackParamList = {
   CasesList: undefined;
   CaseDetail: { caseId: string; source?: CaseSource; initialCase?: CaseDetail };
@@ -54,6 +59,7 @@ export type CommunityStackParamList = {
 
 export type ResourcesStackParamList = {
   ResourcesList: undefined;
+  AttorneyDirectory: ResourcesEntryParams | undefined;
   AttorneyDetail: { attorneyId: string };
   GlossaryTerm: { termId: string };
 };

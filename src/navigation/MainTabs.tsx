@@ -28,8 +28,8 @@ import { DEFAULT_GRADIENT_COLORS } from '../components/common/AnimatedBackground
 import { SupportPill } from '../components/common/SupportPill';
 import { CommunityStack } from './CommunityStack';
 import { CasesStack } from './CasesStack';
+import { ResourcesStack } from './ResourcesStack';
 import { ChatScreen } from '../screens/ChatScreen';
-import { ResourcesScreen } from '../screens/ResourcesScreen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { spacing } from '../styles/theme';
 import { isIOS } from '../utils/platform';
@@ -159,7 +159,7 @@ export const MainTabs: React.FC = () => {
         />
         <Tab.Screen
           name="Resources"
-          component={ResourcesScreen}
+          component={ResourcesStack}
           options={{
             tabBarLabel: tx('tabs.resources', 'Recursos'),
             tabBarAccessibilityLabel: tx('tabs.accessibility.resources', 'Abrir pestana de recursos'),
