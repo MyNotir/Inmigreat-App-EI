@@ -97,9 +97,9 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
       case 'done':
       case 'current':
         return {
-          dotBackground: accentColor,
-          dotBorder: accentColor,
-          lineColor: accentColor,
+          dotBackground: colors.warm.sage,
+          dotBorder: colors.warm.sage,
+          lineColor: colors.warm.sage,
           textColor: colors.warm.ink,
           dateColor: colors.warm.inkSoft,
           showCheck: true,
@@ -107,15 +107,15 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
       case 'future':
       default:
         return {
-          dotBackground: 'transparent',
-          dotBorder: colors.border.medium,
-          lineColor: colors.border.light,
+          dotBackground: colors.warm.cream,
+          dotBorder: colors.border.warm,
+          lineColor: colors.border.warm,
           textColor: colors.warm.inkFaint,
           dateColor: colors.warm.inkFaint,
           showCheck: false,
         };
     }
-  }, [step.state, accentColor]);
+  }, [step.state]);
 
   const stepStyles = getStepStyles();
 
@@ -298,9 +298,12 @@ export const CaseTimeline: React.FC<CaseTimelineProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.warm.sand,
-    borderRadius: borderRadius.medium,
+    backgroundColor: colors.warm.cream,
+    borderRadius: borderRadius.xl,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: colors.border.warm,
+    marginTop: spacing.sm,
   },
 
   // Header styles
