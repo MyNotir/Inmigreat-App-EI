@@ -1,210 +1,300 @@
 /**
- * LanguageScreen — Emotional Intelligence redesign.
- *
- * Warm-minimalism language picker. Each row uses WarmListItem with the flag
- * as leading icon, the language code as meta, and a clay checkmark when
- * selected. No flashy animation — just calm, decisive.
+ * LanguageScreen
+ * 
+ * Language selection screen for the onboarding flow.
+ * Displays Spanish (ES), English (EN), and Portuguese (PT) options with flag icons.
+ * Persists selection using the unified auth/user store and navigates to NameScreen.
+ * 
+ * Validates: Requirements 3.3, 3.4
  */
 
-import { useEffect } from "react"
-import { StyleSheet, Text, View } from "react-native"
-import Animated from "react-native-reanimated"
-import type { StackNavigationProp } from "@react-navigation/stack"
+import React, { useEffect } from 'react';
+import { Platform, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-import { WarmScreen } from "../../components/common/WarmScreen"
-import { WarmListItem } from "../../components/common/WarmListItem"
-import { FlagES, FlagUS, FlagBR } from "../../icons/FlagIcons"
-import { useFadeUp } from "../../styles/animations"
-import { colors, spacing, typography } from "../../styles/theme"
-import type { OnboardingStackParamList } from "../../types/navigation"
-import { useAuth } from "../../context/AuthContext"
-import type { Language } from "../../types/user"
-import { useViewTranslation } from "../../i18n"
+import { AnimatedBackground, ONBOARDING_GRADIENT_COLORS } from '../../components/common/AnimatedBackground';
+import { GlassCard } from '../../components/common/GlassCard';
+import { FlagES, FlagUS, FlagBR } from '../../icons/FlagIcons';
+import { useFadeUp, usePressAnimation, getStaggerDelay } from '../../styles/animations';
+import { colors, typography, spacing } from '../../styles/theme';
+import { OnboardingStackParamList } from '../../types/navigation';
+import { useAuth } from '../../context/AuthContext';
+import type { Language } from '../../types/user';
+import { useViewTranslation } from '../../i18n';
 
+/** Language options configuration */
 const LANGUAGE_OPTIONS: Array<{
-  code: Language
-  nativeName: string
-  Flag: React.FC<{ size?: number }>
+  code: Language;
+  name: string;
+  nativeName: string;
+  Flag: React.FC<{ size?: number }>;
 }> = [
-  { code: "ES", nativeName: "Español", Flag: FlagES },
-  { code: "EN", nativeName: "English", Flag: FlagUS },
-  { code: "PT", nativeName: "Português", Flag: FlagBR },
-]
+  {
+    code: 'ES',
+    name: 'Spanish',
+    nativeName: 'Español',
+    Flag: FlagES,
+  },
+  {
+    code: 'EN',
+    name: 'English',
+    nativeName: 'English',
+    Flag: FlagUS,
+  },
+  {
+    code: 'PT',
+    name: 'Portuguese',
+    nativeName: 'Português',
+    Flag: FlagBR,
+  },
+];
 
 interface LanguageScreenProps {
-  navigation: StackNavigationProp<OnboardingStackParamList, "Language">
+  navigation: StackNavigationProp<OnboardingStackParamList, 'Language'>;
 }
 
-export const LanguageScreen: React.FC<LanguageScreenProps> = ({ navigation }) => {
-  const { language: currentLanguage, setLanguage } = useAuth()
-  const { t } = useViewTranslation("onboarding")
+/**
+ * LanguageOption - Individual language selection card with press animation
+ */
+interface LanguageOptionProps {
+  code: Language;
+  name: string;
+  nativeName: string;
+  Flag: React.FC<{ size?: number }>;
+  index: number;
+  onSelect: (code: Language) => void;
+  isSelected: boolean;
+}
 
-  const { animatedStyle: titleStyle, fadeIn: titleFadeIn } = useFadeUp({
-    duration: 420,
-    delay: 100,
-    distance: 18,
-  })
-  const { animatedStyle: subtitleStyle, fadeIn: subtitleFadeIn } = useFadeUp({
-    duration: 420,
-    delay: 200,
-    distance: 14,
-  })
-  const { animatedStyle: listStyle, fadeIn: listFadeIn } = useFadeUp({
-    duration: 460,
-    delay: 280,
-    distance: 16,
-  })
+const LanguageOption: React.FC<LanguageOptionProps> = ({
+  code,
+  nativeName,
+  Flag,
+  index,
+  onSelect,
+  isSelected,
+}) => {
+  const delay = getStaggerDelay(index, 100) + 300;
+  const { animatedStyle: fadeStyle, fadeIn } = useFadeUp({
+    duration: 400,
+    delay,
+    distance: 20,
+  });
+  const { animatedStyle: pressStyle, onPressIn, onPressOut } = usePressAnimation();
 
   useEffect(() => {
-    titleFadeIn()
-    subtitleFadeIn()
-    listFadeIn()
-  }, [titleFadeIn, subtitleFadeIn, listFadeIn])
+    fadeIn();
+  }, [fadeIn]);
 
-  const handleSelect = async (code: Language) => {
-    try {
-      await setLanguage(code)
-      navigation.navigate("Name")
-    } catch (error) {
-      console.error("[LanguageScreen] Error setting language:", error)
-    }
-  }
+  const handlePress = () => {
+    onSelect(code);
+  };
 
   return (
-    <WarmScreen scroll>
-      <View style={styles.content}>
-        <Animated.View style={titleStyle}>
-          <Text style={styles.eyebrow}>
-            {t("language.eyebrow", { defaultValue: "TU IDIOMA" })}
-          </Text>
-          <Text style={styles.title}>
-            {t("language.title", { defaultValue: "¿En qué idioma quieres conversar?" })}
-          </Text>
+    <Animated.View style={[styles.optionWrapper, fadeStyle]}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        onPress={handlePress}
+      >
+        <Animated.View style={pressStyle}>
+          <GlassCard
+            style={isSelected 
+              ? { ...styles.optionCard, ...styles.optionCardSelected }
+              : styles.optionCard
+            }
+            opacity={Platform.OS === 'android' ? 1 : undefined}
+            blurIntensity={Platform.OS === 'android' ? 0 : undefined}
+          >
+            <View style={styles.optionContent}>
+              <View style={styles.flagContainer}>
+                <Flag size={48} />
+              </View>
+              <View style={styles.optionTextContainer}>
+                <Text style={styles.languageCode}>{code}</Text>
+                <Text style={styles.languageName}>{nativeName}</Text>
+              </View>
+              {isSelected && (
+                <View style={styles.checkmark}>
+                  <Text style={styles.checkmarkText}>✓</Text>
+                </View>
+              )}
+            </View>
+          </GlassCard>
         </Animated.View>
+      </TouchableOpacity>
+    </Animated.View>
+  );
+};
 
-        <Animated.View style={subtitleStyle}>
-          <Text style={styles.subtitle}>
-            {t("language.subtitle", {
-              defaultValue: "Lo cambias después si quieres. Lexi y los recursos se adaptan al tiro.",
-            })}
-          </Text>
-        </Animated.View>
+/**
+ * LanguageScreen Component
+ * 
+ * Displays language selection options with flag icons.
+ * Persists selection and navigates to Name screen.
+ */
+export const LanguageScreen: React.FC<LanguageScreenProps> = ({ navigation }) => {
+  const { language: currentLanguage, setLanguage } = useAuth();
+  const { t } = useViewTranslation('onboarding');
 
-        <Animated.View style={[styles.list, listStyle]}>
-          {LANGUAGE_OPTIONS.map(({ code, nativeName, Flag }) => {
-            const selected = currentLanguage === code
-            return (
-              <WarmListItem
-                key={code}
-                title={nativeName}
-                subtitle={
-                  code === "ES"
-                    ? "Tu app, en español. Como en casa."
-                    : code === "EN"
-                      ? "English — full UI, all chats, all guides."
-                      : "Português — toda a interface traduzida."
-                }
-                meta={code}
-                onPress={() => handleSelect(code)}
-                attention={selected}
-                leading={
-                  <View style={styles.flagWrap}>
-                    <Flag size={36} />
-                  </View>
-                }
-                trailing={
-                  selected ? (
-                    <View style={styles.check}>
-                      <Text style={styles.checkText}>✓</Text>
-                    </View>
-                  ) : (
-                    <Text style={styles.chev}>›</Text>
-                  )
-                }
+  // Title animation
+  const { animatedStyle: titleAnimatedStyle, fadeIn: titleFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 100,
+    distance: 20,
+  });
+
+  // Subtitle animation
+  const { animatedStyle: subtitleAnimatedStyle, fadeIn: subtitleFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 200,
+    distance: 15,
+  });
+
+  useEffect(() => {
+    titleFadeIn();
+    subtitleFadeIn();
+  }, [titleFadeIn, subtitleFadeIn]);
+
+  const handleLanguageSelect = async (code: Language) => {
+    try {
+      // Persist the language selection
+      await setLanguage(code);
+      // Navigate to Name screen
+      navigation.navigate('Name');
+    } catch (error) {
+      console.error('[LanguageScreen] Error setting language:', error);
+    }
+  };
+
+  return (
+    <AnimatedBackground colors={ONBOARDING_GRADIENT_COLORS}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <Animated.View style={titleAnimatedStyle}>
+              <Text style={styles.title}>
+                {t('language.title', { defaultValue: 'Selecciona tu idioma' })}
+              </Text>
+            </Animated.View>
+            <Animated.View style={subtitleAnimatedStyle}>
+              <Text style={styles.subtitle}>
+                {t('language.subtitle', {
+                  defaultValue: 'Elige el idioma en el que deseas usar la aplicacion',
+                })}
+              </Text>
+            </Animated.View>
+          </View>
+
+          {/* Language Options */}
+          <View style={styles.optionsContainer}>
+            {LANGUAGE_OPTIONS.map((option, index) => (
+              <LanguageOption
+                key={option.code}
+                code={option.code}
+                name={option.name}
+                nativeName={option.nativeName}
+                Flag={option.Flag}
+                index={index}
+                onSelect={handleLanguageSelect}
+                isSelected={currentLanguage === option.code}
               />
-            )
-          })}
-        </Animated.View>
-
-        <Text style={styles.footer}>
-          {t("language.footer", {
-            defaultValue: "Más idiomas vienen pronto — tu feedback nos guía.",
-          })}
-        </Text>
-      </View>
-    </WarmScreen>
-  )
-}
+            ))}
+          </View>
+        </View>
+      </SafeAreaView>
+    </AnimatedBackground>
+  );
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   content: {
     flex: 1,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing["3xl"],
-    paddingBottom: spacing["2xl"],
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing['3xl'],
   },
-  eyebrow: {
-    fontFamily: typography.fontFamily.extrabold,
-    fontSize: 11,
-    letterSpacing: 2,
-    color: colors.warm.clay,
-    textTransform: "uppercase",
-    marginBottom: spacing.sm,
+  header: {
+    marginBottom: spacing['2xl'],
   },
   title: {
-    fontSize: typography.fontSize["2xl"],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.4,
-    lineHeight: typography.fontSize["2xl"] * 1.2,
+    fontSize: typography.fontSize['3xl'],
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
+    textAlign: 'center',
+    marginBottom: spacing.sm,
   },
   subtitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
-    lineHeight: typography.fontSize.md * 1.45,
-    marginTop: spacing.md,
-    marginBottom: spacing["2xl"],
+    color: colors.text.secondary,
+    textAlign: 'center',
+    lineHeight: typography.fontSize.md * typography.lineHeight.normal,
   },
-  list: {
-    gap: spacing.sm + 2,
+  optionsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    gap: spacing.md,
   },
-  flagWrap: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.warm.sand,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
+  optionWrapper: {
+    marginBottom: spacing.sm,
   },
-  check: {
+  optionCard: {
+    padding: spacing.lg,
+    backgroundColor: colors.background.primary,
+    borderColor: colors.border.light,
+  },
+  optionCardSelected: {
+    borderColor: colors.accent,
+    borderWidth: 2,
+    backgroundColor: colors.background.secondary,
+  },
+  optionContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  flagContainer: {
+    width: 60,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: spacing.md,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  optionTextContainer: {
+    flex: 1,
+  },
+  languageCode: {
+    fontSize: typography.fontSize.lg,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
+  },
+  languageName: {
+    fontSize: typography.fontSize.base,
+    fontFamily: typography.fontFamily.medium,
+    color: colors.text.secondary,
+  },
+  checkmark: {
     width: 28,
     height: 28,
     borderRadius: 14,
-    backgroundColor: colors.warm.clay,
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.accent,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  checkText: {
-    color: colors.warm.cream,
-    fontSize: 14,
+  checkmarkText: {
+    color: colors.text.inverse,
+    fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.bold,
   },
-  chev: {
-    fontFamily: typography.fontFamily.bold,
-    fontSize: 22,
-    color: colors.warm.inkFaint,
-  },
-  footer: {
-    fontFamily: typography.fontFamily.medium,
-    fontSize: 12,
-    color: colors.warm.inkFaint,
-    textAlign: "center",
-    marginTop: spacing.xl,
-    paddingHorizontal: spacing.lg,
-    lineHeight: 17,
-  },
-})
+});
 
-export default LanguageScreen
+export default LanguageScreen;

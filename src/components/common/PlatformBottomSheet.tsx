@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   sheet: {
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     maxHeight: SCREEN_HEIGHT * 0.9,
   },
   // Android Material Design styles
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.lg,
     paddingBottom: spacing.md,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border.warm,
+    borderBottomColor: colors.border.light,
   },
   titleContainer: {
     paddingTop: spacing.sm,
@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     textAlign: isAndroid ? 'left' : 'center',
     flex: isIOS ? 1 : undefined,
   },
@@ -366,13 +366,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   iosCloseButtonText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
   // Content

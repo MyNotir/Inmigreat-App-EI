@@ -19,11 +19,12 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { WarmScreen } from '../components/common/WarmScreen';
+import { AnimatedBackground } from '../components/common/AnimatedBackground';
 import { BrandedLoadingState } from '../components/common/BrandedLoadingState';
 import { GlassCard } from '../components/common/GlassCard';
 import { CreateGroupSheet } from '../components/community/CreateGroupSheet';
@@ -474,20 +475,20 @@ export const CommunityScreen: React.FC = () => {
   );
 
   return (
-    <WarmScreen edges={['top']}>
+    <AnimatedBackground>
+      <SafeAreaView style={styles.container} edges={['top']}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerEyebrow}>{tx('header.eyebrow', 'TU GENTE')}</Text>
             <Text style={styles.headerTitle}>{tx('header.title', 'Comunidad')}</Text>
             <Text style={styles.headerSubtitle}>
               {isLoading
-                ? tx('header.loadingSubtitle', 'Encontrando a quienes ya pasaron por esto')
+                ? tx('header.loadingSubtitle', 'Preparando grupos')
                 : error && groups.length === 0
-                  ? tx('header.backendWaitingSubtitle', 'Conectando con la comunidad...')
+                  ? tx('header.backendWaitingSubtitle', 'Esperando respuesta del backend')
                 : groups.length === 0
-                  ? tx('header.emptySubtitle', 'Sé el primero en armar un espacio de apoyo')
-                  : tx('header.availableGroups', 'No estás solo · {{count}} grupos activos', { count: groups.length })}
+                  ? tx('header.emptySubtitle', 'Crea el primer grupo de la comunidad')
+                  : tx('header.availableGroups', '{{count}} grupos disponibles', { count: groups.length })}
             </Text>
           </View>
           <View style={styles.headerActions}>
@@ -581,7 +582,8 @@ export const CommunityScreen: React.FC = () => {
           initialType={createGroupType}
           isSubmitting={isCreatingGroup}
         />
-    </WarmScreen>
+      </SafeAreaView>
+    </AnimatedBackground>
   );
 };
 
@@ -605,53 +607,41 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  headerEyebrow: {
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
-    letterSpacing: 1.6,
-    textTransform: 'uppercase',
-    marginBottom: spacing.xs,
-  },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.4,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: spacing.xs,
-    lineHeight: typography.fontSize.sm * 1.4,
   },
   createHeaderButton: {
-    backgroundColor: colors.warm.clay,
+    backgroundColor: `${COMMUNITY_ACCENT}14`,
+    borderWidth: 1,
+    borderColor: `${COMMUNITY_ACCENT}28`,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
     marginRight: spacing.sm,
   },
   createHeaderButtonText: {
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.cream,
-    letterSpacing: 0.4,
+    fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.semibold,
+    color: COMMUNITY_ACCENT,
   },
   proBadge: {
-    backgroundColor: colors.warm.sand,
-    borderWidth: 1,
-    borderColor: colors.warm.clay,
-    paddingHorizontal: spacing.sm + 2,
+    backgroundColor: colors.pro,
+    paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
     borderRadius: borderRadius.full,
   },
   proBadgeText: {
-    color: colors.warm.clay,
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    letterSpacing: 1,
+    color: colors.text.inverse,
+    fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.bold,
+    letterSpacing: 0.5,
   },
   
   // Scroll view styles
@@ -701,13 +691,13 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.status.urgentWarm,
+    backgroundColor: colors.error,
     marginRight: spacing.xs,
   },
   errorBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.status.urgentWarm,
+    color: colors.error,
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },
@@ -726,12 +716,12 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize['2xl'],
     lineHeight: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.status.urgentWarm,
+    color: colors.error,
   },
   errorTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   emptyHeroCard: {
@@ -758,19 +748,19 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   emptyDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     marginBottom: spacing.lg,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
   },
   errorDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     marginBottom: spacing.lg,
   },
@@ -792,11 +782,11 @@ const styles = StyleSheet.create({
   errorMetaText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   errorSupportText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.lg,
   },
@@ -814,7 +804,7 @@ const styles = StyleSheet.create({
   emptyPrimaryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.cream,
+    color: colors.text.inverse,
   },
   emptySecondaryButton: {
     minHeight: 48,
@@ -826,7 +816,7 @@ const styles = StyleSheet.create({
   emptySecondaryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.cream,
+    color: colors.text.inverse,
   },
   planCard: {
     padding: spacing.lg,
@@ -838,18 +828,18 @@ const styles = StyleSheet.create({
   planTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   planDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.sm,
   },
   planBullet: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   planCtaButton: {
@@ -866,7 +856,7 @@ const styles = StyleSheet.create({
   planCtaButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.cream,
+    color: colors.text.inverse,
   },
   joinPreviewCard: {
     padding: spacing.lg,
@@ -875,7 +865,7 @@ const styles = StyleSheet.create({
   joinPreviewTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.md,
   },
   joinPreviewRow: {
@@ -890,12 +880,12 @@ const styles = StyleSheet.create({
   joinPreviewGroupName: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: 2,
   },
   joinPreviewHelp: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   joinPreviewButton: {
     paddingHorizontal: spacing.md,
@@ -909,7 +899,7 @@ const styles = StyleSheet.create({
   joinPreviewButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   joinPreviewDivider: {
     height: 1,
@@ -918,7 +908,7 @@ const styles = StyleSheet.create({
   },
   joinPreviewCaption: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginTop: spacing.md,
   },
@@ -935,7 +925,7 @@ const styles = StyleSheet.create({
   retryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.cream,
+    color: colors.text.inverse,
   },
 });
 

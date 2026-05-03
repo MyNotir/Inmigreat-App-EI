@@ -115,7 +115,7 @@ export const ReportContentSheet: React.FC<ReportContentSheetProps> = ({
           <TextInput
             style={styles.noteInput}
             placeholder={tx('reportSheet.notePlaceholder', 'Anade contexto si ayuda a la revision...')}
-            placeholderTextColor={colors.warm.inkFaint}
+            placeholderTextColor={colors.text.tertiary}
             value={note}
             onChangeText={onNoteChange}
             multiline
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 0,
     borderWidth: 0,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
   },
   sheetCardContent: {
     flex: 1,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     paddingTop: spacing.base,
     paddingBottom: spacing.base,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border.warm,
+    borderBottomColor: colors.border.light,
   },
   headerCopy: {
     flex: 1,
@@ -187,14 +187,14 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },
   closeButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   scrollView: {
     flex: 1,
@@ -209,26 +209,26 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.semibold,
     letterSpacing: 0.8,
     textTransform: 'uppercase',
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginBottom: spacing.xs,
   },
   title: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   subtitle: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.sm,
     lineHeight: 20,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   sectionTitle: {
     marginTop: spacing.lg,
     marginBottom: spacing.sm,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   reasonOptionsWrap: {
     gap: spacing.sm,
@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
   reasonOption: {
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.cream,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.primary,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
   },
@@ -248,7 +248,7 @@ const styles = StyleSheet.create({
   reasonOptionText: {
     fontSize: typography.fontSize.sm,
     lineHeight: 20,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   reasonOptionTextSelected: {
     color: colors.accent,
@@ -262,24 +262,24 @@ const styles = StyleSheet.create({
   },
   noteCounter: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
   noteInput: {
     minHeight: 110,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.cream,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.primary,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   noteHint: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.xs,
     lineHeight: 18,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
   actionsRow: {
     flexDirection: 'row',
@@ -288,8 +288,8 @@ const styles = StyleSheet.create({
     paddingTop: spacing.md,
     paddingBottom: spacing.base,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.border.warm,
-    backgroundColor: colors.warm.cream,
+    borderTopColor: colors.border.light,
+    backgroundColor: colors.background.primary,
   },
   actionButton: {
     flex: 1,
@@ -299,17 +299,17 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   cancelButton: {
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   cancelButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   submitButton: {
-    backgroundColor: colors.status.urgentWarm,
+    backgroundColor: colors.error,
   },
   submitButtonText: {
     fontSize: typography.fontSize.sm,

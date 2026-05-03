@@ -51,7 +51,7 @@ const getSpeedColor = (speed: ServiceCenterData['speed']): string => {
     case 'accelerating': return colors.success;
     case 'stable': return colors.warning;
     case 'slow': return colors.error;
-    default: return colors.warm.inkSoft;
+    default: return colors.text.secondary;
   }
 };
 
@@ -128,7 +128,7 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
       <Svg width={280} height={140} viewBox="0 0 280 140">
         <Path
           d="M20,30 L60,25 L100,20 L140,22 L180,20 L220,25 L260,35 L265,60 L260,90 L240,100 L200,110 L160,115 L120,115 L80,110 L40,100 L25,80 L20,50 Z"
-          fill={`${colors.warm.clay}10`}
+          fill={`${colors.pro}10`}
           stroke={colors.border.light}
           strokeWidth={1}
         />
@@ -139,10 +139,10 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
           return (
             <React.Fragment key={center.name}>
               {center.isUserCenter && (
-                <Circle cx={pos.x} cy={pos.y} r={14} fill="none" stroke={colors.warm.clay} strokeWidth={2} strokeDasharray="4,2" />
+                <Circle cx={pos.x} cy={pos.y} r={14} fill="none" stroke={colors.pro} strokeWidth={2} strokeDasharray="4,2" />
               )}
               <Circle cx={pos.x} cy={pos.y} r={8} fill={speedColor} />
-              <SvgText x={pos.x} y={pos.y + 20} fontSize={8} fill={colors.warm.inkSoft} textAnchor="middle">
+              <SvgText x={pos.x} y={pos.y + 20} fontSize={8} fill={colors.text.secondary} textAnchor="middle">
                 {center.name.substring(0, 3).toUpperCase()}
               </SvgText>
             </React.Fragment>
@@ -151,7 +151,7 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
       </Svg>
       <View style={styles.mapLegend}>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: colors.warm.sage }]} />
+          <View style={[styles.legendDot, { backgroundColor: colors.success }]} />
           <Text style={styles.legendText}>{tx('intelligence.legend.accelerating', 'Acelerando')}</Text>
         </View>
         <View style={styles.legendItem}>
@@ -159,7 +159,7 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
           <Text style={styles.legendText}>{tx('intelligence.legend.stable', 'Estable')}</Text>
         </View>
         <View style={styles.legendItem}>
-          <View style={[styles.legendDot, { backgroundColor: colors.status.urgentWarm }]} />
+          <View style={[styles.legendDot, { backgroundColor: colors.error }]} />
           <Text style={styles.legendText}>{tx('intelligence.legend.slow', 'Lento')}</Text>
         </View>
       </View>
@@ -169,10 +169,10 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
 
 const getMovementIndicator = (movement: VisaBulletinData['movement'], tx: CasesTranslate) => {
   switch (movement) {
-    case 'forward': return { icon: '↑', color: "#5A7660", label: tx('intelligence.movement.forward', 'Avanzando') };
-    case 'backward': return { icon: '↓', color: colors.status.urgentWarm, label: tx('intelligence.movement.backward', 'Retrocediendo') };
+    case 'forward': return { icon: '↑', color: colors.success, label: tx('intelligence.movement.forward', 'Avanzando') };
+    case 'backward': return { icon: '↓', color: colors.error, label: tx('intelligence.movement.backward', 'Retrocediendo') };
     case 'stable': return { icon: '→', color: colors.warning, label: tx('intelligence.movement.stable', 'Sin cambios') };
-    default: return { icon: '•', color: colors.warm.inkSoft, label: movement };
+    default: return { icon: '•', color: colors.text.secondary, label: movement };
   }
 };
 
@@ -192,7 +192,7 @@ export const IntelligenceTab: React.FC<IntelligenceTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <IntelIcon size={28} color={colors.warm.clay} />
+            <IntelIcon size={28} color={colors.pro} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('intelligence.headerTitle', 'Inteligencia USCIS')}</Text>
@@ -251,56 +251,56 @@ const styles = StyleSheet.create({
   headerCard: { padding: spacing.lg, marginBottom: spacing.md },
   headerContent: { flexDirection: 'row', alignItems: 'center' },
   headerIconContainer: {
-    width: 48, height: 48, borderRadius: 24, backgroundColor: `${colors.warm.clay}15`,
+    width: 48, height: 48, borderRadius: 24, backgroundColor: `${colors.pro}15`,
     alignItems: 'center', justifyContent: 'center', marginRight: spacing.md,
   },
   headerTextContainer: { flex: 1 },
-  headerTitle: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.warm.ink, marginBottom: spacing.xs },
-  headerSubtitle: { fontSize: typography.fontSize.sm, color: colors.warm.inkSoft },
-  sectionTitle: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink, marginBottom: spacing.xs },
-  sectionSubtitle: { fontSize: typography.fontSize.sm, color: colors.warm.inkSoft, marginBottom: spacing.md },
+  headerTitle: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.text.primary, marginBottom: spacing.xs },
+  headerSubtitle: { fontSize: typography.fontSize.sm, color: colors.text.secondary },
+  sectionTitle: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.primary, marginBottom: spacing.xs },
+  sectionSubtitle: { fontSize: typography.fontSize.sm, color: colors.text.secondary, marginBottom: spacing.md },
   mapCard: { padding: spacing.lg, marginBottom: spacing.md },
   mapContainer: { alignItems: 'center' },
   mapLegend: { flexDirection: 'row', justifyContent: 'center', marginTop: spacing.md, gap: spacing.lg },
   legendItem: { flexDirection: 'row', alignItems: 'center' },
   legendDot: { width: 8, height: 8, borderRadius: 4, marginRight: spacing.xs },
-  legendText: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft },
+  legendText: { fontSize: typography.fontSize.xs, color: colors.text.secondary },
   centersSection: { marginBottom: spacing.md },
   centerCard: {
-    backgroundColor: colors.warm.sand, borderRadius: 12, padding: spacing.md,
-    marginBottom: spacing.sm, borderWidth: 1, borderColor: colors.border.warm,
+    backgroundColor: colors.background.secondary, borderRadius: 12, padding: spacing.md,
+    marginBottom: spacing.sm, borderWidth: 1, borderColor: colors.border.light,
   },
-  centerCardHighlighted: { borderColor: colors.warm.clay, borderWidth: 2, backgroundColor: `${colors.warm.clay}05` },
+  centerCardHighlighted: { borderColor: colors.pro, borderWidth: 2, backgroundColor: `${colors.pro}05` },
   centerHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
   centerNameContainer: { flexDirection: 'row', alignItems: 'center', flex: 1 },
-  centerName: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink },
-  userCenterBadge: { backgroundColor: `${colors.warm.clay}15`, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 10, marginLeft: spacing.sm },
-  userCenterBadgeText: { fontSize: typography.fontSize.xs, color: colors.warm.clay, fontFamily: typography.fontFamily.medium },
+  centerName: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.primary },
+  userCenterBadge: { backgroundColor: `${colors.pro}15`, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 10, marginLeft: spacing.sm },
+  userCenterBadgeText: { fontSize: typography.fontSize.xs, color: colors.pro, fontFamily: typography.fontFamily.medium },
   speedBadge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: 12 },
   speedIconText: { fontSize: 12, marginRight: 4 },
   speedLabel: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.medium },
   processingTime: { fontSize: typography.fontSize.sm, marginBottom: spacing.sm },
-  processingTimeValue: { fontFamily: typography.fontFamily.bold, color: colors.warm.ink },
-  processingTimeUnit: { color: colors.warm.inkSoft },
-  speedBarBackground: { height: 4, backgroundColor: colors.warm.cream, borderRadius: 2, overflow: 'hidden' },
+  processingTimeValue: { fontFamily: typography.fontFamily.bold, color: colors.text.primary },
+  processingTimeUnit: { color: colors.text.secondary },
+  speedBarBackground: { height: 4, backgroundColor: colors.background.primary, borderRadius: 2, overflow: 'hidden' },
   speedBarFill: { height: '100%', borderRadius: 2 },
   bulletinCard: { padding: spacing.lg },
   bulletinHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
-  bulletinTitle: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink },
+  bulletinTitle: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.primary },
   movementBadge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: 12 },
   movementIcon: { fontSize: 14, fontFamily: typography.fontFamily.bold, marginRight: 4 },
   movementLabel: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.medium },
   bulletinRow: { flexDirection: 'row', marginBottom: spacing.md },
   bulletinItem: { flex: 1 },
   bulletinDivider: { width: 1, backgroundColor: colors.border.light, marginHorizontal: spacing.md },
-  bulletinItemLabel: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft, marginBottom: spacing.xs },
-  bulletinItemValue: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink },
-  estimatedWaitContainer: { backgroundColor: colors.warm.sand, borderRadius: 8, padding: spacing.md, marginBottom: spacing.md },
-  estimatedWaitLabel: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft, marginBottom: spacing.xs },
-  estimatedWaitValue: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.warm.clay },
-  comparisonContainer: { borderTopWidth: 1, borderTopColor: colors.border.warm, paddingTop: spacing.md },
-  comparisonLabel: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft, marginBottom: spacing.xs },
-  comparisonValue: { fontSize: typography.fontSize.sm, color: colors.warm.ink },
+  bulletinItemLabel: { fontSize: typography.fontSize.xs, color: colors.text.secondary, marginBottom: spacing.xs },
+  bulletinItemValue: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.primary },
+  estimatedWaitContainer: { backgroundColor: colors.background.secondary, borderRadius: 8, padding: spacing.md, marginBottom: spacing.md },
+  estimatedWaitLabel: { fontSize: typography.fontSize.xs, color: colors.text.secondary, marginBottom: spacing.xs },
+  estimatedWaitValue: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.pro },
+  comparisonContainer: { borderTopWidth: 1, borderTopColor: colors.border.light, paddingTop: spacing.md },
+  comparisonLabel: { fontSize: typography.fontSize.xs, color: colors.text.secondary, marginBottom: spacing.xs },
+  comparisonValue: { fontSize: typography.fontSize.sm, color: colors.text.primary },
 });
 
 export default IntelligenceTab;

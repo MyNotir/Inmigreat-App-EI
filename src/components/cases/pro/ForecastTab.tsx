@@ -99,13 +99,13 @@ const SparklineChart: React.FC<SparklineProps> = ({
       {/* Gradient area under curve */}
       <Path
         d={`${pathD} L ${points[points.length - 1].x} ${padding.top + chartHeight} L ${padding.left} ${padding.top + chartHeight} Z`}
-        fill={`${colors.warm.clay}15`}
+        fill={`${colors.pro}15`}
       />
       
       {/* Main curve */}
       <Path
         d={pathD}
-        stroke={colors.warm.clay}
+        stroke={colors.pro}
         strokeWidth={2}
         fill="none"
       />
@@ -118,7 +118,7 @@ const SparklineChart: React.FC<SparklineProps> = ({
             y1={todayPoint.y}
             x2={todayPoint.x}
             y2={padding.top + chartHeight}
-            stroke={colors.warm.inkFaint}
+            stroke={colors.text.tertiary}
             strokeWidth={1}
             strokeDasharray="4,4"
           />
@@ -127,14 +127,14 @@ const SparklineChart: React.FC<SparklineProps> = ({
             cy={todayPoint.y}
             r={4}
             fill={colors.background.primary}
-            stroke={colors.warm.inkSoft}
+            stroke={colors.text.secondary}
             strokeWidth={2}
           />
           <SvgText
             x={todayPoint.x}
             y={padding.top + chartHeight + 15}
             fontSize={10}
-            fill={colors.warm.inkSoft}
+            fill={colors.text.secondary}
             textAnchor="middle"
           >
             {tx('forecast.today', 'Hoy')}
@@ -149,13 +149,13 @@ const SparklineChart: React.FC<SparklineProps> = ({
             cx={peakPoint.x}
             cy={peakPoint.y}
             r={5}
-            fill={colors.warm.clay}
+            fill={colors.pro}
           />
           <SvgText
             x={peakPoint.x}
             y={peakPoint.y - 10}
             fontSize={10}
-            fill={colors.warm.clay}
+            fill={colors.pro}
             textAnchor="middle"
             fontWeight="600"
           >
@@ -174,7 +174,7 @@ const SparklineChart: React.FC<SparklineProps> = ({
             x={points[i].x}
             y={height - 5}
             fontSize={9}
-            fill={colors.warm.inkFaint}
+            fill={colors.text.tertiary}
             textAnchor="middle"
           >
             {d.month}
@@ -229,7 +229,7 @@ const MetricCard: React.FC<{
   value: string | number;
   subtext?: string;
   color?: string;
-}> = ({ icon, label, value, subtext, color = colors.warm.ink }) => (
+}> = ({ icon, label, value, subtext, color = colors.text.primary }) => (
   <View style={styles.metricCard}>
     <Text style={styles.metricIcon}>{icon}</Text>
     <Text style={styles.metricLabel}>{label}</Text>
@@ -268,7 +268,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
       lowerVelocity.includes('mais rapido') ||
       lowerVelocity.includes('mais rapido')
     ) {
-      return { color: "#5A7660", icon: '⚡' };
+      return { color: colors.success, icon: '⚡' };
     }
     if (
       lowerVelocity.includes('lento') ||
@@ -277,7 +277,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
     ) {
       return { color: colors.warning, icon: '🐢' };
     }
-    return { color: colors.warm.inkSoft, icon: '➡️' };
+    return { color: colors.text.secondary, icon: '➡️' };
   };
 
   const velocityStyle = getVelocityStyle(data.velocityMetric);
@@ -288,7 +288,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
       <GlassCard style={styles.dateRangeCard}>
         <View style={styles.dateRangeContent}>
           <View style={styles.dateRangeIconContainer}>
-            <ForecastIcon size={28} color={colors.warm.clay} />
+            <ForecastIcon size={28} color={colors.pro} />
           </View>
           <View style={styles.dateRangeTextContainer}>
             <Text style={styles.dateRangeLabel}>{tx('forecast.estimatedApprovalDate', 'Fecha estimada de aprobacion')}</Text>
@@ -346,7 +346,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
             label={tx('forecast.remainingTime', 'Tiempo restante')}
             value={data.weeksRemaining}
             subtext={tx('forecast.weeks', 'semanas')}
-            color={colors.warm.clay}
+            color={colors.pro}
           />
         </GlassCard>
 
@@ -357,7 +357,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
             label={tx('forecast.similarCases', 'Casos similares')}
             value={data.similarCases}
             subtext={tx('forecast.sameStage', 'en misma etapa')}
-            color={colors.warm.ink}
+            color={colors.text.primary}
           />
         </GlassCard>
       </View>
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.warm.clay}15`,
+    backgroundColor: `${colors.pro}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -395,13 +395,13 @@ const styles = StyleSheet.create({
   },
   dateRangeLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginBottom: spacing.xs,
   },
   dateRangeValue: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
 
   // Confidence Indicator
@@ -416,7 +416,7 @@ const styles = StyleSheet.create({
   },
   confidenceLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   confidenceValue: {
     fontSize: typography.fontSize.md,
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
   },
   confidenceBarBackground: {
     height: 6,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderRadius: 3,
     overflow: 'hidden',
   },
@@ -441,12 +441,12 @@ const styles = StyleSheet.create({
   chartTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   chartSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginBottom: spacing.md,
   },
   chartContainer: {
@@ -474,7 +474,7 @@ const styles = StyleSheet.create({
   },
   metricLabel: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     marginBottom: spacing.xs,
   },
@@ -485,7 +485,7 @@ const styles = StyleSheet.create({
   },
   metricSubtext: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     textAlign: 'center',
     marginTop: 2,
   },

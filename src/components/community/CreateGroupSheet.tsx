@@ -330,7 +330,7 @@ export const CreateGroupSheet: React.FC<CreateGroupSheetProps> = ({
               placeholder={groupType === 'paid'
                 ? tx('createGroup.fields.namePlaceholderPro', 'Ej. Clases privadas de ciudadania')
                 : tx('createGroup.fields.namePlaceholderFree', 'Ej. Red de apoyo para familias inmigrantes')}
-              placeholderTextColor={colors.warm.inkFaint}
+              placeholderTextColor={colors.text.tertiary}
               style={styles.input}
               maxLength={80}
             />
@@ -340,7 +340,7 @@ export const CreateGroupSheet: React.FC<CreateGroupSheetProps> = ({
               value={description}
               onChangeText={setDescription}
               placeholder={selectedPreset.suggestedDescription}
-              placeholderTextColor={colors.warm.inkFaint}
+              placeholderTextColor={colors.text.tertiary}
               style={[styles.input, styles.textArea]}
               multiline
               textAlignVertical="top"
@@ -357,7 +357,7 @@ export const CreateGroupSheet: React.FC<CreateGroupSheetProps> = ({
                       value={priceText}
                       onChangeText={setPriceText}
                       placeholder="20"
-                      placeholderTextColor={colors.warm.inkFaint}
+                      placeholderTextColor={colors.text.tertiary}
                       keyboardType="decimal-pad"
                       style={styles.priceInput}
                     />
@@ -398,7 +398,7 @@ export const CreateGroupSheet: React.FC<CreateGroupSheetProps> = ({
               value={tagsRaw}
               onChangeText={setTagsRaw}
               placeholder={tx('createGroup.fields.tagsPlaceholder', 'ej. DACA, Legal, Comunidad')}
-              placeholderTextColor={colors.warm.inkSoft}
+              placeholderTextColor={colors.text.secondary}
               autoCapitalize="words"
               returnKeyType="done"
             />
@@ -465,18 +465,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   descriptionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
   },
   sectionTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   typeGrid: {
@@ -484,11 +484,11 @@ const styles = StyleSheet.create({
   },
   typeCard: {
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     borderRadius: borderRadius.large,
     padding: spacing.base,
     marginBottom: spacing.sm,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
   },
   typeCardActive: {
     borderColor: colors.accent,
@@ -515,12 +515,12 @@ const styles = StyleSheet.create({
   typeCardTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   typeCardDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   presetList: {
@@ -532,7 +532,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.large,
     padding: spacing.base,
     marginRight: spacing.sm,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
   },
   presetIconBubble: {
     width: 36,
@@ -549,12 +549,12 @@ const styles = StyleSheet.create({
   presetTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   presetSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.sm,
   },
@@ -566,38 +566,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     marginRight: spacing.xs,
     marginBottom: spacing.xs,
   },
   presetTagText: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   formCard: {
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     borderRadius: borderRadius.large,
     padding: spacing.base,
     marginBottom: spacing.lg,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
   },
   inputLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
     marginTop: spacing.sm,
   },
   input: {
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     borderRadius: borderRadius.medium,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
-    backgroundColor: colors.warm.cream,
+    color: colors.text.primary,
+    backgroundColor: colors.background.primary,
   },
   textArea: {
     minHeight: 108,
@@ -611,41 +611,41 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     borderRadius: borderRadius.medium,
     paddingHorizontal: spacing.md,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     marginRight: spacing.sm,
   },
   pricePrefix: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginRight: spacing.xs,
   },
   priceInput: {
     flex: 1,
     paddingVertical: spacing.md,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   periodSwitch: {
     flexDirection: 'row',
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     borderRadius: borderRadius.medium,
     overflow: 'hidden',
   },
   periodOption: {
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
   },
   periodOptionActive: {
     backgroundColor: colors.accent,
   },
   periodOptionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
   periodOptionTextActive: {
@@ -653,12 +653,12 @@ const styles = StyleSheet.create({
   },
   helpText: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: spacing.xs,
   },
   inputLabelHint: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.normal,
   },
   infoCard: {
@@ -670,12 +670,12 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   infoLine: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.xs,
   },
@@ -684,22 +684,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
     paddingTop: spacing.sm,
     borderTopWidth: 1,
-    borderTopColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderTopColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
   },
   secondaryButton: {
     flex: 1,
     minHeight: 48,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warmStrong,
+    borderColor: colors.border.medium,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
   },
   secondaryButtonText: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     fontFamily: typography.fontFamily.medium,
   },
   primaryButton: {

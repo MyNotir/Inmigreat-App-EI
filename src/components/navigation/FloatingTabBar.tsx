@@ -19,15 +19,14 @@ import { hapticSelection, isIOS } from '../../utils/platform';
 type TabRouteName = MainTabRouteName;
 
 const LEGACY_TAB_BAR_COLORS = {
-  // EI redesign: warm-minimalism palette. Cream bar with sand inactive items
-  // and clay-on-cream active state. The bar reads like a warm shelf, not a
-  // navy command bar.
-  bar: '#3B2E2A',          // warm ink
-  item: '#5A4942',         // softer warm ink
-  itemBorder: 'rgba(251, 246, 238, 0.14)',
-  activeBg: '#FBF6EE',     // cream
-  activeText: '#3B2E2A',   // warm ink
-  inactiveText: '#FBF6EE', // cream
+  // Inmigreat brand: navy bar with cream-white inactive items and white
+  // active chip with deep navy text.
+  bar: '#0D1F4D',
+  item: '#2A3A62',
+  itemBorder: 'rgba(255, 255, 255, 0.16)',
+  activeBg: '#FFFFFF',
+  activeText: '#000000FA',
+  inactiveText: '#FFFFFF',
 } as const;
 
 const LEGACY_TAB_BAR_SIZES = {

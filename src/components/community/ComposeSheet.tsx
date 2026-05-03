@@ -65,7 +65,7 @@ const POST_TYPE_META: Record<PostType, { icon: string; color: string }> = {
   },
   Alert: {
     icon: '🚨',
-    color: colors.status.urgentWarm,
+    color: colors.error,
   },
 };
 
@@ -460,7 +460,7 @@ export const ComposeSheet: React.FC<ComposeSheetProps> = ({
             <TextInput
               style={styles.textInput}
               placeholder={currentConfig.placeholder}
-              placeholderTextColor={colors.warm.inkFaint}
+              placeholderTextColor={colors.text.tertiary}
               multiline
               value={text}
               onChangeText={handleTextChange}
@@ -565,16 +565,16 @@ const styles = StyleSheet.create({
     marginBottom: spacing.base,
     paddingBottom: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border.warm,
+    borderBottomColor: colors.border.light,
   },
   headerTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   cancelButton: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   submitButton: {
     fontSize: typography.fontSize.base,
@@ -582,7 +582,7 @@ const styles = StyleSheet.create({
     color: colors.accent,
   },
   submitButtonDisabled: {
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
 
   // Type selector styles
@@ -599,8 +599,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
   },
   typeButtonIcon: {
     fontSize: typography.fontSize.base,
@@ -609,7 +609,7 @@ const styles = StyleSheet.create({
   typeButtonLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   typeButtonLabelSelected: {
     color: colors.warm.cream,
@@ -623,20 +623,20 @@ const styles = StyleSheet.create({
     minHeight: 120,
     maxHeight: 200,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     padding: spacing.md,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
 
   // Section label
   sectionLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginBottom: spacing.sm,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -659,8 +659,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
   },
   audienceOptionSelected: {
     borderColor: colors.accent,
@@ -672,7 +672,7 @@ const styles = StyleSheet.create({
   },
   audienceLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
   audienceLabelSelected: {
@@ -684,10 +684,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.md,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     marginBottom: spacing.base,
   },
   linkPreviewContent: {
@@ -705,12 +705,12 @@ const styles = StyleSheet.create({
   linkPreviewTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: 2,
   },
   linkPreviewSite: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
 
   // Video preview styles
@@ -718,10 +718,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     padding: spacing.md,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     marginBottom: spacing.base,
   },
   videoThumbnailContainer: {
@@ -739,7 +739,7 @@ const styles = StyleSheet.create({
   videoThumbnailPlaceholder: {
     width: '100%',
     height: '100%',
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -766,12 +766,12 @@ const styles = StyleSheet.create({
   videoPreviewTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   videoPreviewChannel: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
 
   // Remove button styles
@@ -779,27 +779,27 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: spacing.sm,
   },
   removeButtonText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.bold,
   },
   removeButtonSmall: {
     width: 20,
     height: 20,
     borderRadius: 10,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   removeButtonTextSmall: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.bold,
   },
 
@@ -811,7 +811,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.sm,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.medium,
     marginBottom: spacing.xs,
   },
@@ -822,7 +822,7 @@ const styles = StyleSheet.create({
   attachmentName: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
 
   // Action buttons styles
@@ -831,7 +831,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     paddingTop: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.border.warm,
+    borderTopColor: colors.border.light,
   },
   actionButton: {
     flexDirection: 'row',
@@ -839,7 +839,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
     borderRadius: borderRadius.medium,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
   },
   actionButtonIcon: {
     fontSize: typography.fontSize.base,
@@ -847,7 +847,7 @@ const styles = StyleSheet.create({
   },
   actionButtonLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
 });

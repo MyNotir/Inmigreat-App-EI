@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
   iconLine: {
     width: 10,
     height: 2,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     transform: [{ rotate: '45deg' }],
   },
   message: {

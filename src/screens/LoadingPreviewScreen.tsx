@@ -196,14 +196,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   backButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   headerCopy: {
     gap: spacing.xs,
@@ -218,13 +218,13 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   headerSubtitle: {
     maxWidth: 320,
     fontSize: typography.fontSize.base,
     lineHeight: 20,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   scrollContent: {
     paddingHorizontal: spacing.base,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   controlLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   controlRow: {
     flexDirection: 'row',
@@ -251,12 +251,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   controlPillSelected: {
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
   },
   colorPill: {
     flexDirection: 'row',
@@ -265,9 +265,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   colorDot: {
     width: 10,
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   controlPillText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   metaRow: {
     flexDirection: 'row',
@@ -286,16 +286,16 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     paddingTop: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.border.warm,
+    borderTopColor: colors.border.light,
   },
   metaLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   metaValue: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   loadingPreview: {
     paddingHorizontal: 0,

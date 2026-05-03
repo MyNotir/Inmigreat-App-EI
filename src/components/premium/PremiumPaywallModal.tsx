@@ -49,7 +49,7 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
   priceValue = '$20',
   pricePeriod,
   benefits,
-  accentColor = colors.warm.clay,
+  accentColor = colors.pro,
   ctaLabel,
   chatCtaLabel,
   dismissLabel,
@@ -79,17 +79,16 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
       <View style={styles.overlay}>
         <GlassCard style={styles.card}>
           <View style={styles.header}>
-            <Text style={styles.eyebrow}>INMIGREAT · PRO</Text>
             <View
               style={[
                 styles.iconContainer,
                 {
-                  backgroundColor: colors.warm.sand,
-                  borderColor: colors.warm.clay,
+                  backgroundColor: `${accentColor}18`,
+                  borderColor: `${accentColor}28`,
                 },
               ]}
             >
-              <ForecastIcon size={28} color={colors.warm.clay} />
+              <ForecastIcon size={30} color={accentColor} />
             </View>
             <Text style={styles.title}>{resolvedTitle}</Text>
             <Text style={styles.subtitle}>{resolvedSubtitle}</Text>
@@ -142,7 +141,7 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(59, 46, 42, 0.55)',
+    backgroundColor: 'rgba(15, 23, 42, 0.5)',
     justifyContent: 'center',
     padding: spacing.lg,
   },
@@ -153,14 +152,6 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: spacing.lg,
-  },
-  eyebrow: {
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
-    letterSpacing: 1.6,
-    textTransform: 'uppercase',
-    marginBottom: spacing.md,
   },
   iconContainer: {
     width: 68,
@@ -173,22 +164,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.4,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     marginBottom: spacing.sm,
   },
   description: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
   },
@@ -209,7 +199,7 @@ const styles = StyleSheet.create({
   benefitText: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
   },
   pricing: {
@@ -224,7 +214,7 @@ const styles = StyleSheet.create({
   },
   pricePeriod: {
     fontSize: typography.fontSize.md,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginLeft: spacing.xs,
   },
   actions: {
@@ -238,14 +228,14 @@ const styles = StyleSheet.create({
   subscribeButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.cream,
+    color: colors.text.inverse,
   },
   chatButton: {
     paddingVertical: spacing.md,
     borderRadius: borderRadius.full,
     alignItems: 'center',
     borderWidth: 1,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
   },
   chatButtonText: {
     fontSize: typography.fontSize.base,
@@ -257,7 +247,7 @@ const styles = StyleSheet.create({
   },
   dismissButtonText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
 });

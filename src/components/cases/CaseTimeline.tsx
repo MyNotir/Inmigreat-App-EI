@@ -100,8 +100,8 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
           dotBackground: colors.warm.sage,
           dotBorder: colors.warm.sage,
           lineColor: colors.warm.sage,
-          textColor: colors.warm.ink,
-          dateColor: colors.warm.inkSoft,
+          textColor: colors.text.primary,
+          dateColor: colors.text.secondary,
           showCheck: true,
         };
       case 'future':
@@ -110,8 +110,8 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
           dotBackground: colors.warm.cream,
           dotBorder: colors.border.warm,
           lineColor: colors.border.warm,
-          textColor: colors.warm.inkFaint,
-          dateColor: colors.warm.inkFaint,
+          textColor: colors.text.tertiary,
+          dateColor: colors.text.tertiary,
           showCheck: false,
         };
     }
@@ -267,7 +267,7 @@ export const CaseTimeline: React.FC<CaseTimelineProps> = ({
             </Text>
           )}
           <Animated.View style={chevronAnimatedStyle}>
-            <ChevronIcon size={20} color={colors.warm.inkSoft} />
+            <ChevronIcon size={20} color={colors.text.secondary} />
           </Animated.View>
         </View>
       </TouchableOpacity>
@@ -298,11 +298,11 @@ export const CaseTimeline: React.FC<CaseTimelineProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderRadius: borderRadius.xl,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     marginTop: spacing.sm,
   },
 
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   headerRight: {
     flexDirection: 'row',
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   },
   hiddenCount: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginRight: spacing.xs,
   },
 

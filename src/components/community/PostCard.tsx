@@ -33,21 +33,18 @@ export interface PostCardProps {
 }
 
 const ROLE_BADGES: Record<string, { backgroundColor: string; textColor: string }> = {
-  // EI warm role palette — see ThreadView.tsx for rationale.
-  'Moderador': { backgroundColor: colors.warm.clay, textColor: colors.warm.cream },
-  'Pro': { backgroundColor: colors.warm.sand, textColor: colors.warm.clay },
-  'Admin': { backgroundColor: colors.status.urgentWarm, textColor: colors.warm.cream },
-  'Experto': { backgroundColor: colors.warm.sage, textColor: colors.warm.cream },
+  'Moderador': { backgroundColor: colors.accent, textColor: '#FFFFFF' },
+  'Pro': { backgroundColor: colors.pro, textColor: '#FFFFFF' },
+  'Admin': { backgroundColor: colors.error, textColor: '#FFFFFF' },
+  'Experto': { backgroundColor: colors.success, textColor: '#FFFFFF' },
 };
 
 const TAG_STYLES: Record<string, { backgroundColor: string; textColor: string }> = {
-  // EI: warm tag palette — sand+clay for routine tags, peach+urgentWarm
-  // for crisis tags. Cool brand-blue tags read as 'cold catalog UI' on
-  // a peer-support thread.
-  'Pregunta': { backgroundColor: colors.warm.sand, textColor: colors.warm.clay },
-  'Experiencia': { backgroundColor: 'rgba(184, 201, 185, 0.32)', textColor: '#5A7660' },
-  'Consejo': { backgroundColor: colors.warm.sand, textColor: colors.warm.ink },
-  'Noticia': { backgroundColor: colors.warm.cream, textColor: colors.warm.clay },
+  'Pregunta': { backgroundColor: 'rgba(21, 52, 128, 0.12)', textColor: colors.caseAccent.workPermit },
+  'Experiencia': { backgroundColor: 'rgba(68, 93, 153, 0.12)', textColor: colors.caseAccent.greenCard },
+  'Consejo': { backgroundColor: 'rgba(99, 78, 204, 0.12)', textColor: colors.caseAccent.citizenship },
+  'Noticia': { backgroundColor: 'rgba(149, 129, 255, 0.16)', textColor: colors.caseAccent.visa },
+  // Alerta keeps the warm crisis treatment — this tag IS a stress moment.
   'Alerta': { backgroundColor: colors.warm.peach, textColor: colors.status.urgentWarm },
 };
 
@@ -138,11 +135,13 @@ export const PostCard: React.FC<PostCardProps> = ({
   const tagLabel = post.tag ? translateTagLabel(post.tag, tx) : null;
   const cardStyle: ViewStyle = {
     ...styles.card,
-    // EI: warm cream surface, soft clay border. Author accent shows up in
-    // the avatar circle only — surface stays calm even when the post is hot.
-    backgroundColor: colors.warm.cream,
-    borderColor: colors.border.warm,
-    shadowColor: colors.warm.ink,
+    backgroundColor: isAndroid
+      ? mixHexWithWhite(accentColor, 0.94)
+      : createColoredGlassBackground('#F3F8FC', 0.82),
+    borderColor: isAndroid
+      ? mixHexWithWhite(accentColor, 0.72)
+      : createColoredGlassBackground(accentColor, 0.1),
+    shadowColor: accentColor,
   };
 
   return (
@@ -214,18 +213,18 @@ const styles = StyleSheet.create({
   avatarText: { color: colors.warm.cream, fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold },
   authorInfo: { marginLeft: spacing.sm, flex: 1 },
   nameRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' },
-  authorName: { fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink, marginRight: spacing.xs },
+  authorName: { fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold, color: colors.text.primary, marginRight: spacing.xs },
   roleBadge: { paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: borderRadius.small },
   roleBadgeText: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.bold, letterSpacing: 0.3 },
-  timestamp: { fontSize: typography.fontSize.sm, color: colors.warm.inkFaint, marginTop: 2 },
-  postText: { fontSize: typography.fontSize.base, color: colors.warm.ink, lineHeight: typography.fontSize.base * typography.lineHeight.normal, marginBottom: spacing.md },
+  timestamp: { fontSize: typography.fontSize.sm, color: colors.text.tertiary, marginTop: 2 },
+  postText: { fontSize: typography.fontSize.base, color: colors.text.primary, lineHeight: typography.fontSize.base * typography.lineHeight.normal, marginBottom: spacing.md },
   tagContainer: { flexDirection: 'row', marginBottom: spacing.md },
   tag: { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: borderRadius.full },
   tagText: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.medium },
   moderationWrap: { marginBottom: spacing.md, gap: spacing.xs },
   moderationSummary: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   footer: {
@@ -238,11 +237,11 @@ const styles = StyleSheet.create({
   },
   actionButton: { flexDirection: 'row', alignItems: 'center', marginRight: spacing.lg },
   actionIcon: { fontSize: typography.fontSize.md, marginRight: spacing.xs },
-  actionCount: { fontSize: typography.fontSize.sm, color: colors.warm.inkSoft, fontFamily: typography.fontFamily.medium },
-  likedCount: { color: colors.status.urgentWarm },
+  actionCount: { fontSize: typography.fontSize.sm, color: colors.text.secondary, fontFamily: typography.fontFamily.medium },
+  likedCount: { color: colors.error },
   reportActionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
 });

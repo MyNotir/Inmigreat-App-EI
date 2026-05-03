@@ -81,7 +81,7 @@ const TabButton: React.FC<TabButtonProps> = ({ tab, label, isActive, onPress }) 
       style={styles.tabButton}
     >
       <Animated.View style={[styles.tabButtonContent, animatedStyle]}>
-        <Icon size={20} color={isActive ? colors.warm.clay : colors.warm.inkFaint} />
+        <Icon size={20} color={isActive ? colors.pro : colors.text.tertiary} />
         <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
           {label}
         </Text>
@@ -107,7 +107,7 @@ const PaywallOverlay: React.FC<{
       >
         <Animated.View style={[styles.paywallContent, animatedStyle]}>
           <View style={styles.paywallIconContainer}>
-            <ForecastIcon size={32} color={colors.warm.clay} />
+            <ForecastIcon size={32} color={colors.pro} />
           </View>
           <Text style={styles.paywallTitle}>{tx('proTabs.unlockTitle', 'Desbloquea Pro')}</Text>
           <Text style={styles.paywallDescription}>
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   tabBarContainer: { paddingHorizontal: spacing.base, paddingTop: spacing.sm },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.large,
     padding: spacing.xs,
     position: 'relative',
@@ -233,11 +233,11 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginTop: spacing.xs,
     textAlign: 'center',
   },
-  tabLabelActive: { color: colors.warm.clay, fontFamily: typography.fontFamily.semibold },
+  tabLabelActive: { color: colors.pro, fontFamily: typography.fontFamily.semibold },
   indicator: {
     position: 'absolute',
     top: spacing.xs,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   indicatorInner: {
     flex: 1,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderRadius: borderRadius.medium,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -260,10 +260,10 @@ const styles = StyleSheet.create({
   paywallTouchable: { flex: 1 },
   paywallContent: {
     flex: 1,
-    backgroundColor: `${colors.warm.clay}10`,
+    backgroundColor: `${colors.pro}10`,
     borderRadius: borderRadius['2xl'],
     borderWidth: 1,
-    borderColor: `${colors.warm.clay}30`,
+    borderColor: `${colors.pro}30`,
     padding: spacing.xl,
     alignItems: 'center',
     justifyContent: 'center',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: `${colors.warm.clay}20`,
+    backgroundColor: `${colors.pro}20`,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing.base,
@@ -280,22 +280,22 @@ const styles = StyleSheet.create({
   paywallTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   paywallDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     lineHeight: typography.fontSize.base * typography.lineHeight.relaxed,
     marginBottom: spacing.lg,
     paddingHorizontal: spacing.base,
   },
   paywallPriceContainer: { flexDirection: 'row', alignItems: 'baseline', marginBottom: spacing.lg },
-  paywallPrice: { fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.bold, color: colors.warm.clay },
-  paywallPeriod: { fontSize: typography.fontSize.md, color: colors.warm.inkSoft, marginLeft: spacing.xs },
+  paywallPrice: { fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.bold, color: colors.pro },
+  paywallPeriod: { fontSize: typography.fontSize.md, color: colors.text.secondary, marginLeft: spacing.xs },
   paywallButton: {
-    backgroundColor: colors.warm.clay,
+    backgroundColor: colors.pro,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.full,

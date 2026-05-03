@@ -26,21 +26,24 @@ import { colors as themeColors } from '../../styles/theme';
 type GradientColors = readonly [ColorValue, ColorValue, ...ColorValue[]];
 
 /**
- * Default gradient colors — warm-minimalism EI palette.
- * Cream → sand → cream cycle gives surfaces a paper-feel.
+ * Default gradient colors — Inmigreat Pro brand cool spine.
+ * White → soft blue → cool gray → soft purple-tinted day gradient.
+ * EI rule: warm tones (cream / sand / clay / peach) are overlay-only and
+ * must be opted into per-component via WarmCard / WarmScreen / StressBanner
+ * for stress contexts (RFE, denial, ICE, attorney search, acute chat).
  */
 export const DEFAULT_GRADIENT_COLORS: GradientColors = [
-  themeColors.warm.cream,
-  themeColors.warm.sand,
-  themeColors.warm.cream,
-  themeColors.warm.peach,
+  themeColors.background.gradient[0],
+  themeColors.background.gradient[1],
+  themeColors.background.gradient[2],
+  themeColors.background.gradient[3],
 ] as const;
 
 export const ONBOARDING_GRADIENT_COLORS: GradientColors = [
-  themeColors.warm.cream,
-  themeColors.warm.sand,
-  themeColors.warm.cream,
-  themeColors.warm.peach,
+  '#FFFFFF',
+  '#F3F8FC',
+  '#F4F5F9',
+  '#F8F7FF',
 ] as const;
 
 /**

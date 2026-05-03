@@ -23,6 +23,7 @@ import {
   RefreshControl,
   Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Circle, Line, Rect } from 'react-native-svg';
 import Animated, {
   useAnimatedStyle,
@@ -34,7 +35,7 @@ import Animated, {
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { WarmScreen } from '../components/common/WarmScreen';
+import { AnimatedBackground } from '../components/common/AnimatedBackground';
 import { GlassCard } from '../components/common/GlassCard';
 import { PlatformBottomSheet } from '../components/common/PlatformBottomSheet';
 import { ProfileSheet } from '../components/ProfileSheet';
@@ -97,7 +98,7 @@ type ResourcesTranslate = (
 
 const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 20, 
-  color = colors.warm.inkSoft 
+  color = colors.text.secondary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M6 9l6 6 6-6" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -106,7 +107,7 @@ const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const BriefcaseIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.warm.ink 
+  color = colors.text.primary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="2" y="7" width="20" height="14" rx="2" stroke={color} strokeWidth={2} />
@@ -116,7 +117,7 @@ const BriefcaseIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const CalculatorIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.warm.ink 
+  color = colors.text.primary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="4" y="2" width="16" height="20" rx="2" stroke={color} strokeWidth={2} />
@@ -135,7 +136,7 @@ const CalculatorIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const BookIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.warm.ink 
+  color = colors.text.primary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -145,7 +146,7 @@ const BookIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const CalendarIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.warm.ink 
+  color = colors.text.primary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="3" y="4" width="18" height="18" rx="2" stroke={color} strokeWidth={2} />
@@ -176,7 +177,7 @@ const MailIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const SearchIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 20, 
-  color = colors.warm.inkFaint 
+  color = colors.text.tertiary 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Circle cx="11" cy="11" r="8" stroke={color} strokeWidth={2} />
@@ -590,7 +591,7 @@ const VisaBulletinRow: React.FC<VisaBulletinRowProps> = ({ data, tx }) => {
       case 'forward': return colors.success;
       case 'retrogressed': return colors.error;
       case 'current': return colors.accent;
-      default: return colors.warm.inkSoft;
+      default: return colors.text.secondary;
     }
   };
 
@@ -782,14 +783,14 @@ export const ResourcesScreen: React.FC = () => {
   }, [glossarySearch, sampleGlossary]);
 
   return (
-    <WarmScreen edges={['top']}>
+    <AnimatedBackground>
+      <SafeAreaView style={styles.container} edges={['top']}>
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerEyebrow}>{resourcesTx('header.eyebrow', 'TU GUÍA')}</Text>
             <Text style={styles.headerTitle}>{resourcesTx('header.title', 'Recursos')}</Text>
             <Text style={styles.headerSubtitle}>
-              {resourcesTx('header.subtitle', 'Abogados, calculadora y guías escritas en español claro')}
+              {resourcesTx('header.subtitle', 'Informacion y herramientas utiles')}
             </Text>
           </View>
           <TouchableOpacity
@@ -831,9 +832,9 @@ export const ResourcesScreen: React.FC = () => {
         >
           {/* Attorneys Section */}
           <ExpandableSection
-            title={resourcesTx('section.attorneys.title', 'Abogados verificados')}
-            icon={<BriefcaseIcon color={colors.warm.clay} />}
-            iconColor={colors.warm.clay}
+            title={resourcesTx('section.attorneys.title', 'Abogados')}
+            icon={<BriefcaseIcon color={colors.pro} />}
+            iconColor={colors.pro}
             expanded={expandedSection === 'attorneys'}
             onToggle={() => handleToggleSection('attorneys')}
           >
@@ -905,7 +906,7 @@ export const ResourcesScreen: React.FC = () => {
               <TextInput
                 style={styles.searchInput}
                 placeholder={resourcesTx('section.glossary.searchPlaceholder', 'Buscar termino...')}
-                placeholderTextColor={colors.warm.inkFaint}
+                placeholderTextColor={colors.text.tertiary}
                 value={glossarySearch}
                 onChangeText={setGlossarySearch}
               />
@@ -966,7 +967,8 @@ export const ResourcesScreen: React.FC = () => {
         >
           <ProfileSheet embedded onClose={handleCloseProfile} />
         </PlatformBottomSheet>
-    </WarmScreen>
+      </SafeAreaView>
+    </AnimatedBackground>
   );
 };
 
@@ -1013,35 +1015,24 @@ const styles = StyleSheet.create({
     backgroundColor: RESOURCES_ACCENT,
   },
   profileAvatarText: {
-    color: colors.warm.cream,
+    color: colors.text.inverse,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.bold,
   },
   profileButtonLabel: {
-    color: colors.warm.ink,
+    color: colors.text.primary,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },
-  headerEyebrow: {
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
-    letterSpacing: 1.6,
-    textTransform: 'uppercase',
-    marginBottom: spacing.xs,
-  },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.4,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: spacing.xs,
-    lineHeight: typography.fontSize.sm * 1.4,
   },
 
   // Scroll view styles
@@ -1077,7 +1068,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   sectionContent: {
     paddingHorizontal: spacing.base,
@@ -1087,7 +1078,7 @@ const styles = StyleSheet.create({
   },
   sectionDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: spacing.md,
     marginBottom: spacing.md,
   },
@@ -1095,16 +1086,16 @@ const styles = StyleSheet.create({
   attorneyDirectoryCta: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderWidth: 1,
-    borderColor: colors.warm.clay,
+    borderColor: colors.accent,
     borderRadius: borderRadius.xl,
     padding: spacing.lg,
     marginTop: spacing.sm,
     marginBottom: spacing.md,
-    shadowColor: colors.warm.ink,
+    shadowColor: colors.accent,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.06,
+    shadowOpacity: 0.08,
     shadowRadius: 12,
     elevation: 2,
   },
@@ -1114,34 +1105,34 @@ const styles = StyleSheet.create({
   },
   attorneyDirectoryEyebrow: {
     fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.accent,
     letterSpacing: 1.4,
     textTransform: 'uppercase',
     marginBottom: spacing.xs,
   },
   attorneyDirectoryTitle: {
     fontSize: typography.fontSize.md,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
     letterSpacing: -0.2,
     marginBottom: spacing.xs,
   },
   attorneyDirectoryHint: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.xs * 1.5,
   },
   attorneyDirectoryArrow: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.clay,
+    color: colors.accent,
   },
   attorneySpotlightLabel: {
     fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.secondary,
     letterSpacing: 1.4,
     textTransform: 'uppercase',
     marginTop: spacing.md,
@@ -1168,11 +1159,11 @@ const styles = StyleSheet.create({
   attorneyName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   attorneyFirm: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: 2,
   },
   attorneySpecialty: {
@@ -1182,7 +1173,7 @@ const styles = StyleSheet.create({
   },
   attorneyLocation: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginTop: spacing.xs,
     marginBottom: spacing.sm,
   },
@@ -1228,7 +1219,7 @@ const styles = StyleSheet.create({
   calculatorLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginBottom: spacing.sm,
     marginTop: spacing.md,
   },
@@ -1251,7 +1242,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   optionTextActive: {
     color: colors.accent,
@@ -1268,17 +1259,17 @@ const styles = StyleSheet.create({
   },
   resultLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginBottom: spacing.xs,
   },
   resultValue: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: "#5A7660",
+    color: colors.success,
   },
   resultNote: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginTop: spacing.xs,
   },
 
@@ -1298,7 +1289,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: spacing.sm,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   glossaryItem: {
     backgroundColor: 'transparent',
@@ -1317,7 +1308,7 @@ const styles = StyleSheet.create({
   glossaryTerm: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     flex: 1,
   },
   categoryBadge: {
@@ -1332,12 +1323,12 @@ const styles = StyleSheet.create({
   },
   glossaryDefinition: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: 20,
   },
   noResultsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     textAlign: 'center',
     paddingVertical: spacing.lg,
   },
@@ -1354,7 +1345,7 @@ const styles = StyleSheet.create({
   bulletinHeaderText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   bulletinRow: {
     flexDirection: 'row',
@@ -1370,11 +1361,11 @@ const styles = StyleSheet.create({
   bulletinCategoryText: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   bulletinAreaText: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     marginTop: 2,
   },
   bulletinDate: {
@@ -1383,7 +1374,7 @@ const styles = StyleSheet.create({
   bulletinDateText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   bulletinMovement: {
     fontSize: typography.fontSize.xs,
@@ -1391,7 +1382,7 @@ const styles = StyleSheet.create({
   },
   bulletinNote: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     fontStyle: 'italic',
     marginTop: spacing.md,
     textAlign: 'center',

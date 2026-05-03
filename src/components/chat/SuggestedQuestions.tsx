@@ -1,69 +1,136 @@
 /**
- * SuggestedQuestions — Emotional Intelligence redesign.
- *
- * Warm chips on cream/sand bg with clay border. Used in the empty Lexi
- * state to give users a calm starting point — three tier emoji + concise
- * label. Stagger-fade in so it feels like a hand reaching out, not a wall
- * of options.
+ * SuggestedQuestions Component
+ * 
+ * Displays tappable question chips for the chat interface.
+ * Used in the welcome state to help users start conversations
+ * with common immigration-related questions.
+ * 
+ * Validates: Requirements 13.2
  */
 
-import React from "react"
-import { Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
-import Animated from "react-native-reanimated"
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
+import Animated from 'react-native-reanimated';
 
-import { borderRadius, colors, spacing, typography } from "../../styles/theme"
-import { useStaggeredFadeUp } from "../../styles/animations"
+import { colors, spacing, borderRadius, typography } from '../../styles/theme';
+import { usePressAnimation, useStaggeredFadeUp } from '../../styles/animations';
 
+/**
+ * Props interface for a single suggested question
+ */
 export interface SuggestedQuestion {
-  id: string
-  text: string
-  icon?: string
+  /** Unique identifier for the question */
+  id: string;
+  /** The question text to display */
+  text: string;
+  /** Optional icon name or emoji */
+  icon?: string;
 }
 
+/**
+ * Props interface for SuggestedQuestions component
+ */
 export interface SuggestedQuestionsProps {
-  questions: SuggestedQuestion[]
-  onQuestionPress: (question: SuggestedQuestion) => void
-  title?: string
-  style?: ViewStyle
+  /** Array of suggested questions to display */
+  questions: SuggestedQuestion[];
+  /** Callback when a question chip is tapped */
+  onQuestionPress: (question: SuggestedQuestion) => void;
+  /** Optional title to display above the questions */
+  title?: string;
+  /** Additional styles for the container */
+  style?: ViewStyle;
 }
 
+/**
+ * Props interface for QuestionChip component
+ */
 interface QuestionChipProps {
-  question: SuggestedQuestion
-  onPress: () => void
-  index: number
+  /** The question to display */
+  question: SuggestedQuestion;
+  /** Callback when the chip is pressed */
+  onPress: () => void;
+  /** Index for staggered animation */
+  index: number;
 }
 
-const QuestionChip: React.FC<QuestionChipProps> = ({ question, onPress, index }) => {
-  const { animatedStyle } = useStaggeredFadeUp(index, { baseDelay: 90, distance: 12 })
+/**
+ * QuestionChip - Individual tappable question chip
+ * 
+ * Displays a single question as a tappable chip with press animation.
+ */
+const QuestionChip: React.FC<QuestionChipProps> = ({
+  question,
+  onPress,
+  index,
+}) => {
+  const { animatedStyle: pressStyle, onPressIn, onPressOut } = usePressAnimation();
+  const { animatedStyle: fadeStyle } = useStaggeredFadeUp(index, {
+    baseDelay: 80,
+    distance: 15,
+  });
 
   return (
-    <Animated.View style={animatedStyle}>
-      <Pressable
+    <Animated.View style={[fadeStyle, pressStyle]}>
+      <TouchableOpacity
         onPress={onPress}
-        accessibilityRole="button"
-        accessibilityLabel={question.text}
-        style={({ pressed }) => [styles.chip, pressed && styles.chipPressed]}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
+        activeOpacity={1}
+        style={styles.chipTouchable}
       >
-        {question.icon ? <Text style={styles.chipIcon}>{question.icon}</Text> : null}
-        <Text style={styles.chipText} numberOfLines={2}>
-          {question.text}
-        </Text>
-      </Pressable>
+        <View style={styles.chip}>
+          {question.icon && (
+            <Text style={styles.chipIcon}>{question.icon}</Text>
+          )}
+          <Text style={styles.chipText} numberOfLines={2}>
+            {question.text}
+          </Text>
+        </View>
+      </TouchableOpacity>
     </Animated.View>
-  )
-}
+  );
+};
 
+/**
+ * SuggestedQuestions Component
+ * 
+ * Renders a list of suggested questions as tappable chips.
+ * Used in the chat welcome state to help users start conversations.
+ * 
+ * @example
+ * ```tsx
+ * const questions = [
+ *   { id: '1', text: '¿Cuánto tiempo tarda el proceso I-485?', icon: '⏱️' },
+ *   { id: '2', text: '¿Qué documentos necesito para mi caso?', icon: '📄' },
+ *   { id: '3', text: '¿Cómo puedo acelerar mi caso?', icon: '🚀' },
+ * ];
+ * 
+ * <SuggestedQuestions
+ *   questions={questions}
+ *   onQuestionPress={(q) => sendMessage(q.text)}
+ *   title="Preguntas frecuentes"
+ * />
+ * ```
+ */
 export const SuggestedQuestions: React.FC<SuggestedQuestionsProps> = ({
   questions,
   onQuestionPress,
   title,
   style,
 }) => {
-  if (!questions || questions.length === 0) return null
+  if (!questions || questions.length === 0) {
+    return null;
+  }
 
   return (
     <View style={[styles.container, style]}>
-      {title ? <Text style={styles.title}>{title}</Text> : null}
+      {title && <Text style={styles.title}>{title}</Text>}
       <View style={styles.chipsContainer}>
         {questions.map((question, index) => (
           <QuestionChip
@@ -75,17 +142,44 @@ export const SuggestedQuestions: React.FC<SuggestedQuestionsProps> = ({
         ))}
       </View>
     </View>
-  )
-}
+  );
+};
 
+/**
+ * Default suggested questions for the chat interface
+ */
 export const DEFAULT_SUGGESTED_QUESTIONS: SuggestedQuestion[] = [
-  { id: "processing-time", text: "¿Cuánto tarda mi caso?", icon: "⏱️" },
-  { id: "documents", text: "¿Qué documentos necesito?", icon: "📄" },
-  { id: "status", text: "¿Cómo verifico mi estado?", icon: "🔍" },
-  { id: "accelerate", text: "¿Hay forma de acelerarlo?", icon: "🚀" },
-  { id: "interview", text: "¿Cómo me preparo para la entrevista?", icon: "💬" },
-  { id: "rfe", text: "Recibí un RFE — ¿qué hago?", icon: "📬" },
-]
+  {
+    id: 'processing-time',
+    text: '¿Cuánto tiempo tarda el proceso de mi caso?',
+    icon: '⏱️',
+  },
+  {
+    id: 'documents',
+    text: '¿Qué documentos necesito preparar?',
+    icon: '📄',
+  },
+  {
+    id: 'status',
+    text: '¿Cómo puedo verificar el estado de mi caso?',
+    icon: '🔍',
+  },
+  {
+    id: 'accelerate',
+    text: '¿Hay formas de acelerar mi proceso?',
+    icon: '🚀',
+  },
+  {
+    id: 'interview',
+    text: '¿Cómo me preparo para la entrevista?',
+    icon: '💬',
+  },
+  {
+    id: 'rfe',
+    text: '¿Qué hago si recibo un RFE?',
+    icon: '📬',
+  },
+];
 
 const styles = StyleSheet.create({
   container: {
@@ -93,39 +187,31 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
   },
   title: {
-    fontSize: typography.fontSize.xs,
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.clay,
+    fontSize: typography.fontSize.sm,
+    fontFamily: typography.fontFamily.medium,
+    color: colors.text.secondary,
     marginBottom: spacing.md,
-    textAlign: "center",
-    letterSpacing: 1.4,
-    textTransform: "uppercase",
+    textAlign: 'center',
   },
   chipsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     gap: spacing.sm,
   },
-  chip: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.warm.cream,
-    borderRadius: borderRadius.full,
-    paddingHorizontal: spacing.base,
-    paddingVertical: spacing.sm + 2,
-    borderWidth: 1,
-    borderColor: colors.border.warm,
-    maxWidth: 280,
-    shadowColor: colors.warm.ink,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 6,
-    elevation: 1,
+  chipTouchable: {
+    maxWidth: '100%',
   },
-  chipPressed: {
-    backgroundColor: colors.warm.sand,
-    borderColor: colors.warm.clay,
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.background.secondary,
+    borderRadius: borderRadius.xl,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.border.light,
+    maxWidth: 280,
   },
   chipIcon: {
     fontSize: typography.fontSize.base,
@@ -133,10 +219,10 @@ const styles = StyleSheet.create({
   },
   chipText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
-    fontFamily: typography.fontFamily.semibold,
+    color: colors.text.primary,
+    fontFamily: typography.fontFamily.medium,
     flexShrink: 1,
   },
-})
+});
 
-export default SuggestedQuestions
+export default SuggestedQuestions;

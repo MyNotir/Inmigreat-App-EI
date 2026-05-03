@@ -94,15 +94,15 @@ const getAlertColor = (type: AlertType, severity?: Alert['severity']): string =>
     case 'approval':
       return colors.success;
     case 'speed':
-      return colors.warm.clay;
+      return colors.pro;
     case 'bulletin':
       return colors.accent;
     case 'risk':
-      return severity === 'high' ? colors.error : severity === 'medium' ? colors.warning : colors.warm.inkSoft;
+      return severity === 'high' ? colors.error : severity === 'medium' ? colors.warning : colors.text.secondary;
     case 'matched':
-      return colors.warm.clay;
+      return colors.pro;
     default:
-      return colors.warm.inkSoft;
+      return colors.text.secondary;
   }
 };
 
@@ -302,7 +302,7 @@ export const AlertsTab: React.FC<AlertsTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <AlertsIcon size={28} color={colors.warm.clay} />
+            <AlertsIcon size={28} color={colors.pro} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('alerts.headerTitle', 'Alertas Pro')}</Text>
@@ -339,7 +339,7 @@ export const AlertsTab: React.FC<AlertsTabProps> = ({
           <AlertSection
             title={tx('alerts.sections.speed', 'Cambios de velocidad')}
             alerts={speedAlerts}
-            icon={<AlertSpeedIcon size={18} color={colors.warm.clay} />}
+            icon={<AlertSpeedIcon size={18} color={colors.pro} />}
             tx={tx}
           />
 
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.warm.clay}15`,
+    backgroundColor: `${colors.pro}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -417,12 +417,12 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
 
   // Alert Section
@@ -437,12 +437,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginLeft: spacing.sm,
     flex: 1,
   },
   sectionBadge: {
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     paddingHorizontal: spacing.sm,
     paddingVertical: 2,
     borderRadius: 10,
@@ -450,18 +450,18 @@ const styles = StyleSheet.create({
   sectionBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
 
   // Alert Card
   alertCard: {
     flexDirection: 'row',
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: 12,
     padding: spacing.md,
     marginBottom: spacing.sm,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   alertCardHighRisk: {
     borderColor: `${colors.error}40`,
@@ -487,17 +487,17 @@ const styles = StyleSheet.create({
   alertTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     flex: 1,
     marginRight: spacing.sm,
   },
   alertTimestamp: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
   alertDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   alertMeta: {
@@ -553,12 +553,12 @@ const styles = StyleSheet.create({
   matchedUserName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: 2,
   },
   matchedUserCase: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   matchedUserSimilarity: {
     alignItems: 'flex-end',
@@ -566,11 +566,11 @@ const styles = StyleSheet.create({
   similarityValue: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.clay,
+    color: colors.pro,
   },
   similarityLabel: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
   userDivider: {
     height: 1,
@@ -590,13 +590,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
     textAlign: 'center',
   },
   emptyDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * 1.5,
   },

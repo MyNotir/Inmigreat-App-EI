@@ -66,9 +66,9 @@ const getImpactColor = (impact: ImpactLevel): string => {
     case 'medium':
       return colors.warning;
     case 'low':
-      return colors.warm.inkSoft;
+      return colors.text.secondary;
     default:
-      return colors.warm.inkSoft;
+      return colors.text.secondary;
   }
 };
 
@@ -130,7 +130,7 @@ const AcceleratorCard: React.FC<AcceleratorCardProps> = ({
         style={styles.acceleratorHeader}
       >
         <View style={styles.acceleratorIconContainer}>
-          {getAcceleratorIcon(accelerator.icon, colors.warm.clay)}
+          {getAcceleratorIcon(accelerator.icon, colors.pro)}
         </View>
         <View style={styles.acceleratorContent}>
           <View style={styles.acceleratorTitleRow}>
@@ -271,7 +271,7 @@ export const AcceleratorsTab: React.FC<AcceleratorsTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <AccelerateIcon size={28} color={colors.warm.clay} />
+            <AccelerateIcon size={28} color={colors.pro} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('accelerators.headerTitle', 'Aceleradores')}</Text>
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.warm.clay}15`,
+    backgroundColor: `${colors.pro}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -355,19 +355,19 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.xs,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
 
   // Section
   sectionTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.md,
   },
   acceleratorsSection: {
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: `${colors.warm.clay}10`,
+    backgroundColor: `${colors.pro}10`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -405,13 +405,13 @@ const styles = StyleSheet.create({
   acceleratorTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     flex: 1,
     marginRight: spacing.sm,
   },
   acceleratorDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   expandIconContainer: {
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   },
   expandIcon: {
     fontSize: 10,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
 
   // Impact Badge
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingBottom: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.border.warm,
+    borderTopColor: colors.border.light,
     marginTop: spacing.xs,
     paddingTop: spacing.md,
   },
@@ -451,18 +451,18 @@ const styles = StyleSheet.create({
   detailsLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     marginBottom: spacing.xs,
   },
   detailsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     lineHeight: typography.fontSize.sm * 1.5,
   },
   actionButton: {
-    backgroundColor: colors.warm.clay,
+    backgroundColor: colors.pro,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     borderRadius: 12,
@@ -506,11 +506,11 @@ const styles = StyleSheet.create({
   mandamusTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginRight: spacing.sm,
   },
   urgentBadge: {
-    backgroundColor: colors.status.urgentWarm,
+    backgroundColor: colors.error,
     paddingHorizontal: spacing.sm,
     paddingVertical: 2,
     borderRadius: 4,
@@ -522,12 +522,12 @@ const styles = StyleSheet.create({
   },
   mandamusDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   mandamusHighlight: {
     fontFamily: typography.fontFamily.bold,
-    color: colors.status.urgentWarm,
+    color: colors.error,
   },
   mandamusDetails: {
     paddingHorizontal: spacing.md,
@@ -535,11 +535,11 @@ const styles = StyleSheet.create({
   },
   mandamusDetailsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * 1.5,
   },
   mandamusButton: {
-    backgroundColor: colors.status.urgentWarm,
+    backgroundColor: colors.error,
     marginHorizontal: spacing.md,
     marginBottom: spacing.md,
     paddingVertical: spacing.md,
@@ -565,13 +565,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
     textAlign: 'center',
   },
   emptyDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * 1.5,
   },

@@ -1,235 +1,249 @@
 /**
- * SplashScreen — Emotional Intelligence redesign.
- *
- * Warm-minimalism welcome moment. The first thing the user sees: a hand on
- * the shoulder, not a sales page. Auto-navigates to Language screen unless
- * the user taps the EI Preview pill (used to demo the redesign without auth).
+ * SplashScreen
+ * 
+ * Initial splash screen displaying the InMiGreat logo and app statistics.
+ * Auto-navigates to the Language screen after a delay.
+ * 
+ * Validates: Requirements 3.1, 3.2
  */
 
-import { useEffect, useState } from "react"
-import { Pressable, StyleSheet, Text, View } from "react-native"
-import Animated from "react-native-reanimated"
-import type { StackNavigationProp } from "@react-navigation/stack"
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-import { WarmScreen } from "../../components/common/WarmScreen"
-import { InmigreatLogo } from "../../icons/BrandIcons"
-import { useFadeUp, usePopIn, getStaggerDelay } from "../../styles/animations"
-import { borderRadius, colors, spacing, typography } from "../../styles/theme"
-import type { OnboardingStackParamList } from "../../types/navigation"
-import { useViewTranslation } from "../../i18n"
+import { AnimatedBackground, ONBOARDING_GRADIENT_COLORS } from '../../components/common/AnimatedBackground';
+import { InmigreatLogo } from '../../icons/BrandIcons';
+import { useFadeUp, usePopIn, getStaggerDelay } from '../../styles/animations';
+import { colors, typography, spacing } from '../../styles/theme';
+import { OnboardingStackParamList } from '../../types/navigation';
+import { useViewTranslation } from '../../i18n';
 
-const AUTO_NAVIGATE_DELAY = 2500
+/** Auto-navigation delay in milliseconds */
+const AUTO_NAVIGATE_DELAY = 2500;
 
+/** App statistics to display */
 interface SplashScreenProps {
-  navigation: StackNavigationProp<OnboardingStackParamList, "Splash">
+  navigation: StackNavigationProp<OnboardingStackParamList, 'Splash'>;
 }
 
-interface ReassuranceItemProps {
-  text: string
-  index: number
+/**
+ * MetricItem - Individual metric display with staggered animation
+ */
+interface MetricItemProps {
+  value: string;
+  label: string;
+  index: number;
 }
 
-const ReassuranceItem: React.FC<ReassuranceItemProps> = ({ text, index }) => {
-  const delay = getStaggerDelay(index, 130) + 800
-  const { animatedStyle, fadeIn } = useFadeUp({ duration: 420, delay, distance: 14 })
+const MetricItem: React.FC<MetricItemProps> = ({ value, label, index }) => {
+  const delay = getStaggerDelay(index, 150) + 800; // Start after logo animation
+  const { animatedStyle, fadeIn } = useFadeUp({
+    duration: 400,
+    delay,
+    distance: 15,
+  });
 
   useEffect(() => {
-    fadeIn()
-  }, [fadeIn])
+    fadeIn();
+  }, [fadeIn]);
 
   return (
-    <Animated.View style={[styles.reassureRow, animatedStyle]}>
-      <View style={styles.reassureDot} />
-      <Text style={styles.reassureText}>{text}</Text>
+    <Animated.View style={[styles.metricItem, animatedStyle]}>
+      <Text style={styles.metricValue}>{value}</Text>
+      <Text style={styles.metricLabel}>{label}</Text>
     </Animated.View>
-  )
-}
+  );
+};
 
+/**
+ * SplashScreen Component
+ * 
+ * Displays the InMiGreat logo with animations and app statistics.
+ * Automatically navigates to the Language screen after a delay.
+ */
 export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
-  const { t } = useViewTranslation("onboarding")
-  const [autoNavigate, setAutoNavigate] = useState(true)
+  const { t } = useViewTranslation('onboarding');
+  const [autoNavigate, setAutoNavigate] = useState(true);
 
-  const reassurances = [
-    t("splash.reassure.r1", { defaultValue: "Tu caso, sin jerga legal." }),
-    t("splash.reassure.r2", { defaultValue: "Lexi gratis, 24/7." }),
-    t("splash.reassure.r3", { defaultValue: "Abogados humanos cuando los necesites." }),
-  ]
+  const metrics = [
+    {
+      value: '12,847',
+      label: t('splash.metrics.activeUsers', { defaultValue: 'Usuarios activos' }),
+    },
+    {
+      value: '94%',
+      label: t('splash.metrics.resolvedCases', { defaultValue: 'Casos resueltos' }),
+    },
+    {
+      value: '4.9 ★',
+      label: t('splash.metrics.appStore', { defaultValue: 'App Store' }),
+    },
+  ] as const;
 
-  const { animatedStyle: logoStyle, popIn } = usePopIn({
-    initialScale: 0.7,
-    duration: 520,
+  // Logo animation
+  const { animatedStyle: logoAnimatedStyle, popIn } = usePopIn({
+    initialScale: 0.6,
+    duration: 500,
     delay: 200,
-  })
+  });
 
-  const { animatedStyle: titleStyle, fadeIn: titleFadeIn } = useFadeUp({
-    duration: 460,
-    delay: 480,
-    distance: 18,
-  })
+  // Title animation
+  const { animatedStyle: titleAnimatedStyle, fadeIn: titleFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 500,
+    distance: 20,
+  });
 
-  const { animatedStyle: subtitleStyle, fadeIn: subtitleFadeIn } = useFadeUp({
-    duration: 460,
-    delay: 600,
-    distance: 14,
-  })
-
+  // Start animations on mount
   useEffect(() => {
-    popIn()
-    titleFadeIn()
-    subtitleFadeIn()
-  }, [popIn, titleFadeIn, subtitleFadeIn])
+    popIn();
+    titleFadeIn();
+  }, [popIn, titleFadeIn]);
 
+  // Auto-navigate to Language screen after delay (cancellable when user taps EI Preview)
   useEffect(() => {
-    if (!autoNavigate) return
+    if (!autoNavigate) return;
     const timer = setTimeout(() => {
-      navigation.replace("Language")
-    }, AUTO_NAVIGATE_DELAY)
-    return () => clearTimeout(timer)
-  }, [navigation, autoNavigate])
+      navigation.replace('Language');
+    }, AUTO_NAVIGATE_DELAY);
+
+    return () => clearTimeout(timer);
+  }, [navigation, autoNavigate]);
 
   return (
-    <WarmScreen edges={["top", "right", "left", "bottom"]}>
-      <View style={styles.content}>
-        <View style={styles.center}>
-          <Animated.View style={[styles.logoOuter, logoStyle]}>
-            <View style={styles.logoInner}>
-              <InmigreatLogo size={68} strokeWidth={2} />
+    <AnimatedBackground colors={ONBOARDING_GRADIENT_COLORS}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          {/* Logo Section */}
+          <Animated.View style={[styles.logoContainer, logoAnimatedStyle]}>
+            <View style={styles.logoWrapper}>
+              <InmigreatLogo size={80} strokeWidth={2} />
             </View>
           </Animated.View>
 
-          <Animated.View style={[styles.titleBlock, titleStyle]}>
-            <Text style={styles.eyebrow}>
-              {t("splash.eyebrow", { defaultValue: "MIGRACIÓN, CON CALMA" })}
-            </Text>
+          {/* Title */}
+          <Animated.View style={[styles.titleContainer, titleAnimatedStyle]}>
             <Text style={styles.title}>InMiGreat</Text>
-          </Animated.View>
-
-          <Animated.View style={subtitleStyle}>
             <Text style={styles.subtitle}>
-              {t("splash.subtitle", {
-                defaultValue: "Estamos contigo. Paso por paso, sin perderte.",
-              })}
+              {t('splash.subtitle', { defaultValue: 'Tu camino hacia el exito migratorio' })}
             </Text>
           </Animated.View>
 
-          <View style={styles.reassureBlock}>
-            {reassurances.map((line, i) => (
-              <ReassuranceItem key={line} text={line} index={i} />
+          {/* Metrics Section */}
+          <View style={styles.metricsContainer}>
+            {metrics.map((metric, index) => (
+              <MetricItem
+                key={metric.label}
+                value={metric.value}
+                label={metric.label}
+                index={index}
+              />
             ))}
           </View>
-        </View>
 
-        <Pressable
-          style={styles.previewBtn}
-          onPress={() => {
-            setAutoNavigate(false)
-            navigation.navigate("EIPreview")
-          }}
-          accessibilityRole="button"
-          accessibilityLabel="Open Emotional Intelligence design preview"
-        >
-          <Text style={styles.previewLabel}>Preview · EI Redesign →</Text>
-        </Pressable>
-      </View>
-    </WarmScreen>
-  )
-}
+          {/* EI Preview entry — visible during the redesign experiment so
+              stakeholders can see the new system without auth. Cancels the
+              auto-navigate so the user has time to decide. */}
+          <TouchableOpacity
+            style={styles.eiPreviewButton}
+            onPress={() => {
+              setAutoNavigate(false);
+              navigation.navigate('EIPreview');
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Open Emotional Intelligence design preview"
+          >
+            <Text style={styles.eiPreviewLabel}>Preview · EI Redesign →</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </AnimatedBackground>
+  );
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   content: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: spacing.xl,
-    paddingBottom: spacing["2xl"],
-    justifyContent: "space-between",
   },
-  center: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  logoContainer: {
+    marginBottom: spacing['2xl'],
   },
-  logoOuter: {
-    marginBottom: spacing["2xl"],
-  },
-  logoInner: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: colors.warm.cream,
+  logoWrapper: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: colors.glass.background,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: colors.warm.ink,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.08,
-    shadowRadius: 18,
-    elevation: 4,
+    borderColor: colors.glass.border,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 8,
   },
-  titleBlock: {
-    alignItems: "center",
-    marginBottom: spacing.base,
-  },
-  eyebrow: {
-    fontFamily: typography.fontFamily.extrabold,
-    fontSize: 11,
-    letterSpacing: 2,
-    color: colors.warm.clay,
-    textTransform: "uppercase",
-    marginBottom: spacing.sm,
+  titleContainer: {
+    alignItems: 'center',
+    marginBottom: spacing['3xl'],
   },
   title: {
-    fontSize: typography.fontSize["4xl"],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.5,
+    fontSize: typography.fontSize['4xl'],
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
+    marginBottom: spacing.sm,
   },
   subtitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
-    textAlign: "center",
-    lineHeight: typography.fontSize.md * 1.45,
-    paddingHorizontal: spacing.lg,
-    marginBottom: spacing["2xl"],
+    color: colors.text.secondary,
+    textAlign: 'center',
   },
-  reassureBlock: {
-    alignSelf: "stretch",
+  metricsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
     paddingHorizontal: spacing.base,
-    gap: spacing.sm + 2,
   },
-  reassureRow: {
-    flexDirection: "row",
-    alignItems: "center",
+  metricItem: {
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
   },
-  reassureDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.warm.clay,
-    marginRight: spacing.md,
+  metricValue: {
+    fontSize: typography.fontSize.xl,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.accent,
+    marginBottom: spacing.xs,
   },
-  reassureText: {
-    flex: 1,
-    fontSize: typography.fontSize.base,
+  metricLabel: {
+    fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
-    lineHeight: typography.fontSize.base * 1.4,
+    color: colors.text.secondary,
+    textAlign: 'center',
   },
-  previewBtn: {
-    alignSelf: "center",
+  eiPreviewButton: {
+    marginTop: spacing['3xl'],
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
-    borderRadius: borderRadius.full,
+    borderRadius: 999,
     backgroundColor: colors.warm.cream,
     borderWidth: 1,
     borderColor: colors.warm.clay,
   },
-  previewLabel: {
+  eiPreviewLabel: {
     fontSize: 13,
     fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.clay,
     letterSpacing: 0.4,
   },
-})
+});
 
-export default SplashScreen
+export default SplashScreen;

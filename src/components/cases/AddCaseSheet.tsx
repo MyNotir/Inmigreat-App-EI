@@ -472,7 +472,7 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
               <TextInput
                 style={[styles.input, receiptError && styles.inputError]}
                 placeholder={tx('addCase.fields.receiptNumber.placeholder', 'Ej. MSC2590039073')}
-                placeholderTextColor={colors.warm.inkFaint}
+                placeholderTextColor={colors.text.tertiary}
                 value={receiptNumber}
                 onChangeText={(text) => {
                   const nextValue = normalizeReceiptNumber(text);
@@ -501,7 +501,7 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
                 <TextInput
                   style={[styles.input, alienNumberError && styles.inputError]}
                   placeholder={tx('addCase.fields.alienNumber.placeholder', 'Ej. 123456789')}
-                  placeholderTextColor={colors.warm.inkFaint}
+                  placeholderTextColor={colors.text.tertiary}
                   value={alienNumber}
                   onChangeText={(text) => {
                     const nextValue = normalizeAlienNumber(text);
@@ -579,7 +579,7 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
                     <TextInput
                       style={styles.nationalitySearchInput}
                       placeholder={tx('addCase.fields.nationality.searchPlaceholder', 'Busca una nacionalidad')}
-                      placeholderTextColor={colors.warm.inkFaint}
+                      placeholderTextColor={colors.text.tertiary}
                       value={nationalityQuery}
                       onChangeText={(text) => {
                         setNationalityQuery(text);
@@ -662,7 +662,7 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
               placeholder={caseSource === 'uscis'
                 ? tx('addCase.fields.alias.placeholderUscis', 'Ej. Permiso de trabajo de Ana')
                 : tx('addCase.fields.alias.placeholderEoir', 'Ej. Caso corte de Ana')}
-              placeholderTextColor={colors.warm.inkFaint}
+              placeholderTextColor={colors.text.tertiary}
               value={alias}
               onChangeText={(text) => {
                 setAlias(text);
@@ -745,8 +745,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
     gap: spacing.xs,
   },
   sourceOptionSelected: {
@@ -756,18 +756,18 @@ const styles = StyleSheet.create({
   sourceOptionLabel: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   sourceOptionLabelSelected: {
     color: colors.accent,
   },
   sourceOptionDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   sourceOptionDescriptionSelected: {
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   heroCard: {
     padding: spacing.lg,
@@ -795,12 +795,12 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     marginBottom: spacing.sm,
   },
   heroDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
   },
   heroChips: {
@@ -815,7 +815,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.glass.background,
     borderRadius: borderRadius.full,
     borderWidth: 1,
-    borderColor: colors.border.warmStrong,
+    borderColor: colors.border.medium,
   },
   heroChipText: {
     fontSize: typography.fontSize.sm,
@@ -834,8 +834,8 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
   },
   selectorTriggerOpen: {
     borderColor: colors.accent,
@@ -848,10 +848,10 @@ const styles = StyleSheet.create({
   selectorTriggerValue: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   selectorTriggerPlaceholder: {
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
     fontFamily: typography.fontFamily.medium,
   },
   selectorTriggerIcon: {
@@ -867,31 +867,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   nationalityLoadingText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   nationalitySelectorCard: {
     gap: spacing.sm,
     padding: spacing.md,
     borderRadius: borderRadius.large,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   nationalitySearchInput: {
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
     fontSize: typography.fontSize.base,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   nationalityResultsCard: {
     gap: spacing.sm,
@@ -904,9 +904,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.large,
-    backgroundColor: colors.warm.cream,
+    backgroundColor: colors.background.primary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   nationalityOptionSelected: {
     backgroundColor: `${colors.accent}10`,
@@ -915,13 +915,13 @@ const styles = StyleSheet.create({
   nationalityOptionLabel: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     fontFamily: typography.fontFamily.medium,
   },
   nationalityOptionStatus: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textTransform: 'uppercase',
   },
   nationalityOptionStatusSelected: {
@@ -932,14 +932,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
   },
   retryButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   switchRow: {
     flexDirection: 'row',
@@ -955,36 +955,36 @@ const styles = StyleSheet.create({
   label: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   input: {
-    backgroundColor: colors.warm.sand,
+    backgroundColor: colors.background.secondary,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.warm,
+    borderColor: colors.border.light,
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   inputError: {
-    borderColor: colors.status.urgentWarm,
+    borderColor: colors.error,
   },
   helperText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   errorText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.status.urgentWarm,
+    color: colors.error,
   },
   errorBanner: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.status.urgentWarm,
+    color: colors.error,
     backgroundColor: 'rgba(220, 38, 38, 0.08)',
     borderWidth: 1,
     borderColor: 'rgba(220, 38, 38, 0.16)',
@@ -1003,14 +1003,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.warm,
-    backgroundColor: colors.warm.sand,
+    borderColor: colors.border.light,
+    backgroundColor: colors.background.secondary,
     minHeight: 52,
   },
   secondaryButtonText: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   primaryButton: {
     flex: 1.3,

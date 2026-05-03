@@ -127,12 +127,13 @@ export const GroupRow: React.FC<GroupRowProps> = ({
   const accentColor = group.iconColor || colors.accent;
   const cardStyle: ViewStyle = {
     ...styles.card,
-    // EI: warm cream surface with soft clay border. Accent color shows up only
-    // in the icon pill so each group still reads distinct without dyeing the
-    // whole surface cool.
-    backgroundColor: colors.warm.cream,
-    borderColor: colors.border.warm,
-    shadowColor: colors.warm.ink,
+    backgroundColor: isAndroid
+      ? mixHexWithWhite(accentColor, 0.94)
+      : createColoredGlassBackground('#F3F8FC', 0.82),
+    borderColor: isAndroid
+      ? mixHexWithWhite(accentColor, 0.72)
+      : createColoredGlassBackground(accentColor, 0.1),
+    shadowColor: accentColor,
   };
   const nestedSurfaceStyle: ViewStyle | null = isAndroid
     ? {
@@ -370,12 +371,12 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     flex: 1,
   },
   description: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   
@@ -425,11 +426,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
   },
   statLabel: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     marginTop: 2,
   },
   statDivider: {
@@ -445,11 +446,11 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: colors.warm.sage,
+    backgroundColor: colors.success,
     marginRight: spacing.xs,
   },
   growthValue: {
-    color: "#5A7660",
+    color: colors.success,
   },
   
   // Pinned post styles
@@ -480,13 +481,13 @@ const styles = StyleSheet.create({
   pinnedPostLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   pinnedPostText: {
     fontSize: typography.fontSize.sm,
-    color: colors.warm.ink,
+    color: colors.text.primary,
     fontStyle: 'italic',
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.xs,
@@ -498,12 +499,12 @@ const styles = StyleSheet.create({
   },
   pinnedPostAuthor: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
     fontFamily: typography.fontFamily.medium,
   },
   pinnedPostTimestamp: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkFaint,
+    color: colors.text.tertiary,
   },
   
   // Tags row styles
@@ -523,7 +524,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: typography.fontSize.xs,
-    color: colors.warm.inkSoft,
+    color: colors.text.secondary,
   },
   trendingTag: {
     backgroundColor: `${colors.accent}10`,

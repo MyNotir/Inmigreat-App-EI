@@ -1,48 +1,103 @@
 /**
- * BiometricScreen — Emotional Intelligence redesign.
- *
- * Final onboarding consent screen. Frames Face ID / Touch ID as a calm
- * convenience ('Tu cara, tu llave') rather than a security threat. Two
- * sage check rows for benefits, primary clay button to activate, ghost
- * button to skip. Biometric availability + auth logic preserved.
+ * BiometricScreen
+ * 
+ * Screen for prompting Face ID / Touch ID setup during onboarding.
+ * Shows platform-appropriate biometric icon (Face ID on iOS, fingerprint on Android).
+ * Provides "Enable" and "Skip" options.
+ * 
+ * Validates: Requirements 3.11, 3.12, 3.13
  */
 
-import React, { useEffect, useState } from "react"
-import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-native"
-import Animated from "react-native-reanimated"
-import Svg, { Path, Rect } from "react-native-svg"
-import type { StackNavigationProp } from "@react-navigation/stack"
-
-import { WarmScreen } from "../../components/common/WarmScreen"
-import { WarmCard } from "../../components/common/WarmCard"
-import { WarmButton } from "../../components/common/WarmButton"
-import { useFadeUp, usePopIn } from "../../styles/animations"
-import { colors, spacing, typography } from "../../styles/theme"
-import type { OnboardingStackParamList } from "../../types/navigation"
-import { useAuth } from "../../context/AuthContext"
+import React, { useState, useEffect } from 'react';
 import {
-  authenticateWithBiometric,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Animated from 'react-native-reanimated';
+import Svg, { Path, Circle, Rect } from 'react-native-svg';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+import { AnimatedBackground, ONBOARDING_GRADIENT_COLORS } from '../../components/common/AnimatedBackground';
+import { GlassCard } from '../../components/common/GlassCard';
+import { useFadeUp, usePressAnimation, usePopIn } from '../../styles/animations';
+import { colors, typography, spacing, borderRadius } from '../../styles/theme';
+import { OnboardingStackParamList } from '../../types/navigation';
+import { useAuth } from '../../context/AuthContext';
+import {
   checkBiometricAvailability,
+  authenticateWithBiometric,
   type BiometricAvailability,
-} from "../../services/biometric"
-import { useViewTranslation } from "../../i18n"
+} from '../../services/biometric';
+import { useViewTranslation } from '../../i18n';
 
 interface BiometricScreenProps {
-  navigation: StackNavigationProp<OnboardingStackParamList, "Biometric">
+  navigation: StackNavigationProp<OnboardingStackParamList, 'Biometric'>;
 }
 
-const FaceIdIcon: React.FC<{ size?: number; color?: string }> = ({ size = 70, color = colors.warm.clay }) => (
+/**
+ * Face ID Icon Component (iOS)
+ */
+const FaceIdIcon: React.FC<{ size?: number; color?: string }> = ({
+  size = 80,
+  color = colors.accent,
+}) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <Rect x="3" y="3" width="18" height="18" rx="4" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
-    <Path d="M9 9v2" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
-    <Path d="M15 9v2" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
-    <Path d="M12 11v2.5" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
-    <Path d="M9 16c.5 1 1.5 1.5 3 1.5s2.5-.5 3-1.5" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+    {/* Face outline */}
+    <Rect
+      x="3"
+      y="3"
+      width="18"
+      height="18"
+      rx="4"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    {/* Left eye */}
+    <Path
+      d="M9 9v2"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    {/* Right eye */}
+    <Path
+      d="M15 9v2"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    {/* Nose */}
+    <Path
+      d="M12 11v2.5"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
+    {/* Mouth */}
+    <Path
+      d="M9 16c.5 1 1.5 1.5 3 1.5s2.5-.5 3-1.5"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
   </Svg>
-)
+);
 
-const FingerprintIcon: React.FC<{ size?: number; color?: string }> = ({ size = 70, color = colors.warm.clay }) => (
+/**
+ * Fingerprint Icon Component (Android)
+ */
+const FingerprintIcon: React.FC<{ size?: number; color?: string }> = ({
+  size = 80,
+  color = colors.accent,
+}) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    {/* Fingerprint arcs */}
     <Path
       d="M12 2C9.24 2 7 4.24 7 7v4c0 2.76 2.24 5 5 5s5-2.24 5-5V7c0-2.76-2.24-5-5-5z"
       stroke={color}
@@ -57,13 +112,36 @@ const FingerprintIcon: React.FC<{ size?: number; color?: string }> = ({ size = 7
       strokeLinecap="round"
       fill="none"
     />
-    <Path d="M4 12c0 4.42 3.58 8 8 8" stroke={color} strokeWidth={1.5} strokeLinecap="round" fill="none" />
-    <Path d="M20 12c0 4.42-3.58 8-8 8" stroke={color} strokeWidth={1.5} strokeLinecap="round" fill="none" />
-    <Path d="M12 22v-2" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+    <Path
+      d="M4 12c0 4.42 3.58 8 8 8"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      fill="none"
+    />
+    <Path
+      d="M20 12c0 4.42-3.58 8-8 8"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      fill="none"
+    />
+    <Path
+      d="M12 22v-2"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+    />
   </Svg>
-)
+);
 
-const ShieldCheckIcon: React.FC<{ size?: number; color?: string }> = ({ size = 22, color = colors.warm.sage }) => (
+/**
+ * Shield Check Icon Component
+ */
+const ShieldCheckIcon: React.FC<{ size?: number; color?: string }> = ({
+  size = 24,
+  color = colors.success,
+}) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"
@@ -73,314 +151,433 @@ const ShieldCheckIcon: React.FC<{ size?: number; color?: string }> = ({ size = 2
       strokeLinejoin="round"
       fill="none"
     />
-    <Path d="M9 12l2 2 4-4" stroke={color} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    <Path
+      d="M9 12l2 2 4-4"
+      stroke={color}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </Svg>
-)
+);
 
-export const BiometricScreen: React.FC<BiometricScreenProps> = ({ navigation: _navigation }) => {
-  const { t } = useViewTranslation("onboarding")
+/**
+ * BiometricScreen Component
+ * 
+ * Prompts user to enable Face ID / Touch ID for secure authentication.
+ * - Shows platform-appropriate icon (Face ID on iOS, fingerprint on Android)
+ * - Provides "Enable" button to set up biometric auth
+ * - Provides "Skip" option to proceed without biometric auth
+ * - Navigates to main app on completion (auth state triggers navigation change)
+ */
+export const BiometricScreen: React.FC<BiometricScreenProps> = ({ navigation }) => {
+  const { t } = useViewTranslation('onboarding');
   const tx = (key: string, defaultValue: string, options?: Record<string, unknown>) =>
-    t(key, { defaultValue, ...(options ?? {}) })
+    t(key, { defaultValue, ...(options ?? {}) });
+  const [isLoading, setIsLoading] = useState(false);
+  const [biometricInfo, setBiometricInfo] = useState<BiometricAvailability | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  
+  const { setBiometricAuth, authState } = useAuth();
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [biometricInfo, setBiometricInfo] = useState<BiometricAvailability | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  // Animations
+  const { animatedStyle: iconAnimatedStyle, popIn: iconPopIn } = usePopIn({
+    initialScale: 0.5,
+    duration: 500,
+    delay: 100,
+  });
 
-  const { setBiometricAuth } = useAuth()
+  const { animatedStyle: titleAnimatedStyle, fadeIn: titleFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 200,
+    distance: 20,
+  });
 
-  const { animatedStyle: iconStyle, popIn: iconPopIn } = usePopIn({ initialScale: 0.55, duration: 520, delay: 100 })
-  const { animatedStyle: titleStyle, fadeIn: titleFadeIn } = useFadeUp({ duration: 420, delay: 220, distance: 18 })
-  const { animatedStyle: subtitleStyle, fadeIn: subtitleFadeIn } = useFadeUp({ duration: 420, delay: 320, distance: 14 })
-  const { animatedStyle: cardStyle, fadeIn: cardFadeIn } = useFadeUp({ duration: 460, delay: 420, distance: 16 })
-  const { animatedStyle: btnStyle, fadeIn: btnFadeIn } = useFadeUp({ duration: 420, delay: 540, distance: 12 })
+  const { animatedStyle: subtitleAnimatedStyle, fadeIn: subtitleFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 300,
+    distance: 15,
+  });
+
+  const { animatedStyle: cardAnimatedStyle, fadeIn: cardFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 400,
+    distance: 20,
+  });
+
+  const { animatedStyle: buttonsAnimatedStyle, fadeIn: buttonsFadeIn } = useFadeUp({
+    duration: 400,
+    delay: 500,
+    distance: 20,
+  });
+
+  // Press animations
+  const { animatedStyle: enablePressStyle, onPressIn: enablePressIn, onPressOut: enablePressOut } = usePressAnimation();
+  const { animatedStyle: skipPressStyle, onPressIn: skipPressIn, onPressOut: skipPressOut } = usePressAnimation();
 
   useEffect(() => {
-    checkBiometricAvailability().then(setBiometricInfo)
-    iconPopIn()
-    titleFadeIn()
-    subtitleFadeIn()
-    cardFadeIn()
-    btnFadeIn()
-  }, [iconPopIn, titleFadeIn, subtitleFadeIn, cardFadeIn, btnFadeIn])
+    // Check biometric availability on mount
+    checkBiometricAvailability().then(setBiometricInfo);
+    
+    // Start animations
+    iconPopIn();
+    titleFadeIn();
+    subtitleFadeIn();
+    cardFadeIn();
+    buttonsFadeIn();
+  }, [iconPopIn, titleFadeIn, subtitleFadeIn, cardFadeIn, buttonsFadeIn]);
 
+  /**
+   * Handle enabling biometric authentication
+   * Validates: Requirement 3.11, 3.12
+   */
   const handleEnableBiometric = async () => {
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
+      // Authenticate with biometrics to verify it works
       const authResult = await authenticateWithBiometric({
-        promptMessage: tx("biometric.prompt.setup", "Configura {{biometricName}}", {
-          biometricName: biometricInfo?.biometricName || "biometría",
-        }),
-        cancelLabel: tx("biometric.prompt.cancel", "Cancelar"),
-      })
+        promptMessage: tx(
+          'biometric.prompt.setup',
+          'Configura {{biometricName}}',
+          { biometricName: biometricInfo?.biometricName || 'biometria' },
+        ),
+        cancelLabel: tx('biometric.prompt.cancel', 'Cancelar'),
+      });
 
       if (!authResult.success) {
         if (authResult.cancelled) {
-          setIsLoading(false)
-          return
+          // User cancelled, don't show error
+          setIsLoading(false);
+          return;
         }
-        setError(authResult.error || tx("biometric.error.setup", "Error al configurar biometría"))
-        setIsLoading(false)
-        return
+        setError(authResult.error || tx('biometric.error.setup', 'Error al configurar biometria'));
+        setIsLoading(false);
+        return;
       }
-      await setBiometricAuth(true)
-    } catch (err) {
-      console.error("[BiometricScreen] Error enabling biometric:", err)
-      setError(tx("biometric.error.enable", "Error al configurar la autenticación biométrica"))
-    } finally {
-      setIsLoading(false)
-    }
-  }
+      // Enable biometric auth in context
+      await setBiometricAuth(true);
 
+      // Navigation will happen automatically via auth state change
+      // The root navigator watches auth state and switches to Main when authenticated
+    } catch (err) {
+      console.error('[BiometricScreen] Error enabling biometric:', err);
+      setError(tx('biometric.error.enable', 'Error al configurar la autenticacion biometrica'));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * Handle skipping biometric setup
+   * Validates: Requirement 3.13
+   */
   const handleSkip = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
+    
     try {
-      await setBiometricAuth(false)
+      // Ensure biometric is disabled
+      await setBiometricAuth(false);
+      
+      // Navigation will happen automatically via auth state change
+      // The root navigator watches auth state and switches to Main when authenticated
     } catch (err) {
-      console.error("[BiometricScreen] Error skipping biometric:", err)
+      console.error('[BiometricScreen] Error skipping biometric:', err);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
-  const BiometricIcon = Platform.OS === "ios" ? FaceIdIcon : FingerprintIcon
-  const biometricName = biometricInfo?.biometricName || (Platform.OS === "ios" ? "Face ID" : "Touch ID")
-  const isBiometricAvailable = biometricInfo?.hasHardware && biometricInfo?.isEnrolled
+  // Determine which icon to show based on platform and biometric type
+  const BiometricIcon = Platform.OS === 'ios' ? FaceIdIcon : FingerprintIcon;
+  const biometricName = biometricInfo?.biometricName || (Platform.OS === 'ios' ? 'Face ID' : 'Touch ID');
+  
+  // Check if biometrics are available
+  const isBiometricAvailable = biometricInfo?.hasHardware && biometricInfo?.isEnrolled;
 
   return (
-    <WarmScreen edges={["top", "right", "left", "bottom"]}>
-      <View style={styles.content}>
-        <View style={styles.top}>
-          <Animated.View style={[styles.iconWrap, iconStyle]}>
-            <View style={styles.iconBg}>
-              <BiometricIcon size={64} color={colors.warm.clay} />
-            </View>
-          </Animated.View>
-
-          <Animated.View style={titleStyle}>
-            <Text style={styles.eyebrow}>
-              {tx("biometric.eyebrow", "ÚLTIMO PASO")}
-            </Text>
-            <Text style={styles.title}>
-              {tx("biometric.title", "Tu cara, tu llave.")}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={subtitleStyle}>
-            <Text style={styles.subtitle}>
-              {tx(
-                "biometric.subtitle",
-                "Activa {{biometricName}} y entras al app sin escribir tu contraseña cada vez.",
-                { biometricName },
-              )}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={[styles.cardWrap, cardStyle]}>
-            <WarmCard intensity="calm">
-              <View style={styles.benefitRow}>
-                <ShieldCheckIcon size={22} color={colors.warm.sage} />
-                <View style={styles.benefitText}>
-                  <Text style={styles.benefitTitle}>
-                    {tx("biometric.benefit.secureTitle", "Solo tú entras")}
-                  </Text>
-                  <Text style={styles.benefitDescription}>
-                    {tx(
-                      "biometric.benefit.secureDescription",
-                      "Tu rostro o huella son la única manera de abrir tu caso.",
-                    )}
-                  </Text>
-                </View>
+    <AnimatedBackground colors={ONBOARDING_GRADIENT_COLORS}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.content}>
+          {/* Icon Section */}
+          <View style={styles.iconSection}>
+            <Animated.View style={iconAnimatedStyle}>
+              <View style={styles.iconContainer}>
+                <BiometricIcon size={80} color={colors.accent} />
               </View>
-              <View style={styles.divider} />
-              <View style={styles.benefitRow}>
-                <ShieldCheckIcon size={22} color={colors.warm.sage} />
-                <View style={styles.benefitText}>
-                  <Text style={styles.benefitTitle}>
-                    {tx("biometric.benefit.fastTitle", "Acceso en 1 segundo")}
-                  </Text>
-                  <Text style={styles.benefitDescription}>
-                    {tx(
-                      "biometric.benefit.fastDescription",
-                      "Abre el app, mira la cámara, y ya estás dentro. Sin teclear nada.",
-                    )}
-                  </Text>
-                </View>
-              </View>
-            </WarmCard>
-          </Animated.View>
+            </Animated.View>
+          </View>
 
-          {error ? (
-            <View style={styles.errorBox}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <Animated.View style={titleAnimatedStyle}>
+              <Text style={styles.title}>
+                {tx('biometric.title', 'Protege tu cuenta')}
+              </Text>
+            </Animated.View>
+            <Animated.View style={subtitleAnimatedStyle}>
+              <Text style={styles.subtitle}>
+                {tx(
+                  'biometric.subtitle',
+                  'Usa {{biometricName}} para acceder de forma rapida y segura a tu cuenta',
+                  { biometricName },
+                )}
+              </Text>
+            </Animated.View>
+          </View>
+
+          {/* Benefits Card */}
+          <View style={styles.cardSection}>
+            <Animated.View style={cardAnimatedStyle}>
+              <GlassCard style={styles.benefitsCard}>
+                <View style={styles.benefitRow}>
+                  <ShieldCheckIcon size={24} color={colors.success} />
+                  <View style={styles.benefitTextContainer}>
+                    <Text style={styles.benefitTitle}>
+                      {tx('biometric.benefit.secureTitle', 'Acceso seguro')}
+                    </Text>
+                    <Text style={styles.benefitDescription}>
+                      {tx(
+                        'biometric.benefit.secureDescription',
+                        'Solo tu puedes acceder a tu cuenta',
+                      )}
+                    </Text>
+                  </View>
+                </View>
+                <View style={styles.benefitDivider} />
+                <View style={styles.benefitRow}>
+                  <ShieldCheckIcon size={24} color={colors.success} />
+                  <View style={styles.benefitTextContainer}>
+                    <Text style={styles.benefitTitle}>
+                      {tx('biometric.benefit.fastTitle', 'Inicio rapido')}
+                    </Text>
+                    <Text style={styles.benefitDescription}>
+                      {tx(
+                        'biometric.benefit.fastDescription',
+                        'Sin necesidad de escribir tu contrasena',
+                      )}
+                    </Text>
+                  </View>
+                </View>
+              </GlassCard>
+            </Animated.View>
+          </View>
+
+          {/* Error Message */}
+          {error && (
+            <View style={styles.errorContainer}>
               <Text style={styles.errorText}>{error}</Text>
             </View>
-          ) : null}
+          )}
 
-          {!isBiometricAvailable ? (
-            <View style={styles.unavailable}>
-              <Text style={styles.unavailableText}>
-                {biometricInfo?.hasHardware
-                  ? tx(
-                      "biometric.unavailable.configured",
-                      "{{biometricName}} no está configurado en este dispositivo.",
-                      { biometricName },
-                    )
-                  : tx(
-                      "biometric.unavailable.unsupported",
-                      "Este dispositivo no soporta autenticación biométrica.",
-                    )}
-              </Text>
-            </View>
-          ) : null}
+          {/* Buttons Section */}
+          <View style={styles.buttonsSection}>
+            <Animated.View style={buttonsAnimatedStyle}>
+              {/* Enable Button */}
+              {isBiometricAvailable ? (
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPressIn={enablePressIn}
+                  onPressOut={enablePressOut}
+                  onPress={handleEnableBiometric}
+                  disabled={isLoading}
+                >
+                  <Animated.View style={enablePressStyle}>
+                    <View style={[styles.enableButton, isLoading && styles.buttonDisabled]}>
+                      {isLoading ? (
+                        <ActivityIndicator color={colors.text.inverse} size="small" />
+                      ) : (
+                        <Text style={styles.enableButtonText}>
+                          {tx('biometric.action.activate', 'Activar {{biometricName}}', {
+                            biometricName,
+                          })}
+                        </Text>
+                      )}
+                    </View>
+                  </Animated.View>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.unavailableContainer}>
+                  <Text style={styles.unavailableText}>
+                    {biometricInfo?.hasHardware
+                      ? tx(
+                          'biometric.unavailable.configured',
+                          '{{biometricName}} no esta configurado en este dispositivo',
+                          { biometricName },
+                        )
+                      : tx(
+                          'biometric.unavailable.unsupported',
+                          'Este dispositivo no soporta autenticacion biometrica',
+                        )}
+                  </Text>
+                </View>
+              )}
+
+              {/* Skip Button */}
+              <TouchableOpacity
+                activeOpacity={1}
+                onPressIn={skipPressIn}
+                onPressOut={skipPressOut}
+                onPress={handleSkip}
+                disabled={isLoading}
+                style={styles.skipButtonContainer}
+              >
+                <Animated.View style={skipPressStyle}>
+                  <View style={[styles.skipButton, isLoading && styles.buttonDisabled]}>
+                    <Text style={[styles.skipButtonText, isLoading && styles.skipButtonTextDisabled]}>
+                      {isBiometricAvailable
+                        ? tx('biometric.action.notNow', 'Ahora no')
+                        : tx('biometric.action.continue', 'Continuar')}
+                    </Text>
+                  </View>
+                </Animated.View>
+              </TouchableOpacity>
+            </Animated.View>
+          </View>
         </View>
-
-        <Animated.View style={[styles.btnBlock, btnStyle]}>
-          {isBiometricAvailable ? (
-            <WarmButton
-              label={tx("biometric.action.activate", "Activar {{biometricName}}", { biometricName })}
-              onPress={handleEnableBiometric}
-              variant="primary"
-              fullWidth
-              disabled={isLoading}
-              trailingIcon={
-                isLoading ? <ActivityIndicator color={colors.warm.cream} size="small" /> : undefined
-              }
-            />
-          ) : null}
-          <View style={{ height: spacing.sm }} />
-          <WarmButton
-            label={
-              isBiometricAvailable
-                ? tx("biometric.action.notNow", "Ahora no")
-                : tx("biometric.action.continue", "Continuar")
-            }
-            onPress={handleSkip}
-            variant="ghost"
-            fullWidth
-            disabled={isLoading}
-          />
-        </Animated.View>
-      </View>
-    </WarmScreen>
-  )
-}
+      </SafeAreaView>
+    </AnimatedBackground>
+  );
+};
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   content: {
     flex: 1,
-    paddingHorizontal: spacing.lg,
-    paddingTop: spacing["2xl"],
-    paddingBottom: spacing.xl,
-    justifyContent: "space-between",
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing['3xl'],
+    justifyContent: 'space-between',
   },
-  top: {
-    alignItems: "center",
-  },
-  iconWrap: {
+  iconSection: {
+    alignItems: 'center',
     marginBottom: spacing.xl,
   },
-  iconBg: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: colors.warm.cream,
-    borderWidth: 1,
-    borderColor: colors.border.warm,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: colors.warm.ink,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.08,
-    shadowRadius: 18,
-    elevation: 4,
+  iconContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: `${colors.accent}10`,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  eyebrow: {
-    fontFamily: typography.fontFamily.extrabold,
-    fontSize: 11,
-    letterSpacing: 2,
-    color: colors.warm.clay,
-    textTransform: "uppercase",
-    marginBottom: spacing.sm,
-    textAlign: "center",
+  header: {
+    marginBottom: spacing.xl,
   },
   title: {
-    fontSize: typography.fontSize["2xl"],
-    fontFamily: typography.fontFamily.extrabold,
-    color: colors.warm.ink,
-    letterSpacing: -0.4,
-    textAlign: "center",
+    fontSize: typography.fontSize['3xl'],
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.primary,
+    textAlign: 'center',
+    marginBottom: spacing.md,
   },
   subtitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
-    lineHeight: typography.fontSize.md * 1.45,
-    textAlign: "center",
-    marginTop: spacing.md,
+    color: colors.text.secondary,
+    textAlign: 'center',
+    lineHeight: typography.fontSize.md * typography.lineHeight.normal,
     paddingHorizontal: spacing.md,
   },
-  cardWrap: {
-    width: "100%",
-    marginTop: spacing.xl,
+  cardSection: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  benefitsCard: {
+    padding: spacing.lg,
+    backgroundColor: colors.background.primary,
+    borderColor: colors.border.light,
   },
   benefitRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: spacing.sm,
   },
-  benefitText: {
-    flex: 1,
+  benefitTextContainer: {
     marginLeft: spacing.md,
+    flex: 1,
   },
   benefitTitle: {
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
+    color: colors.text.primary,
+    marginBottom: spacing.xs,
   },
   benefitDescription: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
-    marginTop: spacing.xs,
-    lineHeight: typography.fontSize.sm * 1.4,
+    color: colors.text.secondary,
   },
-  divider: {
+  benefitDivider: {
     height: 1,
-    backgroundColor: colors.border.warm,
+    backgroundColor: colors.border.light,
     marginVertical: spacing.md,
   },
-  errorBox: {
-    backgroundColor: "rgba(167, 90, 63, 0.12)",
-    borderWidth: 1,
-    borderColor: colors.status.urgentWarm,
-    borderRadius: 12,
+  errorContainer: {
+    backgroundColor: 'rgba(220, 38, 38, 0.1)',
+    borderRadius: borderRadius.medium,
     padding: spacing.md,
-    marginTop: spacing.lg,
-    alignSelf: "stretch",
+    marginBottom: spacing.md,
   },
   errorText: {
     fontSize: typography.fontSize.sm,
-    fontFamily: typography.fontFamily.semibold,
-    color: colors.status.urgentWarm,
-    textAlign: "center",
+    fontFamily: typography.fontFamily.medium,
+    color: colors.error,
+    textAlign: 'center',
   },
-  unavailable: {
-    backgroundColor: colors.warm.sand,
-    borderRadius: 12,
-    padding: spacing.md,
-    marginTop: spacing.lg,
-    alignSelf: "stretch",
+  unavailableContainer: {
+    backgroundColor: 'rgba(107, 114, 128, 0.1)',
+    borderRadius: borderRadius.large,
+    padding: spacing.lg,
+    marginBottom: spacing.md,
   },
   unavailableText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
-    textAlign: "center",
+    color: colors.text.secondary,
+    textAlign: 'center',
   },
-  btnBlock: {
-    width: "100%",
-    marginTop: spacing.lg,
+  buttonsSection: {
+    paddingBottom: spacing['2xl'],
   },
-})
+  enableButton: {
+    backgroundColor: colors.accent,
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.large,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 56,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
+  },
+  enableButtonText: {
+    fontSize: typography.fontSize.md,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.inverse,
+  },
+  skipButtonContainer: {
+    marginTop: spacing.md,
+  },
+  skipButton: {
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    borderRadius: borderRadius.large,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 48,
+  },
+  skipButtonText: {
+    fontSize: typography.fontSize.md,
+    fontFamily: typography.fontFamily.semibold,
+    color: colors.text.secondary,
+  },
+  skipButtonTextDisabled: {
+    color: colors.text.tertiary,
+  },
+});
 
-export default BiometricScreen
+export default BiometricScreen;
