@@ -17,6 +17,7 @@ import {
   ResetPasswordScreen,
   BiometricScreen,
 } from '../screens/onboarding';
+import { EIPreviewScreen } from '../screens/EIPreviewScreen';
 
 const Stack = createStackNavigator<OnboardingStackParamList>();
 
@@ -66,9 +67,13 @@ export const OnboardingStack: React.FC = () => {
         name="ResetPassword"
         component={ResetPasswordScreen}
       />
-      <Stack.Screen 
-        name="Biometric" 
+      <Stack.Screen
+        name="Biometric"
         component={BiometricScreen}
+      />
+      <Stack.Screen
+        name="EIPreview"
+        component={EIPreviewScreen}
       />
     </Stack.Navigator>
   );

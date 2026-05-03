@@ -29,6 +29,7 @@ export type OnboardingStackParamList = {
   ConfirmRegistration: { email: string };
   ResetPassword: { email: string };
   Biometric: undefined;
+  EIPreview: undefined;
 };
 
 export type MainTabParamList = {

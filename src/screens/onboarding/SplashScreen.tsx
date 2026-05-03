@@ -7,8 +7,8 @@
  * Validates: Requirements 3.1, 3.2
  */
 
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Animated from 'react-native-reanimated';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -65,6 +65,7 @@ const MetricItem: React.FC<MetricItemProps> = ({ value, label, index }) => {
  */
 export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   const { t } = useViewTranslation('onboarding');
+  const [autoNavigate, setAutoNavigate] = useState(true);
 
   const metrics = [
     {
@@ -101,14 +102,15 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
     titleFadeIn();
   }, [popIn, titleFadeIn]);
 
-  // Auto-navigate to Language screen after delay
+  // Auto-navigate to Language screen after delay (cancellable when user taps EI Preview)
   useEffect(() => {
+    if (!autoNavigate) return;
     const timer = setTimeout(() => {
       navigation.replace('Language');
     }, AUTO_NAVIGATE_DELAY);
 
     return () => clearTimeout(timer);
-  }, [navigation]);
+  }, [navigation, autoNavigate]);
 
   return (
     <AnimatedBackground colors={ONBOARDING_GRADIENT_COLORS}>
@@ -140,6 +142,21 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
               />
             ))}
           </View>
+
+          {/* EI Preview entry — visible during the redesign experiment so
+              stakeholders can see the new system without auth. Cancels the
+              auto-navigate so the user has time to decide. */}
+          <TouchableOpacity
+            style={styles.eiPreviewButton}
+            onPress={() => {
+              setAutoNavigate(false);
+              navigation.navigate('EIPreview');
+            }}
+            accessibilityRole="button"
+            accessibilityLabel="Open Emotional Intelligence design preview"
+          >
+            <Text style={styles.eiPreviewLabel}>Preview · EI Redesign →</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </AnimatedBackground>
@@ -211,6 +228,21 @@ const styles = StyleSheet.create({
     fontFamily: typography.fontFamily.medium,
     color: colors.text.secondary,
     textAlign: 'center',
+  },
+  eiPreviewButton: {
+    marginTop: spacing['3xl'],
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: 999,
+    backgroundColor: colors.warm.cream,
+    borderWidth: 1,
+    borderColor: colors.warm.clay,
+  },
+  eiPreviewLabel: {
+    fontSize: 13,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 0.4,
   },
 });
 

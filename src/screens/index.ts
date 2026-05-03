@@ -6,3 +6,4 @@ export { CommunityScreen } from './CommunityScreen';
 export { GroupDetailScreen } from './GroupDetailScreen';
 export { ThreadViewScreen } from './ThreadViewScreen';
 export { ResourcesScreen } from './ResourcesScreen';
+export { EIPreviewScreen } from './EIPreviewScreen';
