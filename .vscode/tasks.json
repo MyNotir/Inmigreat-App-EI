@@ -1,0 +1,87 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run All Dev Clients",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/run-all-dev-clients.sh"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Expo Dev Client Metro",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/start-dev-client-metro.sh"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Open iOS Dev Client",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/start-ios-dev-client.sh"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Open Android Dev Client",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/start-android-dev-client.sh"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build iOS Dev Client Local",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/build-ios-dev-client.sh"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build Android Dev Client Local",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/build-android-dev-client.sh"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Open Both Dev Clients",
+			"dependsOn": [
+				"Open iOS Dev Client",
+				"Open Android Dev Client"
+			],
+			"dependsOrder": "sequence",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build Both Dev Clients Local",
+			"type": "shell",
+			"command": "zsh",
+			"args": [
+				"./scripts/build-all-dev-clients.sh"
+			],
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

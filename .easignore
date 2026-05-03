@@ -1,0 +1,31 @@
+node_modules
+.agents/
+.expo/
+
+# Keep native directories excluded while the build is driven by Expo config/prebuild.
+# If you later need uploaded native changes, remove these two lines.
+ios/
+android/
+web-build/
+.expo-shared/
+.env
+.env.local
+.env.*
+!.env.example
+!.env.*.example
+
+# Expo Skills (AI agents)
+.agents/
+skills/
+skills-lock.json
+
+# EAS build does not need editor, docs, or local AI config
+.github/
+.vscode/
+docs/
+README.md
+TASKS.md
+LICENSE
+
+# Local helper scripts not used by remote EAS builds
+scripts/

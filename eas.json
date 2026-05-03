@@ -1,0 +1,106 @@
+{
+  "cli": {
+    "version": ">= 3.10.2",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "environment": "development",
+      "env": {
+        "EXPO_PUBLIC_COGNITO_CLIENT_ID": "7p1fhu1s85up4lltk6pdb4lah6",
+        "EXPO_PUBLIC_COGNITO_HOSTED_UI_URL": "https://auth-dev.inmigreat.com",
+        "EXPO_PUBLIC_COGNITO_REGION": "us-east-1",
+        "EXPO_PUBLIC_COGNITO_USER_POOL_ID": "us-east-1_9yeAvEK82",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      },
+      "android": { "buildType": "apk" },
+      "ios": { "resourceClass": "m-medium", "image": "latest", "simulator": true },
+      "node": "20.19.4",
+      "channel": "development"
+    },
+    "developmentDevices": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "environment": "development",
+      "env": {
+        "EXPO_PUBLIC_COGNITO_CLIENT_ID": "7p1fhu1s85up4lltk6pdb4lah6",
+        "EXPO_PUBLIC_COGNITO_HOSTED_UI_URL": "https://auth-dev.inmigreat.com",
+        "EXPO_PUBLIC_COGNITO_REGION": "us-east-1",
+        "EXPO_PUBLIC_COGNITO_USER_POOL_ID": "us-east-1_9yeAvEK82",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      },
+      "android": { "buildType": "apk" },
+      "ios": { "resourceClass": "m-medium", "image": "latest" },
+      "node": "20.19.4",
+      "channel": "development"
+    },
+    "preview": {
+      "distribution": "internal",
+      "environment": "development",
+      "env": {
+        "EXPO_PUBLIC_COGNITO_CLIENT_ID": "7p1fhu1s85up4lltk6pdb4lah6",
+        "EXPO_PUBLIC_COGNITO_HOSTED_UI_URL": "https://auth-dev.inmigreat.com",
+        "EXPO_PUBLIC_COGNITO_REGION": "us-east-1",
+        "EXPO_PUBLIC_COGNITO_USER_POOL_ID": "us-east-1_9yeAvEK82",
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:bundleRelease",
+        "ndk": "27.0.12077973"
+      },
+      "channel": "preview",
+      "node": "20.19.4"
+    },
+    "tester": {
+      "distribution": "internal",
+      "environment": "production",
+      "channel": "tester",
+      "node": "20.19.4",
+      "env": {
+        "EXPO_PUBLIC_COGNITO_CLIENT_ID": "6dkao7fl38l81bvr8jbd68vjrg",
+        "EXPO_PUBLIC_COGNITO_HOSTED_UI_URL": "https://auth.inmigreat.com",
+        "EXPO_PUBLIC_COGNITO_REGION": "us-east-1",
+        "EXPO_PUBLIC_COGNITO_USER_POOL_ID": "us-east-1_cbWfwh1FT"
+      },
+      "ios": {
+        "resourceClass": "m-medium",
+        "image": "latest"
+      },
+      "android": {
+        "buildType": "apk",
+        "ndk": "27.0.12077973"
+      }
+    },
+    "production": {
+      "node": "20.19.4",
+      "autoIncrement": true,
+      "channel": "production",
+      "environment": "production",
+      "resourceClass": "large",
+      "android": {
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease",
+        "ndk": "27.0.12077973"
+      },
+      "env": {
+        "CI": "true",
+        "HUSKY": "0",
+        "EXPO_PUBLIC_COGNITO_CLIENT_ID": "6dkao7fl38l81bvr8jbd68vjrg",
+        "EXPO_PUBLIC_COGNITO_HOSTED_UI_URL": "https://auth.inmigreat.com",
+        "EXPO_PUBLIC_COGNITO_REGION": "us-east-1",
+        "EXPO_PUBLIC_COGNITO_USER_POOL_ID": "us-east-1_cbWfwh1FT",
+        "EXPO_USE_FAST_RESOLVER": "1"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "937002625519",
+    "project_id": "inmigreat-8b3b6",
+    "storage_bucket": "inmigreat-8b3b6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937002625519:android:5cfe4b41993883ed446e1a",
+        "android_client_info": {
+          "package_name": "com.changayaf.inmigreat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-8UKUyw7kWMk90fk1jSZ7uYIQfw4Uvyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
