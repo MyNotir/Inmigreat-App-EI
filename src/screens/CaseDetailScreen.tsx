@@ -15,15 +15,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { useFocusEffect, useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import Svg, { Path } from 'react-native-svg';
 
-import { AnimatedBackground } from '../components/common/AnimatedBackground';
+import { WarmScreen } from '../components/common/WarmScreen';
 import { BrandedLoadingState } from '../components/common/BrandedLoadingState';
 import { GlassCard } from '../components/common/GlassCard';
+import { StressBanner } from '../components/common/StressBanner';
+import { WarmCard } from '../components/common/WarmCard';
+import { WarmButton } from '../components/common/WarmButton';
 import { CaseCard } from '../components/cases/CaseCard';
 import { EoirCaptchaModal } from '../components/cases/EoirCaptchaModal';
 import { CaseTimeline } from '../components/cases/CaseTimeline';
@@ -756,9 +758,24 @@ export const CaseDetailScreen: React.FC = () => {
     );
   };
 
+  // Detect stress level for the case to drive optional StressBanner.
+  const caseStressLevel: 'calm' | 'elevated' | 'acute' = (() => {
+    if (!caseData) return 'calm';
+    if (caseData.urgency === 'high') return 'acute';
+    const label = caseData.status?.label?.toLowerCase() ?? '';
+    if (label.includes('rfe') || label.includes('denial') || label.includes('denegad') || label.includes('notice')) {
+      return 'elevated';
+    }
+    return 'calm';
+  })();
+
+  const handleFindAttorney = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (navigation as any).getParent()?.navigate('Resources', { screen: 'AttorneyDirectory' });
+  };
+
   return (
-    <AnimatedBackground>
-      <SafeAreaView style={styles.container} edges={['top']}>
+    <WarmScreen edges={['top']}>
         {/* Header with back button */}
         <View style={styles.header}>
           <TouchableOpacity
@@ -766,9 +783,10 @@ export const CaseDetailScreen: React.FC = () => {
             onPress={() => navigation.goBack()}
             activeOpacity={0.7}
           >
-            <BackIcon size={22} color={colors.warm.ink} />
+            <BackIcon size={20} color={colors.warm.clay} />
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
+            <Text style={styles.headerEyebrow}>TU CASO</Text>
             <Text style={styles.headerTitle} numberOfLines={1}>
               {caseData
                 ? caseData.type === 'EOIR'
@@ -786,11 +804,33 @@ export const CaseDetailScreen: React.FC = () => {
           </View>
         </View>
 
+        {/* Stress-aware top banner: surfaces the right action for the moment. */}
+        {caseData && caseStressLevel === 'acute' ? (
+          <View style={styles.stressBannerWrap}>
+            <StressBanner
+              context={`${caseData.status.label} · ${caseData.formNumber}`}
+              headline="Esto necesita atención hoy. Vamos paso por paso, contigo."
+              ctaLabel="Hablar con un abogado verificado"
+              level="acute"
+              onCta={handleFindAttorney}
+            />
+          </View>
+        ) : caseData && caseStressLevel === 'elevated' ? (
+          <View style={styles.stressBannerWrap}>
+            <StressBanner
+              context={`${caseData.status.label}`}
+              headline="Acción esta semana. Tienes tiempo, y aquí están tus opciones."
+              ctaLabel="Ver opciones"
+              level="elevated"
+              onCta={handleFindAttorney}
+            />
+          </View>
+        ) : null}
+
         {renderContent()}
         <EoirCaptchaModal {...eoirCaptchaModalProps} />
         {paywallElement}
-      </SafeAreaView>
-    </AnimatedBackground>
+    </WarmScreen>
   );
 };
 
@@ -816,15 +856,30 @@ const styles = StyleSheet.create({
     borderColor: colors.border.warm,
   },
   headerTitleContainer: { flex: 1 },
+  headerEyebrow: {
+    fontSize: typography.fontSize.xs - 1,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.4,
+    textTransform: 'uppercase',
+    marginBottom: 2,
+  },
   headerTitle: {
     fontSize: typography.fontSize.md,
-    fontFamily: typography.fontFamily.semibold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
+    letterSpacing: -0.2,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.semibold,
     color: colors.warm.inkSoft,
     marginTop: 2,
+    letterSpacing: 0.3,
+  },
+  stressBannerWrap: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
   },
   scrollView: { flex: 1 },
   scrollContent: { paddingBottom: spacing['3xl'] },
