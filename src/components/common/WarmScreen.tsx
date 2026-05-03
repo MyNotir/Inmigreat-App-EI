@@ -1,18 +1,16 @@
 /**
- * WarmScreen — full-screen EI surface wrapper.
+ * Screen wrapper for the EI redesign.
  *
- * Renders a warm vertical gradient (cream → sand → cream) with safe-area
- * insets and optional scroll. Use as the root of any screen that should
- * feel warm-minimal: onboarding, chat, cases under stress, support flows.
- *
- * For routine-state screens that should keep the cool brand spine, use
- * AnimatedBackground with the default cool gradient instead.
+ * Default is BRAND COOL: brand cool gradient via AnimatedBackground.
+ * `preset="acute"` switches to warm cream → peach → cream for crisis screens.
+ * `preset="warm"` for general warm contexts.
  */
 
-import { LinearGradient } from "expo-linear-gradient"
 import { ScrollView, type ScrollViewProps, type StyleProp, StyleSheet, View, type ViewStyle } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
+import { AnimatedBackground, ONBOARDING_GRADIENT_COLORS } from "./AnimatedBackground"
+import { LinearGradient } from "expo-linear-gradient"
 import { colors } from "@/styles/theme"
 
 type Props = {
@@ -23,10 +21,12 @@ type Props = {
   contentContainerStyle?: StyleProp<ViewStyle>
   edges?: Array<"top" | "right" | "bottom" | "left">
   /**
-   * Override the gradient. Defaults to colors.background.warmGradient.
-   * Pass an "acute" preset for crisis screens (cream → peach → cream).
+   * Default "brand": cool brand gradient (white → soft → day).
+   * "warm": cream → sand → cream for general warm screens.
+   * "acute": cream → peach → cream for crisis screens.
+   * "calm": flat cream surface.
    */
-  preset?: "default" | "acute" | "calm"
+  preset?: "brand" | "warm" | "acute" | "calm"
 }
 
 export function WarmScreen({
@@ -36,8 +36,33 @@ export function WarmScreen({
   style,
   contentContainerStyle,
   edges = ["top", "right", "left"],
-  preset = "default",
+  preset = "brand",
 }: Props) {
+  const Body = (
+    <SafeAreaView style={styles.safe} edges={edges}>
+      {scroll ? (
+        <ScrollView
+          {...scrollProps}
+          contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={[styles.staticContent, contentContainerStyle]}>{children}</View>
+      )}
+    </SafeAreaView>
+  )
+
+  if (preset === "brand") {
+    return (
+      <AnimatedBackground colors={ONBOARDING_GRADIENT_COLORS}>
+        <View style={[styles.flex, style]}>{Body}</View>
+      </AnimatedBackground>
+    )
+  }
+
   const gradient =
     preset === "acute"
       ? [colors.warm.cream, colors.warm.peach, colors.warm.cream]
@@ -52,25 +77,13 @@ export function WarmScreen({
       end={{ x: 0, y: 1 }}
       style={[styles.gradient, style]}
     >
-      <SafeAreaView style={styles.safe} edges={edges}>
-        {scroll ? (
-          <ScrollView
-            {...scrollProps}
-            contentContainerStyle={[styles.scrollContent, contentContainerStyle]}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          >
-            {children}
-          </ScrollView>
-        ) : (
-          <View style={[styles.staticContent, contentContainerStyle]}>{children}</View>
-        )}
-      </SafeAreaView>
+      {Body}
     </LinearGradient>
   )
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   gradient: {
     flex: 1,
   },

@@ -1,16 +1,9 @@
 /**
- * WarmButton — Emotional Intelligence button.
+ * Button primitive for the EI redesign.
  *
- * Three variants:
- *   - primary: clay fill, cream label. Use for the single most important action
- *     on a warm screen (e.g. "Hablar con un humano", "Subir documento").
- *   - secondary: cream fill, clay border + clay label. Use for non-critical
- *     follow-ups ("Ver detalle", "Más tarde").
- *   - ghost: no fill, clay label. Use for inline tertiary actions.
- *
- * Pressed state uses a soft scale + opacity dip (no harsh ripple) so the
- * interaction feels reassuring under stress. tone="urgent" replaces clay with
- * a burnt-orange that stays warm and serious without becoming alarmist red.
+ * Default is BRAND COOL: navy primary, light secondary, brand-tinted ghost.
+ * Pass `tone="urgent"` for stress action (urgent burnt-orange), `tone="sage"`
+ * for calm success.
  */
 
 import { Pressable, type StyleProp, StyleSheet, Text, View, type ViewStyle } from "react-native"
@@ -23,7 +16,7 @@ import Animated, {
 import { borderRadius, colors, spacing, typography } from "@/styles/theme"
 
 type Variant = "primary" | "secondary" | "ghost"
-type Tone = "default" | "urgent" | "sage"
+type Tone = "default" | "brand" | "urgent" | "sage" | "pro"
 type Size = "sm" | "md" | "lg"
 
 type Props = {
@@ -47,7 +40,7 @@ export function WarmButton({
   label,
   onPress,
   variant = "primary",
-  tone = "default",
+  tone = "brand",
   size = "md",
   leadingIcon,
   trailingIcon,
@@ -70,16 +63,20 @@ export function WarmButton({
       ? colors.status.urgentWarm
       : tone === "sage"
         ? colors.warm.sage
-        : colors.warm.clay
+        : tone === "pro"
+          ? colors.pro
+          : tone === "default"
+            ? colors.warm.clay
+            : colors.accent
 
   const labelColor =
-    variant === "primary" ? colors.warm.cream : accent
+    variant === "primary" ? '#FFFFFF' : accent
 
   const fillColor =
     variant === "primary"
       ? accent
       : variant === "secondary"
-        ? colors.warm.cream
+        ? colors.background.primary
         : "transparent"
 
   const borderColor =
@@ -169,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontFamily: typography.fontFamily.extrabold,
+    fontFamily: typography.fontFamily.bold,
     letterSpacing: 0.3,
   },
   iconLeading: {

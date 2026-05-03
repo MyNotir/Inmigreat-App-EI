@@ -1,10 +1,8 @@
 /**
- * WarmListItem — Emotional Intelligence list row.
+ * List row primitive for the EI redesign.
  *
- * Cream surface row with optional leading icon, two-line title+subtitle,
- * trailing chevron or status pill. Soft pressed state. Use for lists where
- * tapping leads into a stress-relevant detail (case row, resource row,
- * attorney row, settings row).
+ * Default brand cool. Pass `tone="warm"` for stress contexts.
+ * Pass `attention=true` to flag a row that needs the user's eye.
  */
 
 import { Pressable, type StyleProp, StyleSheet, Text, View, type ViewStyle } from "react-native"
@@ -24,8 +22,8 @@ type Props = {
   trailing?: React.ReactNode
   onPress?: () => void
   style?: StyleProp<ViewStyle>
-  /** When true, row uses peach-tinted bg to gently flag attention. */
   attention?: boolean
+  tone?: "brand" | "warm"
   accessibilityLabel?: string
 }
 
@@ -40,6 +38,7 @@ export function WarmListItem({
   onPress,
   style,
   attention,
+  tone = "brand",
   accessibilityLabel,
 }: Props) {
   const scale = useSharedValue(1)
@@ -47,8 +46,16 @@ export function WarmListItem({
     transform: [{ scale: scale.value }],
   }))
 
-  const bg = attention ? colors.warm.peach : colors.warm.cream
-  const borderColor = attention ? colors.border.warmStrong : colors.border.warm
+  const isBrand = tone === "brand"
+  const bg = attention
+    ? (isBrand ? `${colors.accent}10` : colors.warm.peach)
+    : (isBrand ? colors.background.primary : colors.warm.cream)
+  const borderColor = attention
+    ? (isBrand ? colors.accent : colors.border.warmStrong)
+    : (isBrand ? colors.border.light : colors.border.warm)
+  const titleColor = isBrand ? colors.text.primary : colors.warm.ink
+  const subtitleColor = isBrand ? colors.text.secondary : colors.warm.inkSoft
+  const metaColor = isBrand ? colors.text.tertiary : colors.warm.inkFaint
 
   return (
     <PressableAnimated
@@ -71,17 +78,17 @@ export function WarmListItem({
     >
       {leading ? <View style={styles.leading}>{leading}</View> : null}
       <View style={styles.body}>
-        <Text style={styles.title} numberOfLines={1}>
+        <Text style={[styles.title, { color: titleColor }]} numberOfLines={1}>
           {title}
         </Text>
         {subtitle ? (
-          <Text style={styles.subtitle} numberOfLines={2}>
+          <Text style={[styles.subtitle, { color: subtitleColor }]} numberOfLines={2}>
             {subtitle}
           </Text>
         ) : null}
       </View>
       <View style={styles.trailing}>
-        {meta ? <Text style={styles.meta}>{meta}</Text> : null}
+        {meta ? <Text style={[styles.meta, { color: metaColor }]}>{meta}</Text> : null}
         {trailing}
       </View>
     </PressableAnimated>
@@ -106,13 +113,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.ink,
     letterSpacing: 0.1,
   },
   subtitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkSoft,
     marginTop: 2,
     lineHeight: typography.fontSize.sm * 1.45,
   },
@@ -124,7 +129,6 @@ const styles = StyleSheet.create({
   meta: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkFaint,
     marginRight: spacing.sm,
     letterSpacing: 0.4,
     textTransform: "uppercase",

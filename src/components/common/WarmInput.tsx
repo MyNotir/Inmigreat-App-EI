@@ -1,13 +1,10 @@
 /**
- * WarmInput — Emotional Intelligence text field.
+ * Input primitive for the EI redesign.
  *
- * Cream surface, soft clay border, clay focus ring. Optional label rendered
- * above (warm-ink, soft), optional helper or error text below. Designed to
- * sit on warm screens during high-emotion moments (login after denial,
- * password reset under deadline) where a stark cool form would feel cold.
- *
- * No harsh red on error — uses urgentWarm (burnt orange) so the user reads
- * "this needs attention" not "you failed."
+ * Default is BRAND COOL: white surface, navy focus ring, brand-blue label,
+ * subtle red error (kept restrained — no alarm). Used everywhere by default.
+ * Pass `tone="warm"` for stress contexts (forms inside attorney consent
+ * sheet, RFE response form, etc).
  */
 
 import { useState } from "react"
@@ -30,6 +27,7 @@ type Props = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>
   leadingIcon?: React.ReactNode
   trailingIcon?: React.ReactNode
+  tone?: "brand" | "warm"
 }
 
 export function WarmInput({
@@ -42,24 +40,33 @@ export function WarmInput({
   onFocus,
   onBlur,
   style,
+  tone = "brand",
   ...rest
 }: Props) {
   const [focused, setFocused] = useState(false)
 
-  const borderColor = error
-    ? colors.status.urgentWarm
-    : focused
-      ? colors.warm.clay
-      : colors.border.warm
+  const isBrand = tone === "brand"
+
+  const focusBorderColor = isBrand ? colors.accent : colors.warm.clay
+  const baseBorderColor = isBrand ? colors.border.medium : colors.border.warm
+  const errorBorderColor = isBrand ? colors.error : colors.status.urgentWarm
+  const labelColor = isBrand ? colors.text.secondary : colors.warm.inkSoft
+  const inputColor = isBrand ? colors.text.primary : colors.warm.ink
+  const placeholderColor = isBrand ? colors.text.tertiary : colors.warm.inkFaint
+  const surfaceColor = isBrand ? colors.background.primary : colors.warm.cream
+  const helperColor = isBrand ? colors.text.tertiary : colors.warm.inkFaint
+
+  const borderColor = error ? errorBorderColor : focused ? focusBorderColor : baseBorderColor
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+      {label ? <Text style={[styles.label, { color: labelColor }]}>{label}</Text> : null}
       <View
         style={[
           styles.fieldRow,
           {
             borderColor,
+            backgroundColor: surfaceColor,
             borderWidth: focused || error ? 1.5 : 1,
           },
         ]}
@@ -67,7 +74,7 @@ export function WarmInput({
         {leadingIcon ? <View style={styles.iconLeading}>{leadingIcon}</View> : null}
         <TextInput
           {...rest}
-          placeholderTextColor={colors.warm.inkFaint}
+          placeholderTextColor={placeholderColor}
           onFocus={(e) => {
             setFocused(true)
             onFocus?.(e)
@@ -76,14 +83,14 @@ export function WarmInput({
             setFocused(false)
             onBlur?.(e)
           }}
-          style={[styles.input, style]}
+          style={[styles.input, { color: inputColor }, style]}
         />
         {trailingIcon ? <View style={styles.iconTrailing}>{trailingIcon}</View> : null}
       </View>
       {error ? (
-        <Text style={styles.error}>{error}</Text>
+        <Text style={[styles.error, { color: errorBorderColor }]}>{error}</Text>
       ) : helper ? (
-        <Text style={styles.helper}>{helper}</Text>
+        <Text style={[styles.helper, { color: helperColor }]}>{helper}</Text>
       ) : null}
     </View>
   )
@@ -96,14 +103,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.warm.inkSoft,
     marginBottom: spacing.xs + 2,
     letterSpacing: 0.2,
   },
   fieldRow: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.warm.cream,
     borderRadius: borderRadius.large,
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.sm + 2,
@@ -112,7 +117,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.ink,
     paddingVertical: spacing.xs,
   },
   iconLeading: {
@@ -124,14 +128,12 @@ const styles = StyleSheet.create({
   helper: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.warm.inkFaint,
     marginTop: spacing.xs,
     paddingHorizontal: spacing.xs,
   },
   error: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.status.urgentWarm,
     marginTop: spacing.xs,
     paddingHorizontal: spacing.xs,
   },

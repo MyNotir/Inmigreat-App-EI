@@ -1,23 +1,27 @@
-import React from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+/**
+ * ChatInput — Emotional Intelligence redesign.
+ *
+ * Cream surface, soft clay border that warms on focus, clay send button
+ * (peach when disabled). No glass blur — paper-feel keeps the moment calm
+ * even when the user is mid-crisis writing 'me detuvieron'.
+ */
 
-import { GlassCard } from '../common/GlassCard';
-import { useViewTranslation } from '../../i18n';
-import { borderRadius, colors, spacing, typography } from '../../styles/theme';
+import React, { useState } from "react"
+import { Pressable, StyleSheet, TextInput, View } from "react-native"
+import Svg, { Path } from "react-native-svg"
+
+import { useViewTranslation } from "../../i18n"
+import { borderRadius, colors, spacing, typography } from "../../styles/theme"
 
 interface ChatInputProps {
-  value: string;
-  onChangeText: (value: string) => void;
-  onSend: () => void;
-  disabled?: boolean;
-  placeholder?: string;
+  value: string
+  onChangeText: (value: string) => void
+  onSend: () => void
+  disabled?: boolean
+  placeholder?: string
 }
 
-const SendIcon: React.FC<{ size?: number; color?: string }> = ({
-  size = 24,
-  color = colors.text.inverse,
-}) => (
+const SendIcon: React.FC<{ size?: number; color?: string }> = ({ size = 20, color = colors.background.primary }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"
@@ -27,7 +31,7 @@ const SendIcon: React.FC<{ size?: number; color?: string }> = ({
       strokeLinejoin="round"
     />
   </Svg>
-);
+)
 
 export const ChatInput: React.FC<ChatInputProps> = ({
   value,
@@ -36,81 +40,87 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   disabled = false,
   placeholder,
 }) => {
-  const { t } = useViewTranslation('chat');
-  const resolvedPlaceholder = placeholder ?? t('input.placeholder', { defaultValue: 'Escribe tu pregunta...' });
-  const hasText = value.trim().length > 0;
+  const { t } = useViewTranslation("chat")
+  const [focused, setFocused] = useState(false)
+  const resolvedPlaceholder = placeholder ?? t("input.placeholder", { defaultValue: "Escribe tu pregunta..." })
+  const hasText = value.trim().length > 0
+  const canSend = hasText && !disabled
+
+  const borderColor = focused ? colors.accent : colors.border.light
 
   return (
-    <View style={styles.inputContainer}>
-      <GlassCard style={styles.inputCard} opacity={0.9} blurIntensity={20}>
-        <View style={styles.inputRow}>
-          <TextInput
-            style={styles.textInput}
-            value={value}
-            onChangeText={onChangeText}
-            placeholder={resolvedPlaceholder}
-            placeholderTextColor={colors.text.tertiary}
-            multiline
-            maxLength={1000}
-            returnKeyType="send"
-            onSubmitEditing={onSend}
-            blurOnSubmit={false}
-          />
-          <TouchableOpacity
-            style={[
-              styles.sendButton,
-              (!hasText || disabled) && styles.sendButtonDisabled,
-            ]}
-            onPress={onSend}
-            disabled={!hasText || disabled}
-            activeOpacity={0.7}
-          >
-            <SendIcon
-              size={20}
-              color={hasText && !disabled ? colors.text.inverse : colors.text.tertiary}
-            />
-          </TouchableOpacity>
-        </View>
-      </GlassCard>
+    <View style={styles.wrap}>
+      <View style={[styles.row, { borderColor, borderWidth: focused ? 1.5 : 1 }]}>
+        <TextInput
+          style={styles.input}
+          value={value}
+          onChangeText={onChangeText}
+          placeholder={resolvedPlaceholder}
+          placeholderTextColor={colors.text.tertiary}
+          multiline
+          maxLength={1000}
+          returnKeyType="send"
+          onSubmitEditing={onSend}
+          blurOnSubmit={false}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+        />
+        <Pressable
+          style={[styles.sendBtn, !canSend && styles.sendBtnDisabled]}
+          onPress={onSend}
+          disabled={!canSend}
+          accessibilityRole="button"
+          accessibilityLabel="Enviar mensaje"
+        >
+          <SendIcon size={18} color={canSend ? colors.background.primary : colors.text.tertiary} />
+        </Pressable>
+      </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  wrap: {
     paddingHorizontal: spacing.base,
-    paddingVertical: spacing.sm,
+    paddingTop: spacing.sm,
     paddingBottom: spacing.md,
+    backgroundColor: "transparent",
   },
-  inputCard: {
+  row: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    backgroundColor: colors.background.primary,
+    borderRadius: borderRadius["2xl"],
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
+    shadowColor: colors.text.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 2,
   },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-  },
-  textInput: {
+  input: {
     flex: 1,
     fontSize: typography.fontSize.base,
+    fontFamily: typography.fontFamily.medium,
     color: colors.text.primary,
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.sm,
-    maxHeight: 100,
+    maxHeight: 110,
     minHeight: 40,
   },
-  sendButton: {
-    width: 40,
-    height: 40,
-    borderRadius: borderRadius.full,
+  sendBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: colors.accent,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginLeft: spacing.xs,
   },
-  sendButtonDisabled: {
-    backgroundColor: colors.background.tertiary,
+  sendBtnDisabled: {
+    backgroundColor: colors.warm.peach,
   },
-});
+})
 
-export default ChatInput;
+export default ChatInput

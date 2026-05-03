@@ -1,12 +1,11 @@
 /**
- * WarmCard — Emotional Intelligence surface.
+ * Card primitive for the EI redesign.
  *
- * Use for any panel that should feel like a hand on the shoulder:
- * RFE arrival, hearing day, denial, document upload prompts, post-stress
- * acknowledgements. Cream→sand vertical gradient, soft clay border, paper
- * grain overlay, generous internal spacing.
- *
- * Pair with `<SupportPill />` for crisis escalation when stress is acute.
+ * Default is BRAND COOL: white glass surface with subtle navy border, used
+ * for routine state (cases, chat, community, resources, profile).
+ * Opt into WARM intensity for stress contexts (RFE arrival, denial, ICE
+ * detention, attorney directory). Pair with `<SupportPill />` for crisis
+ * escalation when stress is acute.
  */
 
 import { LinearGradient } from "expo-linear-gradient"
@@ -23,15 +22,23 @@ type Props = {
   children: React.ReactNode
   style?: StyleProp<ViewStyle>
   /**
-   * intensity controls the stress level visual:
-   *   - "calm": flat cream
-   *   - "elevated": cream→sand gradient (default)
-   *   - "acute": cream→peach with stronger clay border + extra padding
+   * Surface treatment. Default is "brand" — clean glass + navy border for
+   * routine state. Use elevated/acute for stress contexts (warm cream →
+   * sand → peach gradient with paper grain).
    */
-  intensity?: "calm" | "elevated" | "acute"
+  intensity?: "brand" | "calm" | "elevated" | "acute"
 }
 
-export function WarmCard({ children, style, intensity = "elevated" }: Props) {
+export function WarmCard({ children, style, intensity = "brand" }: Props) {
+  // Brand cool: clean white glass surface, navy-tinted border, no paper grain.
+  if (intensity === "brand") {
+    return (
+      <View style={[styles.brandOuter, style]}>
+        <View style={styles.brandInner}>{children}</View>
+      </View>
+    )
+  }
+
   const gradient =
     intensity === "calm"
       ? [colors.warm.cream, colors.warm.cream]
@@ -65,6 +72,21 @@ export function WarmCard({ children, style, intensity = "elevated" }: Props) {
 }
 
 const styles = StyleSheet.create({
+  brandOuter: {
+    borderRadius: borderRadius["2xl"],
+    backgroundColor: colors.background.primary,
+    borderWidth: 1,
+    borderColor: colors.border.light,
+    overflow: "hidden",
+    shadowColor: colors.accent,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.06,
+    shadowRadius: 16,
+    elevation: 2,
+  },
+  brandInner: {
+    padding: spacing.lg,
+  },
   outer: {
     borderRadius: borderRadius["2xl"],
     borderWidth: 1,
