@@ -610,11 +610,11 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: spacing.xs,
   },
   createHeaderButton: {
@@ -638,7 +638,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.full,
   },
   proBadgeText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.bold,
     letterSpacing: 0.5,
@@ -691,13 +691,13 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     marginRight: spacing.xs,
   },
   errorBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },
@@ -716,12 +716,12 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize['2xl'],
     lineHeight: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   errorTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   emptyHeroCard: {
@@ -748,19 +748,19 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   emptyDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     marginBottom: spacing.lg,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
   },
   errorDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     marginBottom: spacing.lg,
   },
@@ -782,11 +782,11 @@ const styles = StyleSheet.create({
   errorMetaText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   errorSupportText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.lg,
   },
@@ -804,7 +804,7 @@ const styles = StyleSheet.create({
   emptyPrimaryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   emptySecondaryButton: {
     minHeight: 48,
@@ -816,7 +816,7 @@ const styles = StyleSheet.create({
   emptySecondaryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   planCard: {
     padding: spacing.lg,
@@ -828,18 +828,18 @@ const styles = StyleSheet.create({
   planTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   planDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.sm,
   },
   planBullet: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   planCtaButton: {
@@ -856,7 +856,7 @@ const styles = StyleSheet.create({
   planCtaButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   joinPreviewCard: {
     padding: spacing.lg,
@@ -865,7 +865,7 @@ const styles = StyleSheet.create({
   joinPreviewTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.md,
   },
   joinPreviewRow: {
@@ -880,12 +880,12 @@ const styles = StyleSheet.create({
   joinPreviewGroupName: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: 2,
   },
   joinPreviewHelp: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   joinPreviewButton: {
     paddingHorizontal: spacing.md,
@@ -899,7 +899,7 @@ const styles = StyleSheet.create({
   joinPreviewButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   joinPreviewDivider: {
     height: 1,
@@ -908,7 +908,7 @@ const styles = StyleSheet.create({
   },
   joinPreviewCaption: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginTop: spacing.md,
   },
@@ -925,7 +925,7 @@ const styles = StyleSheet.create({
   retryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
 });
 

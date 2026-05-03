@@ -2806,7 +2806,7 @@ export const GroupDetailScreen: React.FC = () => {
                       value={memberSearchQuery}
                       onChangeText={setMemberSearchQuery}
                       placeholder={tx('groupDetail.member.searchPlaceholder', 'Busca un miembro')}
-                      placeholderTextColor={colors.text.tertiary}
+                      placeholderTextColor={colors.warm.inkFaint}
                       style={styles.membersSearchInput}
                       autoCapitalize="words"
                       autoCorrect={false}
@@ -2867,7 +2867,7 @@ export const GroupDetailScreen: React.FC = () => {
 
                         <View style={styles.memberDetailButton}>
                           {isBusy ? (
-                            <ActivityIndicator size="small" color={colors.text.inverse} />
+                            <ActivityIndicator size="small" color={colors.warm.cream} />
                           ) : (
                             <Text style={styles.memberDetailButtonText}>
                               {isOwner
@@ -3008,7 +3008,7 @@ export const GroupDetailScreen: React.FC = () => {
                           activeOpacity={0.85}
                         >
                           {roleMutationUserId === selectedMember.userId ? (
-                            <ActivityIndicator size="small" color={colors.text.inverse} />
+                            <ActivityIndicator size="small" color={colors.warm.cream} />
                           ) : (
                             <Text
                               style={
@@ -3041,7 +3041,7 @@ export const GroupDetailScreen: React.FC = () => {
                         activeOpacity={0.85}
                       >
                         {roleMutationUserId === selectedMember.userId ? (
-                          <ActivityIndicator size="small" color={colors.text.inverse} />
+                          <ActivityIndicator size="small" color={colors.warm.cream} />
                         ) : (
                           <Text style={styles.sheetApproveButtonText}>
                             {selectedMember.isMuted
@@ -3060,7 +3060,7 @@ export const GroupDetailScreen: React.FC = () => {
                         activeOpacity={0.85}
                       >
                         {roleMutationUserId === selectedMember.userId ? (
-                          <ActivityIndicator size="small" color={colors.text.inverse} />
+                          <ActivityIndicator size="small" color={colors.warm.cream} />
                         ) : (
                           <Text style={styles.sheetRejectButtonText}>
                             {tx('groupDetail.member.actions.expelTitle', 'Expulsar del grupo')}
@@ -3078,7 +3078,7 @@ export const GroupDetailScreen: React.FC = () => {
                           activeOpacity={0.85}
                         >
                           {roleMutationUserId === selectedMember.userId ? (
-                            <ActivityIndicator size="small" color={colors.text.primary} />
+                            <ActivityIndicator size="small" color={colors.warm.ink} />
                           ) : (
                               <Text style={styles.sheetTransferButtonText}>
                                 {tx('groupDetail.member.actions.transferTitle', 'Transferir ownership')}
@@ -3137,7 +3137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     textAlign: 'center',
     marginHorizontal: spacing.md,
   },
@@ -3192,13 +3192,13 @@ const styles = StyleSheet.create({
     width: 7,
     height: 7,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     marginRight: spacing.xs,
   },
   errorBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
     textTransform: 'uppercase',
     letterSpacing: 0.6,
   },
@@ -3217,17 +3217,17 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize['2xl'],
     lineHeight: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   errorTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   errorBodyText: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     marginBottom: spacing.lg,
   },
@@ -3249,7 +3249,7 @@ const styles = StyleSheet.create({
   errorMetaText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   errorActionsRow: {
     flexDirection: 'row',
@@ -3259,7 +3259,7 @@ const styles = StyleSheet.create({
     minHeight: 48,
     borderRadius: borderRadius.full,
     borderWidth: 1,
-    borderColor: `${colors.text.primary}14`,
+    borderColor: `${colors.warm.ink}14`,
     backgroundColor: `${colors.background.primary}68`,
     alignItems: 'center',
     justifyContent: 'center',
@@ -3268,7 +3268,7 @@ const styles = StyleSheet.create({
   secondaryActionText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
 
   // Group header styles
@@ -3297,12 +3297,12 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   groupDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.sm,
   },
@@ -3313,15 +3313,15 @@ const styles = StyleSheet.create({
   },
   groupStatText: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
   groupStatDot: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginHorizontal: spacing.xs,
   },
   groupGrowth: {
-    color: colors.success,
+    color: "#5A7660",
     fontFamily: typography.fontFamily.medium,
   },
 
@@ -3346,7 +3346,7 @@ const styles = StyleSheet.create({
   resourcesTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   resourcesBadge: {
     backgroundColor: colors.accent,
@@ -3358,11 +3358,11 @@ const styles = StyleSheet.create({
   resourcesBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   expandIcon: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
   resourcesList: {
     marginTop: spacing.md,
@@ -3374,7 +3374,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   resourceIcon: {
     fontSize: typography.fontSize.xl,
@@ -3386,16 +3386,16 @@ const styles = StyleSheet.create({
   resourceTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: 2,
   },
   resourceDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   resourceArrow: {
     fontSize: typography.fontSize.xl,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginLeft: spacing.sm,
   },
 
@@ -3413,13 +3413,13 @@ const styles = StyleSheet.create({
   memberAccessNoticeTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   memberAccessNoticeText: {
     fontSize: typography.fontSize.sm,
     lineHeight: 20,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -3434,12 +3434,12 @@ const styles = StyleSheet.create({
   feedTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   sectionSubtitle: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   manageRolesButton: {
     paddingHorizontal: spacing.base,
@@ -3479,7 +3479,7 @@ const styles = StyleSheet.create({
   moderationTabText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   moderationTabTextActive: {
     color: COMMUNITY_ACCENT,
@@ -3496,7 +3496,7 @@ const styles = StyleSheet.create({
   moderationTabBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   moderationStatsCard: {
     padding: spacing.base,
@@ -3516,12 +3516,12 @@ const styles = StyleSheet.create({
   filtersTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   filtersSummaryText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   filterSection: {
     gap: spacing.sm,
@@ -3529,7 +3529,7 @@ const styles = StyleSheet.create({
   filterSectionLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   filterChipWrap: {
     flexDirection: 'row',
@@ -3551,7 +3551,7 @@ const styles = StyleSheet.create({
   filterChipText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   filterChipTextActive: {
     color: COMMUNITY_ACCENT,
@@ -3574,12 +3574,12 @@ const styles = StyleSheet.create({
   moderationStatValue: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   moderationStatLabel: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
   },
   reviewStateCard: {
@@ -3591,12 +3591,12 @@ const styles = StyleSheet.create({
   reviewStateTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     textAlign: 'center',
   },
   reviewStateDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
   },
   reviewStateActionsRow: {
@@ -3619,7 +3619,7 @@ const styles = StyleSheet.create({
   reviewStateSecondaryButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   reviewSkeletonStack: {
     gap: spacing.md,
@@ -3701,7 +3701,7 @@ const styles = StyleSheet.create({
     backgroundColor: COMMUNITY_ACCENT,
   },
   retryModerationButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontFamily: typography.fontFamily.semibold,
     fontSize: typography.fontSize.sm,
   },
@@ -3733,12 +3733,12 @@ const styles = StyleSheet.create({
   caseAuthorName: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   caseMetaText: {
     marginTop: 2,
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   casePriorityPill: {
     paddingHorizontal: spacing.sm,
@@ -3773,18 +3773,18 @@ const styles = StyleSheet.create({
   },
   caseChipText: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   caseExcerpt: {
     fontSize: typography.fontSize.base,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
   },
   caseSummary: {
     marginTop: spacing.sm,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   caseSignalBlock: {
@@ -3794,7 +3794,7 @@ const styles = StyleSheet.create({
   caseSignalLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
@@ -3840,7 +3840,7 @@ const styles = StyleSheet.create({
   caseSignalOverflowText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   caseFooterHint: {
     marginTop: spacing.md,
@@ -3861,12 +3861,12 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   emptyDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
   },
   retryButton: {
@@ -3881,7 +3881,7 @@ const styles = StyleSheet.create({
   retryButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
 
   // Compose button styles
@@ -3956,12 +3956,12 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   sheetSubtitle: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   sheetLoadingState: {
@@ -3976,11 +3976,11 @@ const styles = StyleSheet.create({
   caseSectionTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   caseDetailText: {
     fontSize: typography.fontSize.base,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.base * typography.lineHeight.relaxed,
   },
   caseHeaderMetaRow: {
@@ -4000,13 +4000,13 @@ const styles = StyleSheet.create({
   relatedContentLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
   relatedContentText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   caseContextGrid: {
@@ -4027,13 +4027,13 @@ const styles = StyleSheet.create({
   caseContextLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
   caseContextValue: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontFamily: typography.fontFamily.medium,
   },
   caseInsightBlock: {
@@ -4042,16 +4042,16 @@ const styles = StyleSheet.create({
   caseInsightTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   caseInsightText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   caseInsightBullet: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   caseSignalHeaderRow: {
     flexDirection: 'row',
@@ -4062,11 +4062,11 @@ const styles = StyleSheet.create({
   caseSignalScore: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   caseSectionEmpty: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   caseReportsList: {
@@ -4082,7 +4082,7 @@ const styles = StyleSheet.create({
   caseReportReason: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   caseReportCountPill: {
     minWidth: 28,
@@ -4100,7 +4100,7 @@ const styles = StyleSheet.create({
   reasonChooserTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   reasonOptionsWrap: {
     gap: spacing.sm,
@@ -4119,7 +4119,7 @@ const styles = StyleSheet.create({
   },
   reasonOptionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   reasonOptionTextSelected: {
     color: COMMUNITY_ACCENT,
@@ -4141,20 +4141,20 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   sheetApproveButton: {
-    backgroundColor: colors.success,
+    backgroundColor: colors.warm.sage,
   },
   sheetApproveButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   sheetRejectButton: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
   },
   sheetRejectButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   sheetMuteButton: {
     backgroundColor: colors.warning,
@@ -4166,7 +4166,7 @@ const styles = StyleSheet.create({
   sheetRemoveButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   sheetTransferButton: {
     backgroundColor: `${colors.warning}1A`,
@@ -4180,7 +4180,7 @@ const styles = StyleSheet.create({
   },
   memberDetailHintText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     textAlign: 'center',
   },
@@ -4196,11 +4196,11 @@ const styles = StyleSheet.create({
   decisionErrorTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   decisionErrorText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   decisionRetryButton: {
@@ -4208,12 +4208,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
   },
   decisionRetryButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   membersSheetHeader: {
     flexDirection: 'row',
@@ -4232,7 +4232,7 @@ const styles = StyleSheet.create({
   membersSearchLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
@@ -4242,7 +4242,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.sm,
     backgroundColor: `${colors.background.tertiary}C8`,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontSize: typography.fontSize.base,
   },
   membersCloseText: {
@@ -4258,7 +4258,7 @@ const styles = StyleSheet.create({
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   memberAvatar: {
     width: 40,
@@ -4270,7 +4270,7 @@ const styles = StyleSheet.create({
   memberAvatarText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   memberInfo: {
     flex: 1,
@@ -4284,7 +4284,7 @@ const styles = StyleSheet.create({
   memberName: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   memberRolePill: {
     paddingHorizontal: spacing.sm,
@@ -4295,23 +4295,23 @@ const styles = StyleSheet.create({
   memberRoleText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   memberMeta: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   memberModerationState: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   memberModerationMeta: {
     marginTop: 2,
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   memberDetailButton: {
     minWidth: 92,
@@ -4320,12 +4320,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: spacing.base,
-    backgroundColor: `${colors.text.primary}E6`,
+    backgroundColor: `${colors.warm.ink}E6`,
   },
   memberDetailButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   memberDetailHero: {
     alignItems: 'center',
@@ -4343,21 +4343,21 @@ const styles = StyleSheet.create({
   memberDetailAvatarText: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   memberDetailName: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   memberDetailStatusTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   memberDetailStatusText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   memberActionButton: {
@@ -4372,12 +4372,12 @@ const styles = StyleSheet.create({
     backgroundColor: COMMUNITY_ACCENT,
   },
   memberActionDanger: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
   },
   memberActionText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   groupMenuAction: {
     flexDirection: 'row',
@@ -4394,12 +4394,12 @@ const styles = StyleSheet.create({
   groupMenuActionTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   groupMenuActionSubtitle: {
     marginTop: spacing.xs,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   groupMenuActionArrow: {
@@ -4417,7 +4417,7 @@ const styles = StyleSheet.create({
   groupMenuDismissButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
 
   // Modal styles

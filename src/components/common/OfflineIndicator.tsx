@@ -246,20 +246,20 @@ const styles = StyleSheet.create({
     height: 18,
     borderRadius: borderRadius.full,
     borderWidth: 2,
-    borderColor: colors.text.inverse,
+    borderColor: colors.warm.cream,
     justifyContent: 'center',
     alignItems: 'center',
   },
   iconLine: {
     width: 10,
     height: 2,
-    backgroundColor: colors.text.inverse,
+    backgroundColor: colors.warm.cream,
     transform: [{ rotate: '45deg' }],
   },
   message: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     textAlign: 'center',
   },
 });

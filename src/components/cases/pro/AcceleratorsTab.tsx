@@ -66,9 +66,9 @@ const getImpactColor = (impact: ImpactLevel): string => {
     case 'medium':
       return colors.warning;
     case 'low':
-      return colors.text.secondary;
+      return colors.warm.inkSoft;
     default:
-      return colors.text.secondary;
+      return colors.warm.inkSoft;
   }
 };
 
@@ -355,19 +355,19 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
 
   // Section
   sectionTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.md,
   },
   acceleratorsSection: {
@@ -405,13 +405,13 @@ const styles = StyleSheet.create({
   acceleratorTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     flex: 1,
     marginRight: spacing.sm,
   },
   acceleratorDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   expandIconContainer: {
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
   },
   expandIcon: {
     fontSize: 10,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
 
   // Impact Badge
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingBottom: spacing.md,
     borderTopWidth: 1,
-    borderTopColor: colors.border.light,
+    borderTopColor: colors.border.warm,
     marginTop: spacing.xs,
     paddingTop: spacing.md,
   },
@@ -451,14 +451,14 @@ const styles = StyleSheet.create({
   detailsLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     marginBottom: spacing.xs,
   },
   detailsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.sm * 1.5,
   },
   actionButton: {
@@ -469,7 +469,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   actionButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
   },
@@ -506,11 +506,11 @@ const styles = StyleSheet.create({
   mandamusTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginRight: spacing.sm,
   },
   urgentBadge: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     paddingHorizontal: spacing.sm,
     paddingVertical: 2,
     borderRadius: 4,
@@ -518,16 +518,16 @@ const styles = StyleSheet.create({
   urgentBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   mandamusDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   mandamusHighlight: {
     fontFamily: typography.fontFamily.bold,
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   mandamusDetails: {
     paddingHorizontal: spacing.md,
@@ -535,11 +535,11 @@ const styles = StyleSheet.create({
   },
   mandamusDetailsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * 1.5,
   },
   mandamusButton: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     marginHorizontal: spacing.md,
     marginBottom: spacing.md,
     paddingVertical: spacing.md,
@@ -548,7 +548,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mandamusButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
   },
@@ -565,13 +565,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
     textAlign: 'center',
   },
   emptyDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * 1.5,
   },

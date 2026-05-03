@@ -39,11 +39,14 @@ export const createRgba = (
 };
 
 /**
- * Creates a glass background color with custom opacity
- * Default: softly tinted brand surface for Requirement 4.1
+ * Creates a glass background color with custom opacity.
+ * EI redesign: cream tint (#FBF6EE) instead of stark white so every GlassCard
+ * across the app inherits the warm-minimalism palette without per-component
+ * edits. Components that explicitly want a cool surface can pass a different
+ * color via createColoredGlassBackground.
  */
 export const createGlassBackground = (opacity: number = GLASS_CONSTANTS.DEFAULT_OPACITY): string => {
-  return createRgba(255, 255, 255, opacity);
+  return createRgba(251, 246, 238, opacity);
 };
 
 /**
@@ -89,10 +92,12 @@ export const mixHexWithWhite = (hexColor: string, ratio: number): string => {
 };
 
 /**
- * Creates a glass border color with custom opacity
+ * Creates a glass border color with custom opacity.
+ * EI redesign: clay tint (rgba 201, 155, 126) instead of brand-navy so every
+ * GlassCard's edge reads warm by default.
  */
 export const createGlassBorder = (opacity: number = GLASS_CONSTANTS.BORDER_OPACITY): string => {
-  return createRgba(21, 52, 128, opacity);
+  return createRgba(201, 155, 126, opacity);
 };
 
 /**

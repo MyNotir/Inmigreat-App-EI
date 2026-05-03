@@ -575,7 +575,7 @@ export const ProfileSheet: React.FC<ProfileSheetProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
   },
   containerEmbedded: {
     backgroundColor: 'transparent',
@@ -599,19 +599,19 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   closeButton: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: colors.background.tertiary,
+    backgroundColor: colors.warm.cream,
     justifyContent: 'center',
     alignItems: 'center',
   },
   closeButtonText: {
     fontSize: typography.fontSize.md,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   userInfoCard: {
@@ -634,7 +634,7 @@ const styles = StyleSheet.create({
   avatarText: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   userDetails: {
     flex: 1,
@@ -642,7 +642,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   subscriptionBadge: {
@@ -650,22 +650,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
     borderRadius: borderRadius.medium,
-    backgroundColor: colors.background.tertiary,
+    backgroundColor: colors.warm.cream,
   },
   subscriptionText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   subscriptionTextPro: {
     color: colors.pro,
   },
   chatEntryButton: {
     marginTop: spacing.md,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
     paddingVertical: spacing.sm,
     alignItems: 'center',
   },
@@ -681,7 +681,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: typography.letterSpacing.wide,
   },
@@ -701,13 +701,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.md,
     borderRadius: borderRadius.large,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderWidth: 2,
     borderColor: 'transparent',
   },
   languageOptionSelected: {
     borderColor: colors.accent,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
   },
   flagContainer: {
     marginBottom: spacing.sm,
@@ -715,10 +715,10 @@ const styles = StyleSheet.create({
   languageText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   languageTextSelected: {
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontFamily: typography.fontFamily.semibold,
   },
   checkmark: {
@@ -733,7 +733,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkmarkText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
   },
@@ -746,7 +746,7 @@ const styles = StyleSheet.create({
   toggleLabel: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   toggleDivider: {
     height: 1,
@@ -764,12 +764,12 @@ const styles = StyleSheet.create({
   subscriptionLabel: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   subscriptionValue: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   subscriptionValuePro: {
     color: colors.pro,
@@ -784,10 +784,10 @@ const styles = StyleSheet.create({
   upgradeButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   manageButton: {
-    backgroundColor: colors.background.tertiary,
+    backgroundColor: colors.warm.cream,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
     alignItems: 'center',
@@ -796,13 +796,13 @@ const styles = StyleSheet.create({
   manageButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   logoutContainer: {
     marginTop: spacing.xl,
   },
   logoutButton: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.large,
     alignItems: 'center',
@@ -810,7 +810,7 @@ const styles = StyleSheet.create({
   logoutButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
 });
 

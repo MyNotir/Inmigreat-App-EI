@@ -76,10 +76,10 @@ type CommunityTranslate = (
 
 /** Role badge styles */
 const ROLE_BADGES: Record<string, { backgroundColor: string; textColor: string }> = {
-  'Moderador': { backgroundColor: colors.accent, textColor: colors.text.inverse },
-  'Pro': { backgroundColor: colors.pro, textColor: colors.text.inverse },
-  'Admin': { backgroundColor: colors.error, textColor: colors.text.inverse },
-  'Experto': { backgroundColor: colors.success, textColor: colors.text.inverse },
+  'Moderador': { backgroundColor: colors.accent, textColor: colors.warm.cream },
+  'Pro': { backgroundColor: colors.pro, textColor: colors.warm.cream },
+  'Admin': { backgroundColor: colors.status.urgentWarm, textColor: colors.warm.cream },
+  'Experto': { backgroundColor: colors.warm.sage, textColor: colors.warm.cream },
 };
 
 function normalizeCommunityLabel(value: string | undefined): string {
@@ -621,7 +621,7 @@ const ReplyInput: React.FC<{
           ref={inputRef}
           style={styles.textInput}
           placeholder={composerPlaceholder}
-          placeholderTextColor={colors.text.tertiary}
+          placeholderTextColor={colors.warm.inkFaint}
           value={text}
           onChangeText={setText}
           multiline
@@ -822,7 +822,7 @@ export const ThreadView: React.FC<ThreadViewProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
   },
   
   // Header styles
@@ -832,9 +832,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   backButton: {
     fontSize: typography.fontSize.base,
@@ -844,7 +844,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   headerSpacer: {
     width: 60,
@@ -871,7 +871,7 @@ const styles = StyleSheet.create({
   },
   postText: {
     fontSize: typography.fontSize.base,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     marginBottom: spacing.md,
   },
@@ -895,7 +895,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexWrap: 'wrap',
     borderTopWidth: 1,
-    borderTopColor: colors.border.light,
+    borderTopColor: colors.border.warm,
     paddingTop: spacing.md,
   },
   
@@ -905,7 +905,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
   },
@@ -926,7 +926,7 @@ const styles = StyleSheet.create({
   authorName: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginRight: spacing.xs,
   },
   authorNameSmall: {
@@ -944,7 +944,7 @@ const styles = StyleSheet.create({
   },
   timestamp: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginTop: 2,
   },
   
@@ -966,14 +966,14 @@ const styles = StyleSheet.create({
   },
   likeCount: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   likeCountSmall: {
     fontSize: typography.fontSize.xs,
   },
   likedCount: {
-    color: colors.error,
+    color: colors.status.urgentWarm,
   },
   
   // Comments count styles
@@ -988,7 +988,7 @@ const styles = StyleSheet.create({
   },
   commentsCountText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   
@@ -1004,7 +1004,7 @@ const styles = StyleSheet.create({
   },
   reportButtonText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   replyButtonTextSmall: {
@@ -1018,7 +1018,7 @@ const styles = StyleSheet.create({
   commentsSectionTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.md,
   },
   
@@ -1039,11 +1039,11 @@ const styles = StyleSheet.create({
   },
   commentContent: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
     borderRadius: borderRadius.medium,
     padding: spacing.md,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
   },
   commentHeader: {
     flexDirection: 'row',
@@ -1052,7 +1052,7 @@ const styles = StyleSheet.create({
   },
   commentText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.sm,
   },
@@ -1063,7 +1063,7 @@ const styles = StyleSheet.create({
   commentModerationSummary: {
     fontSize: typography.fontSize.xs,
     lineHeight: typography.fontSize.xs * typography.lineHeight.normal,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   commentResubmitButton: {
     alignSelf: 'flex-start',
@@ -1094,40 +1094,40 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   interactionNoticeCard: {
     marginBottom: spacing.base,
     padding: spacing.base,
     borderRadius: borderRadius.large,
     borderWidth: 1,
-    borderColor: colors.border.light,
-    backgroundColor: colors.background.primary,
+    borderColor: colors.border.warm,
+    backgroundColor: colors.warm.cream,
   },
   interactionNoticeText: {
     fontSize: typography.fontSize.sm,
     lineHeight: 20,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   
   // Reply input styles
   replyInputContainer: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
     borderTopWidth: 1,
-    borderTopColor: colors.border.light,
+    borderTopColor: colors.border.warm,
     padding: spacing.md,
   },
   disabledInputNotice: {
     borderRadius: borderRadius.medium,
     borderWidth: 1,
-    borderColor: colors.border.light,
-    backgroundColor: colors.background.secondary,
+    borderColor: colors.border.warm,
+    backgroundColor: colors.warm.sand,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.base,
   },
   disabledInputNoticeText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   replyingToBar: {
@@ -1137,11 +1137,11 @@ const styles = StyleSheet.create({
     marginBottom: spacing.sm,
     paddingBottom: spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   replyingToText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontStyle: 'italic',
   },
   cancelReplyText: {
@@ -1157,15 +1157,15 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 40,
     maxHeight: 100,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderRadius: borderRadius.medium,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     fontSize: typography.fontSize.base,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginRight: spacing.sm,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
   },
   sendButton: {
     backgroundColor: colors.accent,
@@ -1176,10 +1176,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   sendButtonDisabled: {
-    backgroundColor: colors.text.tertiary,
+    backgroundColor: colors.warm.inkFaint,
   },
   sendButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },

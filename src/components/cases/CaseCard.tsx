@@ -268,8 +268,8 @@ export const CaseCard: React.FC<CaseCardProps> = ({
     caseData.timeline.find((step) => step.date && step.date !== tx('caseCard.noDate', 'Sin fecha'))?.date ??
     tx('caseCard.noDate', 'Sin fecha');
   const localReviewDate = formatLocalReviewDate(caseData.lastCheckedAt, locale, tx);
-  const cardBackground = createGlassBackground(0.9);
-  const cardBorder = createColoredGlassBackground(accentColor, 0.12);
+  const cardBackground = colors.warm.cream;
+  const cardBorder = colors.border.warm;
   const cardStyle: ViewStyle = {
     ...styles.card,
     backgroundColor: cardBackground,
@@ -556,23 +556,23 @@ const styles = StyleSheet.create({
   caseTypeName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: 2,
   },
   formNumber: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   
   // Urgency badge styles - Requirement 6.10
   urgentBadge: {
-    backgroundColor: colors.error,
+    backgroundColor: colors.status.urgentWarm,
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
     borderRadius: borderRadius.small,
   },
   urgentBadgeText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
     letterSpacing: 0.5,
@@ -598,7 +598,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.md * typography.lineHeight.snug,
   },
   currentStatusTextCentered: {
@@ -610,19 +610,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: spacing.sm,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   detailRowLast: {
     borderBottomWidth: 0,
   },
   detailLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   detailValue: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   eoirSummaryRow: {
     flexDirection: 'row',
@@ -639,8 +639,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: borderRadius.medium,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border.light,
-    backgroundColor: colors.background.secondary,
+    borderColor: colors.border.warm,
+    backgroundColor: colors.warm.sand,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
   },
@@ -653,19 +653,19 @@ const styles = StyleSheet.create({
   eoirHearingLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginBottom: spacing.xs,
   },
   eoirHearingValue: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   eoirDecisionCard: {
     borderRadius: borderRadius.medium,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.border.light,
-    backgroundColor: colors.background.secondary,
+    borderColor: colors.border.warm,
+    backgroundColor: colors.warm.sand,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
     marginTop: spacing.xs,
@@ -673,12 +673,12 @@ const styles = StyleSheet.create({
   eoirDecisionText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   eoirInfoCard: {
     borderRadius: borderRadius.medium,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     marginTop: spacing.sm,
@@ -688,7 +688,7 @@ const styles = StyleSheet.create({
   },
   eoirInfoText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   eoirInfoTextAddress: {
@@ -707,7 +707,7 @@ const styles = StyleSheet.create({
   },
   progressLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   progressPercentage: {
     fontSize: typography.fontSize.sm,
@@ -715,7 +715,7 @@ const styles = StyleSheet.create({
   },
   progressBarBackground: {
     height: 8,
-    backgroundColor: colors.background.tertiary,
+    backgroundColor: colors.warm.cream,
     borderRadius: borderRadius.full,
     overflow: 'hidden',
   },
@@ -736,7 +736,7 @@ const styles = StyleSheet.create({
   },
   updateText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   updateTextCentered: {
     textAlign: 'center',
@@ -753,21 +753,21 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: colors.success,
+    backgroundColor: colors.warm.sage,
     marginRight: spacing.sm,
   },
   communityText: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   communityCount: {
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   communityArrow: {
     fontSize: typography.fontSize.md,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginLeft: spacing.sm,
   },
 });

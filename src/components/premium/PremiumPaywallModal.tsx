@@ -165,20 +165,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     marginBottom: spacing.sm,
   },
   description: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
   },
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   benefitText: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     lineHeight: typography.fontSize.sm * typography.lineHeight.relaxed,
   },
   pricing: {
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   pricePeriod: {
     fontSize: typography.fontSize.md,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginLeft: spacing.xs,
   },
   actions: {
@@ -228,14 +228,14 @@ const styles = StyleSheet.create({
   subscribeButtonText: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   chatButton: {
     paddingVertical: spacing.md,
     borderRadius: borderRadius.full,
     alignItems: 'center',
     borderWidth: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
   },
   chatButtonText: {
     fontSize: typography.fontSize.base,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   dismissButtonText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
 });

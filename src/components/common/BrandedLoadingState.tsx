@@ -183,14 +183,14 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.extrabold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     textAlign: 'center',
   },
   heroSubtitle: {
     maxWidth: 228,
     fontSize: typography.fontSize.sm,
     lineHeight: 19,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
   },
 });

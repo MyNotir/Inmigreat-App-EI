@@ -100,8 +100,8 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
           dotBackground: accentColor,
           dotBorder: accentColor,
           lineColor: accentColor,
-          textColor: colors.text.primary,
-          dateColor: colors.text.secondary,
+          textColor: colors.warm.ink,
+          dateColor: colors.warm.inkSoft,
           showCheck: true,
         };
       case 'future':
@@ -110,8 +110,8 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
           dotBackground: 'transparent',
           dotBorder: colors.border.medium,
           lineColor: colors.border.light,
-          textColor: colors.text.tertiary,
-          dateColor: colors.text.tertiary,
+          textColor: colors.warm.inkFaint,
+          dateColor: colors.warm.inkFaint,
           showCheck: false,
         };
     }
@@ -146,7 +146,7 @@ const TimelineStepItem: React.FC<TimelineStepItemProps> = ({
             ]}
           >
             {stepStyles.showCheck && (
-              <CheckIcon size={12} color={colors.text.inverse} />
+              <CheckIcon size={12} color={colors.warm.cream} />
             )}
           </View>
         </View>
@@ -267,7 +267,7 @@ export const CaseTimeline: React.FC<CaseTimelineProps> = ({
             </Text>
           )}
           <Animated.View style={chevronAnimatedStyle}>
-            <ChevronIcon size={20} color={colors.text.secondary} />
+            <ChevronIcon size={20} color={colors.warm.inkSoft} />
           </Animated.View>
         </View>
       </TouchableOpacity>
@@ -298,7 +298,7 @@ export const CaseTimeline: React.FC<CaseTimelineProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderRadius: borderRadius.medium,
     overflow: 'hidden',
   },
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   headerRight: {
     flexDirection: 'row',
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
   },
   hiddenCount: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginRight: spacing.xs,
   },
 

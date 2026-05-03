@@ -536,12 +536,12 @@ const styles = StyleSheet.create({
   errorTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   errorText: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.base * typography.lineHeight.normal,
     marginBottom: spacing.md,
   },
@@ -552,13 +552,13 @@ const styles = StyleSheet.create({
   secondaryButton: {
     flex: 1,
     borderWidth: 1,
-    borderColor: colors.border.medium,
+    borderColor: colors.border.warmStrong,
     borderRadius: borderRadius.medium,
     paddingVertical: spacing.sm,
     alignItems: 'center',
   },
   secondaryButtonText: {
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
   },
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },

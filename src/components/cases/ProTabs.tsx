@@ -81,7 +81,7 @@ const TabButton: React.FC<TabButtonProps> = ({ tab, label, isActive, onPress }) 
       style={styles.tabButton}
     >
       <Animated.View style={[styles.tabButtonContent, animatedStyle]}>
-        <Icon size={20} color={isActive ? colors.pro : colors.text.tertiary} />
+        <Icon size={20} color={isActive ? colors.pro : colors.warm.inkFaint} />
         <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
           {label}
         </Text>
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   tabBarContainer: { paddingHorizontal: spacing.base, paddingTop: spacing.sm },
   tabBar: {
     flexDirection: 'row',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderRadius: borderRadius.large,
     padding: spacing.xs,
     position: 'relative',
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginTop: spacing.xs,
     textAlign: 'center',
   },
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   indicatorInner: {
     flex: 1,
-    backgroundColor: colors.background.primary,
+    backgroundColor: colors.warm.cream,
     borderRadius: borderRadius.medium,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -280,12 +280,12 @@ const styles = StyleSheet.create({
   paywallTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   paywallDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     lineHeight: typography.fontSize.base * typography.lineHeight.relaxed,
     marginBottom: spacing.lg,
@@ -293,14 +293,14 @@ const styles = StyleSheet.create({
   },
   paywallPriceContainer: { flexDirection: 'row', alignItems: 'baseline', marginBottom: spacing.lg },
   paywallPrice: { fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.bold, color: colors.pro },
-  paywallPeriod: { fontSize: typography.fontSize.md, color: colors.text.secondary, marginLeft: spacing.xs },
+  paywallPeriod: { fontSize: typography.fontSize.md, color: colors.warm.inkSoft, marginLeft: spacing.xs },
   paywallButton: {
     backgroundColor: colors.pro,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.full,
   },
-  paywallButtonText: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.inverse },
+  paywallButtonText: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.cream },
 });
 
 export default ProTabs;

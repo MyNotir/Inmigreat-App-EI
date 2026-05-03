@@ -58,7 +58,7 @@ type CaseDetailTranslate = (
 
 const BackIcon: React.FC<{ size?: number; color?: string }> = ({
   size = 24,
-  color = colors.text.primary,
+  color = colors.warm.ink,
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
@@ -766,7 +766,7 @@ export const CaseDetailScreen: React.FC = () => {
             onPress={() => navigation.goBack()}
             activeOpacity={0.7}
           >
-            <BackIcon size={22} color={colors.text.primary} />
+            <BackIcon size={22} color={colors.warm.ink} />
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
             <Text style={styles.headerTitle} numberOfLines={1}>
@@ -802,28 +802,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
     paddingVertical: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   backButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.sm,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
   },
   headerTitleContainer: { flex: 1 },
   headerTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: 2,
   },
   scrollView: { flex: 1 },
@@ -835,7 +835,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.md,
   },
   actionRow: {
@@ -853,22 +853,22 @@ const styles = StyleSheet.create({
   primaryActionButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   secondaryActionButton: {
     flex: 1,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
     borderRadius: 999,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
     alignItems: 'center',
   },
   secondaryActionButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   chatActionButton: {
     flex: 1,
@@ -890,7 +890,7 @@ const styles = StyleSheet.create({
   },
   refreshingText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginBottom: spacing.md,
   },
   proTabs: { minHeight: 400 },
@@ -906,12 +906,12 @@ const styles = StyleSheet.create({
   errorTitle: {
     fontSize: typography.fontSize.xl,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   errorDescription: {
     fontSize: typography.fontSize.base,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     marginBottom: spacing.lg,
   },
@@ -924,7 +924,7 @@ const styles = StyleSheet.create({
   retryButtonText: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   unavailableCard: {
     padding: spacing.lg,
@@ -933,12 +933,12 @@ const styles = StyleSheet.create({
   unavailableTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
   },
   unavailableDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   inlineErrorCard: {
@@ -949,7 +949,7 @@ const styles = StyleSheet.create({
   },
   inlineErrorText: {
     fontSize: typography.fontSize.sm,
-    color: colors.error,
+    color: colors.status.urgentWarm,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   inlineWarningCard: {
@@ -961,12 +961,12 @@ const styles = StyleSheet.create({
   inlineWarningTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   inlineWarningText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   infoNoticeCard: {
@@ -977,12 +977,12 @@ const styles = StyleSheet.create({
   infoNoticeTitle: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   infoNoticeText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   infoCard: {
@@ -992,7 +992,7 @@ const styles = StyleSheet.create({
   infoCardTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   infoRow: {
@@ -1002,23 +1002,23 @@ const styles = StyleSheet.create({
     gap: spacing.md,
     paddingVertical: spacing.xs,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.border.light,
+    borderBottomColor: colors.border.warm,
   },
   infoLabel: {
     flex: 1,
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   infoValue: {
     flex: 1,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     textAlign: 'right',
   },
   emptySectionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
 });

@@ -284,13 +284,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs / 2,
   },
   body: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.normal,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   dismissButton: {
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
   dismissText: {
     fontSize: 18,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: 20,
     textAlign: 'center',
   },

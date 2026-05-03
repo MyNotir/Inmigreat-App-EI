@@ -54,19 +54,19 @@ import { storage } from '../services/storage';
 import { colors, spacing, typography, borderRadius } from '../styles/theme';
 import type { Case } from '../types/case';
 
-const BellIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = colors.text.primary }) => (
+const BellIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = colors.warm.ink }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M18 8A6 6 0 1 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
-const BellOffIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = colors.text.primary }) => (
+const BellOffIcon: React.FC<{ size?: number; color?: string }> = ({ size = 24, color = colors.warm.ink }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M13.73 21a2 2 0 0 1-3.46 0M18.63 13A17.89 17.89 0 0 1 18 8M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14M18 8a6 6 0 0 0-9.33-5M1 1l22 22" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
 );
 
-const PlusIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = colors.text.inverse }) => (
+const PlusIcon: React.FC<{ size?: number; color?: string }> = ({ size = 18, color = colors.warm.cream }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M12 5v14M5 12h14" stroke={color} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
   </Svg>
@@ -395,7 +395,7 @@ export const CasesScreen: React.FC = () => {
               </TouchableOpacity>
             ) : null}
             <TouchableOpacity style={[styles.alertButton, alertsEnabled && styles.alertButtonActive]} onPress={handleAlertToggle}>
-              {alertsEnabled ? <BellIcon size={20} color={colors.accent} /> : <BellOffIcon size={20} color={colors.text.tertiary} />}
+              {alertsEnabled ? <BellIcon size={20} color={colors.accent} /> : <BellOffIcon size={20} color={colors.warm.inkFaint} />}
             </TouchableOpacity>
           </View>
         </View>
@@ -448,8 +448,8 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: spacing.base, paddingVertical: spacing.md },
   headerTitleContainer: { flex: 1 },
   headerActions: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
-  headerTitle: { fontSize: typography.fontSize['2xl'], fontFamily: typography.fontFamily.bold, color: colors.text.primary },
-  headerSubtitle: { fontSize: typography.fontSize.sm, color: colors.text.secondary, marginTop: spacing.xs },
+  headerTitle: { fontSize: typography.fontSize['2xl'], fontFamily: typography.fontFamily.bold, color: colors.warm.ink },
+  headerSubtitle: { fontSize: typography.fontSize.sm, color: colors.warm.inkSoft, marginTop: spacing.xs },
   addHeaderButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -462,35 +462,35 @@ const styles = StyleSheet.create({
   addHeaderButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   devPreviewButton: {
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     borderRadius: borderRadius.full,
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
   },
   devPreviewButtonText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
-  alertButton: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.background.secondary, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border.light },
+  alertButton: { width: 44, height: 44, borderRadius: 22, backgroundColor: colors.warm.sand, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: colors.border.warm },
   alertButtonActive: { backgroundColor: `${colors.accent}15`, borderColor: `${colors.accent}30` },
   scrollView: { flex: 1 },
   scrollContent: { paddingBottom: spacing['3xl'] },
   casesSection: { paddingHorizontal: spacing.base },
   caseContainer: { marginBottom: spacing.md },
   proSection: { marginTop: spacing.lg, paddingHorizontal: spacing.base },
-  sectionTitle: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.semibold, color: colors.text.primary, marginBottom: spacing.md },
+  sectionTitle: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink, marginBottom: spacing.md },
   proTabs: { minHeight: 400 },
   emptyCard: { margin: spacing.base, padding: spacing.xl, alignItems: 'center' },
-  emptyTitle: { fontSize: typography.fontSize.xl, fontFamily: typography.fontFamily.semibold, color: colors.text.primary, marginBottom: spacing.sm },
-  emptyDescription: { fontSize: typography.fontSize.base, color: colors.text.secondary, textAlign: 'center', marginBottom: spacing.lg },
+  emptyTitle: { fontSize: typography.fontSize.xl, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink, marginBottom: spacing.sm },
+  emptyDescription: { fontSize: typography.fontSize.base, color: colors.warm.inkSoft, textAlign: 'center', marginBottom: spacing.lg },
   addCaseButton: { backgroundColor: colors.accent, paddingHorizontal: spacing.xl, paddingVertical: spacing.md, borderRadius: borderRadius.full },
-  addCaseButtonText: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.text.inverse },
+  addCaseButtonText: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.cream },
 });
 
 export default CasesScreen;

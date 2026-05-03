@@ -94,7 +94,7 @@ type ResourcesTranslate = (
 
 const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 20, 
-  color = colors.text.secondary 
+  color = colors.warm.inkSoft 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M6 9l6 6 6-6" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -103,7 +103,7 @@ const ChevronDownIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const BriefcaseIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.text.primary 
+  color = colors.warm.ink 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="2" y="7" width="20" height="14" rx="2" stroke={color} strokeWidth={2} />
@@ -113,7 +113,7 @@ const BriefcaseIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const CalculatorIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.text.primary 
+  color = colors.warm.ink 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="4" y="2" width="16" height="20" rx="2" stroke={color} strokeWidth={2} />
@@ -132,7 +132,7 @@ const CalculatorIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const BookIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.text.primary 
+  color = colors.warm.ink 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke={color} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -142,7 +142,7 @@ const BookIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const CalendarIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 24, 
-  color = colors.text.primary 
+  color = colors.warm.ink 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Rect x="3" y="4" width="18" height="18" rx="2" stroke={color} strokeWidth={2} />
@@ -173,7 +173,7 @@ const MailIcon: React.FC<{ size?: number; color?: string }> = ({
 
 const SearchIcon: React.FC<{ size?: number; color?: string }> = ({ 
   size = 20, 
-  color = colors.text.tertiary 
+  color = colors.warm.inkFaint 
 }) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Circle cx="11" cy="11" r="8" stroke={color} strokeWidth={2} />
@@ -587,7 +587,7 @@ const VisaBulletinRow: React.FC<VisaBulletinRowProps> = ({ data, tx }) => {
       case 'forward': return colors.success;
       case 'retrogressed': return colors.error;
       case 'current': return colors.accent;
-      default: return colors.text.secondary;
+      default: return colors.warm.inkSoft;
     }
   };
 
@@ -877,7 +877,7 @@ export const ResourcesScreen: React.FC = () => {
               <TextInput
                 style={styles.searchInput}
                 placeholder={resourcesTx('section.glossary.searchPlaceholder', 'Buscar termino...')}
-                placeholderTextColor={colors.text.tertiary}
+                placeholderTextColor={colors.warm.inkFaint}
                 value={glossarySearch}
                 onChangeText={setGlossarySearch}
               />
@@ -986,23 +986,23 @@ const styles = StyleSheet.create({
     backgroundColor: RESOURCES_ACCENT,
   },
   profileAvatarText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.bold,
   },
   profileButtonLabel: {
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },
   headerTitle: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: spacing.xs,
   },
 
@@ -1039,7 +1039,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   sectionContent: {
     paddingHorizontal: spacing.base,
@@ -1049,7 +1049,7 @@ const styles = StyleSheet.create({
   },
   sectionDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: spacing.md,
     marginBottom: spacing.md,
   },
@@ -1074,11 +1074,11 @@ const styles = StyleSheet.create({
   attorneyName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   attorneyFirm: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: 2,
   },
   attorneySpecialty: {
@@ -1088,7 +1088,7 @@ const styles = StyleSheet.create({
   },
   attorneyLocation: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginTop: spacing.xs,
     marginBottom: spacing.sm,
   },
@@ -1134,7 +1134,7 @@ const styles = StyleSheet.create({
   calculatorLabel: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginBottom: spacing.sm,
     marginTop: spacing.md,
   },
@@ -1157,7 +1157,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   optionTextActive: {
     color: colors.accent,
@@ -1174,17 +1174,17 @@ const styles = StyleSheet.create({
   },
   resultLabel: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginBottom: spacing.xs,
   },
   resultValue: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.bold,
-    color: colors.success,
+    color: "#5A7660",
   },
   resultNote: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginTop: spacing.xs,
   },
 
@@ -1204,7 +1204,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: spacing.sm,
     fontSize: typography.fontSize.base,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   glossaryItem: {
     backgroundColor: 'transparent',
@@ -1223,7 +1223,7 @@ const styles = StyleSheet.create({
   glossaryTerm: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     flex: 1,
   },
   categoryBadge: {
@@ -1238,12 +1238,12 @@ const styles = StyleSheet.create({
   },
   glossaryDefinition: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: 20,
   },
   noResultsText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     textAlign: 'center',
     paddingVertical: spacing.lg,
   },
@@ -1260,7 +1260,7 @@ const styles = StyleSheet.create({
   bulletinHeaderText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   bulletinRow: {
     flexDirection: 'row',
@@ -1276,11 +1276,11 @@ const styles = StyleSheet.create({
   bulletinCategoryText: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   bulletinAreaText: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     marginTop: 2,
   },
   bulletinDate: {
@@ -1289,7 +1289,7 @@ const styles = StyleSheet.create({
   bulletinDateText: {
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   bulletinMovement: {
     fontSize: typography.fontSize.xs,
@@ -1297,7 +1297,7 @@ const styles = StyleSheet.create({
   },
   bulletinNote: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
     fontStyle: 'italic',
     marginTop: spacing.md,
     textAlign: 'center',

@@ -33,10 +33,10 @@ export interface PostCardProps {
 }
 
 const ROLE_BADGES: Record<string, { backgroundColor: string; textColor: string }> = {
-  'Moderador': { backgroundColor: colors.accent, textColor: colors.text.inverse },
-  'Pro': { backgroundColor: colors.pro, textColor: colors.text.inverse },
-  'Admin': { backgroundColor: colors.error, textColor: colors.text.inverse },
-  'Experto': { backgroundColor: colors.success, textColor: colors.text.inverse },
+  'Moderador': { backgroundColor: colors.accent, textColor: colors.warm.cream },
+  'Pro': { backgroundColor: colors.pro, textColor: colors.warm.cream },
+  'Admin': { backgroundColor: colors.status.urgentWarm, textColor: colors.warm.cream },
+  'Experto': { backgroundColor: colors.warm.sage, textColor: colors.warm.cream },
 };
 
 const TAG_STYLES: Record<string, { backgroundColor: string; textColor: string }> = {
@@ -209,21 +209,21 @@ const styles = StyleSheet.create({
   card: { padding: spacing.base },
   header: { flexDirection: 'row', alignItems: 'flex-start', marginBottom: spacing.md },
   avatar: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' },
-  avatarText: { color: colors.text.inverse, fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold },
+  avatarText: { color: colors.warm.cream, fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold },
   authorInfo: { marginLeft: spacing.sm, flex: 1 },
   nameRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' },
-  authorName: { fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold, color: colors.text.primary, marginRight: spacing.xs },
+  authorName: { fontSize: typography.fontSize.base, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink, marginRight: spacing.xs },
   roleBadge: { paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: borderRadius.small },
   roleBadgeText: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.bold, letterSpacing: 0.3 },
-  timestamp: { fontSize: typography.fontSize.sm, color: colors.text.tertiary, marginTop: 2 },
-  postText: { fontSize: typography.fontSize.base, color: colors.text.primary, lineHeight: typography.fontSize.base * typography.lineHeight.normal, marginBottom: spacing.md },
+  timestamp: { fontSize: typography.fontSize.sm, color: colors.warm.inkFaint, marginTop: 2 },
+  postText: { fontSize: typography.fontSize.base, color: colors.warm.ink, lineHeight: typography.fontSize.base * typography.lineHeight.normal, marginBottom: spacing.md },
   tagContainer: { flexDirection: 'row', marginBottom: spacing.md },
   tag: { paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: borderRadius.full },
   tagText: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.medium },
   moderationWrap: { marginBottom: spacing.md, gap: spacing.xs },
   moderationSummary: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   footer: {
@@ -236,11 +236,11 @@ const styles = StyleSheet.create({
   },
   actionButton: { flexDirection: 'row', alignItems: 'center', marginRight: spacing.lg },
   actionIcon: { fontSize: typography.fontSize.md, marginRight: spacing.xs },
-  actionCount: { fontSize: typography.fontSize.sm, color: colors.text.secondary, fontFamily: typography.fontFamily.medium },
-  likedCount: { color: colors.error },
+  actionCount: { fontSize: typography.fontSize.sm, color: colors.warm.inkSoft, fontFamily: typography.fontFamily.medium },
+  likedCount: { color: colors.status.urgentWarm },
   reportActionText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
 });

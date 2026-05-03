@@ -26,20 +26,21 @@ import { colors as themeColors } from '../../styles/theme';
 type GradientColors = readonly [ColorValue, ColorValue, ...ColorValue[]];
 
 /**
- * Default gradient colors as specified in Requirements 4.3
+ * Default gradient colors — warm-minimalism EI palette.
+ * Cream → sand → cream cycle gives surfaces a paper-feel.
  */
 export const DEFAULT_GRADIENT_COLORS: GradientColors = [
-  themeColors.background.gradient[0],
-  themeColors.background.gradient[1],
-  themeColors.background.gradient[2],
-  themeColors.background.gradient[3],
+  themeColors.warm.cream,
+  themeColors.warm.sand,
+  themeColors.warm.cream,
+  themeColors.warm.peach,
 ] as const;
 
 export const ONBOARDING_GRADIENT_COLORS: GradientColors = [
-  '#FFFFFF',
-  '#F3F8FC',
-  '#F4F5F9',
-  '#F8F7FF',
+  themeColors.warm.cream,
+  themeColors.warm.sand,
+  themeColors.warm.cream,
+  themeColors.warm.peach,
 ] as const;
 
 /**

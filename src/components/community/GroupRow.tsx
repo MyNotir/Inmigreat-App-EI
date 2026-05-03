@@ -371,12 +371,12 @@ const styles = StyleSheet.create({
   groupName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     flex: 1,
   },
   description: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
   },
   
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
     marginLeft: spacing.sm,
   },
   proBadgeText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.bold,
     letterSpacing: 0.5,
@@ -426,11 +426,11 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
   statLabel: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     marginTop: 2,
   },
   statDivider: {
@@ -446,11 +446,11 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: colors.success,
+    backgroundColor: colors.warm.sage,
     marginRight: spacing.xs,
   },
   growthValue: {
-    color: colors.success,
+    color: "#5A7660",
   },
   
   // Pinned post styles
@@ -481,13 +481,13 @@ const styles = StyleSheet.create({
   pinnedPostLabel: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   pinnedPostText: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     fontStyle: 'italic',
     lineHeight: typography.fontSize.sm * typography.lineHeight.normal,
     marginBottom: spacing.xs,
@@ -499,12 +499,12 @@ const styles = StyleSheet.create({
   },
   pinnedPostAuthor: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     fontFamily: typography.fontFamily.medium,
   },
   pinnedPostTimestamp: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
   
   // Tags row styles
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   trendingTag: {
     backgroundColor: `${colors.accent}10`,
@@ -556,7 +556,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.medium,
   },
   joinButtonFreeText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },
@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.medium,
   },
   joinButtonPaidText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.sm,
     fontFamily: typography.fontFamily.semibold,
   },

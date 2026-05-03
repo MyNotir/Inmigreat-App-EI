@@ -38,7 +38,7 @@ const buildToneStyles = (tx: (key: string, fallback: string) => string): Record<
   success: {
     glyph: '✓',
     label: tx('alert.tone.success', 'Listo'),
-    color: colors.success,
+    color: "#5A7660",
     background: `${colors.success}15`,
     border: `${colors.success}30`,
   },
@@ -52,7 +52,7 @@ const buildToneStyles = (tx: (key: string, fallback: string) => string): Record<
   error: {
     glyph: '!',
     label: tx('alert.tone.error', 'Error'),
-    color: colors.error,
+    color: colors.status.urgentWarm,
     background: `${colors.error}14`,
     border: `${colors.error}26`,
   },
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: typography.fontSize['2xl'],
     fontFamily: typography.fontFamily.extrabold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     letterSpacing: typography.letterSpacing.tight,
   },
   bodyContent: {
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: typography.fontSize.md,
     lineHeight: typography.fontSize.md * typography.lineHeight.normal,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   actions: {
     marginTop: spacing.xl,
@@ -310,13 +310,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.68)',
   },
   actionButtonText: {
-    color: colors.text.inverse,
+    color: colors.warm.cream,
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.semibold,
     letterSpacing: typography.letterSpacing.wide,
   },
   actionButtonTextCancel: {
-    color: colors.text.primary,
+    color: colors.warm.ink,
   },
 });
 

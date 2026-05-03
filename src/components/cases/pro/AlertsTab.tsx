@@ -98,11 +98,11 @@ const getAlertColor = (type: AlertType, severity?: Alert['severity']): string =>
     case 'bulletin':
       return colors.accent;
     case 'risk':
-      return severity === 'high' ? colors.error : severity === 'medium' ? colors.warning : colors.text.secondary;
+      return severity === 'high' ? colors.error : severity === 'medium' ? colors.warning : colors.warm.inkSoft;
     case 'matched':
       return colors.pro;
     default:
-      return colors.text.secondary;
+      return colors.warm.inkSoft;
   }
 };
 
@@ -417,12 +417,12 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.xs,
   },
   headerSubtitle: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
 
   // Alert Section
@@ -437,12 +437,12 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginLeft: spacing.sm,
     flex: 1,
   },
   sectionBadge: {
-    backgroundColor: colors.background.tertiary,
+    backgroundColor: colors.warm.cream,
     paddingHorizontal: spacing.sm,
     paddingVertical: 2,
     borderRadius: 10,
@@ -450,18 +450,18 @@ const styles = StyleSheet.create({
   sectionBadgeText: {
     fontSize: typography.fontSize.xs,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
 
   // Alert Card
   alertCard: {
     flexDirection: 'row',
-    backgroundColor: colors.background.secondary,
+    backgroundColor: colors.warm.sand,
     borderRadius: 12,
     padding: spacing.md,
     marginBottom: spacing.sm,
     borderWidth: 1,
-    borderColor: colors.border.light,
+    borderColor: colors.border.warm,
   },
   alertCardHighRisk: {
     borderColor: `${colors.error}40`,
@@ -487,17 +487,17 @@ const styles = StyleSheet.create({
   alertTitle: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     flex: 1,
     marginRight: spacing.sm,
   },
   alertTimestamp: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
   alertDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     lineHeight: typography.fontSize.sm * 1.4,
   },
   alertMeta: {
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
   matchedUserInitials: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.inverse,
+    color: colors.warm.cream,
   },
   matchedUserInfo: {
     flex: 1,
@@ -553,12 +553,12 @@ const styles = StyleSheet.create({
   matchedUserName: {
     fontSize: typography.fontSize.md,
     fontFamily: typography.fontFamily.medium,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: 2,
   },
   matchedUserCase: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
   },
   matchedUserSimilarity: {
     alignItems: 'flex-end',
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
   },
   similarityLabel: {
     fontSize: typography.fontSize.xs,
-    color: colors.text.tertiary,
+    color: colors.warm.inkFaint,
   },
   userDivider: {
     height: 1,
@@ -590,13 +590,13 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.semibold,
-    color: colors.text.primary,
+    color: colors.warm.ink,
     marginBottom: spacing.sm,
     textAlign: 'center',
   },
   emptyDescription: {
     fontSize: typography.fontSize.sm,
-    color: colors.text.secondary,
+    color: colors.warm.inkSoft,
     textAlign: 'center',
     lineHeight: typography.fontSize.sm * 1.5,
   },
