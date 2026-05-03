@@ -19,6 +19,7 @@ import { useFadeUp, usePopIn, getStaggerDelay } from '../../styles/animations';
 import { colors, typography, spacing } from '../../styles/theme';
 import { OnboardingStackParamList } from '../../types/navigation';
 import { useViewTranslation } from '../../i18n';
+import { useAuth } from '../../context/AuthContext';
 
 /** Auto-navigation delay in milliseconds */
 const AUTO_NAVIGATE_DELAY = 2500;
@@ -65,6 +66,7 @@ const MetricItem: React.FC<MetricItemProps> = ({ value, label, index }) => {
  */
 export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
   const { t } = useViewTranslation('onboarding');
+  const { __devBypassAuth } = useAuth();
   const [autoNavigate, setAutoNavigate] = useState(true);
 
   const metrics = [
@@ -157,6 +159,23 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ navigation }) => {
           >
             <Text style={styles.eiPreviewLabel}>Preview · EI Redesign →</Text>
           </TouchableOpacity>
+
+          {/* DEV-only demo login: bypass real Cognito and drop straight into
+              Main tabs so you can navigate Cases / Chat / Community / Resources
+              without a backend. Hidden in production builds. */}
+          {__DEV__ && __devBypassAuth ? (
+            <TouchableOpacity
+              style={styles.devLoginButton}
+              onPress={() => {
+                setAutoNavigate(false);
+                __devBypassAuth();
+              }}
+              accessibilityRole="button"
+              accessibilityLabel="Dev demo login — bypass real auth"
+            >
+              <Text style={styles.devLoginLabel}>Demo Login (sin password) →</Text>
+            </TouchableOpacity>
+          ) : null}
         </View>
       </SafeAreaView>
     </AnimatedBackground>
@@ -242,6 +261,19 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.clay,
+    letterSpacing: 0.4,
+  },
+  devLoginButton: {
+    marginTop: spacing.md,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: 999,
+    backgroundColor: colors.accent,
+  },
+  devLoginLabel: {
+    fontSize: 13,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.text.inverse,
     letterSpacing: 0.4,
   },
 });

@@ -70,6 +70,12 @@ interface AuthContextValue {
   }) => Promise<void>;
   updateNotificationPreferences: (settings: Partial<NotificationSettings>) => Promise<void>;
   isBiometricEnabled: boolean;
+  /**
+   * Dev-only: bypass real Cognito auth and drop the user straight into Main.
+   * Available only when __DEV__ is true. Used by the Splash 'Preview app'
+   * button when no real backend is configured (placeholder .env values).
+   */
+  __devBypassAuth?: () => void;
 }
 
 const DEFAULT_LANGUAGE: Language = 'ES';
@@ -553,6 +559,23 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
     [authToken, currentUser, isAuthenticated],
   );
 
+  const __devBypassAuth = useCallback(() => {
+    if (!__DEV__) return;
+    const fakeUser: User = {
+      id: 'dev-user-001',
+      name: draftUserName ?? 'Demo',
+      email: 'demo@inmigreat.local',
+      language: draftLanguage,
+      isPro: true,
+      biometricEnabled: false,
+      notificationSettings: DEFAULT_NOTIFICATION_SETTINGS,
+    };
+    setCurrentUserState(fakeUser);
+    setAuthTokenState('dev-bypass-token');
+    setIsAuthenticated(true);
+    setIsLoading(false);
+  }, [draftLanguage, draftUserName]);
+
   const contextValue = useMemo<AuthContextValue>(
     () => ({
       authState,
@@ -577,6 +600,7 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
       updateProfile,
       updateNotificationPreferences,
       isBiometricEnabled,
+      __devBypassAuth: __DEV__ ? __devBypassAuth : undefined,
     }),
     [
       authState,
@@ -601,6 +625,7 @@ export function AuthProvider({ children }: AuthProviderProps): React.ReactElemen
       updateProfile,
       updateNotificationPreferences,
       isBiometricEnabled,
+      __devBypassAuth,
     ],
   );
 
