@@ -22,11 +22,10 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp, useFocusEffect } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 
-import { AnimatedBackground } from '../components/common/AnimatedBackground';
+import { WarmScreen } from '../components/common/WarmScreen';
 import { BrandedLoadingState } from '../components/common/BrandedLoadingState';
 import { GlassCard } from '../components/common/GlassCard';
 import { PushToast } from '../components/common/PushToast';
@@ -1668,12 +1667,11 @@ export const GroupDetailScreen: React.FC = () => {
   }, [activeTab, filteredModerationCases, focusModerationCaseInList, isModerationLoading, pendingFocusedCaseIndex]);
 
   return (
-    <AnimatedBackground>
-      <SafeAreaView style={styles.container} edges={['top']}>
+    <WarmScreen edges={['top']}>
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBack} activeOpacity={0.7}>
-            <Text style={styles.backButton}>← {tx('common.back', 'Volver')}</Text>
+          <TouchableOpacity onPress={handleBack} activeOpacity={0.7} style={styles.backChip} hitSlop={12}>
+            <Text style={styles.backChevron}>←</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle} numberOfLines={1}>
             {group?.name || tx('groupDetail.header.fallbackTitle', 'Comunidad')}
@@ -3110,8 +3108,7 @@ export const GroupDetailScreen: React.FC = () => {
           onDismiss={handleDismissReviewToast}
           autoDismissMs={2600}
         />
-      </SafeAreaView>
-    </AnimatedBackground>
+    </WarmScreen>
   );
 };
 
@@ -3133,28 +3130,50 @@ const styles = StyleSheet.create({
     color: colors.accent,
     fontFamily: typography.fontFamily.medium,
   },
+  backChip: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.warm.cream,
+    borderWidth: 1,
+    borderColor: colors.border.warm,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backChevron: {
+    fontSize: typography.fontSize.lg,
+    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.bold,
+    marginTop: -2,
+  },
   headerTitle: {
     flex: 1,
     fontSize: typography.fontSize.md,
-    fontFamily: typography.fontFamily.semibold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
     textAlign: 'center',
     marginHorizontal: spacing.md,
+    letterSpacing: -0.2,
   },
   headerSpacer: {
-    width: 60,
+    width: 36,
   },
   headerMenuButton: {
-    width: 60,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.warm.cream,
+    borderWidth: 1,
+    borderColor: colors.border.warm,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: spacing.xs,
   },
   headerMenuButtonText: {
-    fontSize: 28,
-    lineHeight: 28,
-    color: COMMUNITY_ACCENT,
-    fontFamily: typography.fontFamily.semibold,
+    fontSize: 22,
+    lineHeight: 22,
+    color: colors.warm.clay,
+    fontFamily: typography.fontFamily.bold,
+    marginTop: -4,
   },
 
   // Scroll view styles

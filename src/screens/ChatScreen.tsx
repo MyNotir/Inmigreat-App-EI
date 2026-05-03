@@ -29,6 +29,7 @@ import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs"
 
 import { useViewTranslation } from "../i18n"
 import { WarmScreen } from "../components/common/WarmScreen"
+import { StressBanner } from "../components/common/StressBanner"
 import { ChatInput } from "../components/chat/ChatInput"
 import { MessageBubble } from "../components/chat/MessageBubble"
 import { TypingIndicator } from "../components/chat/TypingIndicator"
@@ -514,6 +515,50 @@ export const ChatScreen: React.FC = () => {
 
   const isEmptyChat = !isConversationLoading && messages.length === 0
 
+  // Detect if the most recent user message contains acute crisis keywords.
+  // When true we surface a StressBanner above the chat that routes to the
+  // verified attorney directory — Lexi is great, but ICE/detention/imminent
+  // hearings need a human now. We only show the banner once per acute message
+  // (not the typing draft) so it doesn't fight the conversation.
+  const acuteUserMessage = useMemo(() => {
+    const ACUTE_KEYWORDS = [
+      "ice",
+      "deport",
+      "detuv",
+      "detuvieron",
+      "detained",
+      "arrest",
+      "negaron",
+      "negada",
+      "denied",
+      "negación",
+      "nta",
+      "audiencia maña",
+      "audiencia hoy",
+      "removal",
+    ]
+    // Walk backwards from most recent message; only return if it's a user
+    // message AND contains an acute keyword. This way assistant messages or
+    // older user messages don't keep the banner stuck on screen.
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const m = messages[i]
+      if (!m) continue
+      if (m.role !== "user") return null
+      const lowered = m.content.toLowerCase()
+      if (ACUTE_KEYWORDS.some((k) => lowered.includes(k))) {
+        return m
+      }
+      return null
+    }
+    return null
+  }, [messages])
+
+  const handleEscalateToAttorney = useCallback(() => {
+    // Navigate up to root (MainTabs) → Resources tab → AttorneyDirectory.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(navigation as any).navigate("Resources", { screen: "AttorneyDirectory" })
+  }, [navigation])
+
   return (
     <WarmScreen edges={["top"]}>
       {/* Header */}
@@ -655,6 +700,22 @@ export const ChatScreen: React.FC = () => {
         keyboardVerticalOffset={0}
       >
         <View style={styles.chatContainer}>
+          {/* Crisis escalation: if the user just typed something acute (ICE,
+              deport, NTA, audiencia hoy/mañana, denial), surface a banner
+              that routes to a verified human attorney. Lexi keeps answering
+              underneath — we don't block her, we add a parallel option. */}
+          {acuteUserMessage ? (
+            <View style={styles.acuteBannerWrap}>
+              <StressBanner
+                context="DETECTAMOS UNA SITUACIÓN URGENTE"
+                headline="Lexi puede orientarte, pero esto pide un abogado humano hoy mismo. ¿Lo conectamos?"
+                ctaLabel="Hablar con un abogado verificado"
+                level="acute"
+                onCta={handleEscalateToAttorney}
+              />
+            </View>
+          ) : null}
+
           {isConversationLoading ? (
             <View style={styles.loadingWrap}>
               <Text style={styles.loadingText}>
@@ -946,6 +1007,11 @@ const styles = StyleSheet.create({
   kbWrap: { flex: 1 },
 
   chatContainer: { flex: 1 },
+  acuteBannerWrap: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.sm,
+  },
   loadingWrap: {
     flex: 1,
     alignItems: "center",

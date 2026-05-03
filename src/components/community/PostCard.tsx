@@ -134,13 +134,11 @@ export const PostCard: React.FC<PostCardProps> = ({
   const tagLabel = post.tag ? translateTagLabel(post.tag, tx) : null;
   const cardStyle: ViewStyle = {
     ...styles.card,
-    backgroundColor: isAndroid
-      ? mixHexWithWhite(accentColor, 0.94)
-      : createColoredGlassBackground(colors.background.secondary, 0.82),
-    borderColor: isAndroid
-      ? mixHexWithWhite(accentColor, 0.72)
-      : createColoredGlassBackground(accentColor, 0.1),
-    shadowColor: accentColor,
+    // EI: warm cream surface, soft clay border. Author accent shows up in
+    // the avatar circle only — surface stays calm even when the post is hot.
+    backgroundColor: colors.warm.cream,
+    borderColor: colors.border.warm,
+    shadowColor: colors.warm.ink,
   };
 
   return (

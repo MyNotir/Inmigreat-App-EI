@@ -127,13 +127,12 @@ export const GroupRow: React.FC<GroupRowProps> = ({
   const accentColor = group.iconColor || colors.accent;
   const cardStyle: ViewStyle = {
     ...styles.card,
-    backgroundColor: isAndroid
-      ? mixHexWithWhite(accentColor, 0.94)
-      : createColoredGlassBackground(colors.background.secondary, 0.82),
-    borderColor: isAndroid
-      ? mixHexWithWhite(accentColor, 0.72)
-      : createColoredGlassBackground(accentColor, 0.1),
-    shadowColor: accentColor,
+    // EI: warm cream surface with soft clay border. Accent color shows up only
+    // in the icon pill so each group still reads distinct without dyeing the
+    // whole surface cool.
+    backgroundColor: colors.warm.cream,
+    borderColor: colors.border.warm,
+    shadowColor: colors.warm.ink,
   };
   const nestedSurfaceStyle: ViewStyle | null = isAndroid
     ? {

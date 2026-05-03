@@ -49,7 +49,7 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
   priceValue = '$20',
   pricePeriod,
   benefits,
-  accentColor = colors.pro,
+  accentColor = colors.warm.clay,
   ctaLabel,
   chatCtaLabel,
   dismissLabel,
@@ -79,16 +79,17 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
       <View style={styles.overlay}>
         <GlassCard style={styles.card}>
           <View style={styles.header}>
+            <Text style={styles.eyebrow}>INMIGREAT · PRO</Text>
             <View
               style={[
                 styles.iconContainer,
                 {
-                  backgroundColor: `${accentColor}18`,
-                  borderColor: `${accentColor}28`,
+                  backgroundColor: colors.warm.sand,
+                  borderColor: colors.warm.clay,
                 },
               ]}
             >
-              <ForecastIcon size={30} color={accentColor} />
+              <ForecastIcon size={28} color={colors.warm.clay} />
             </View>
             <Text style={styles.title}>{resolvedTitle}</Text>
             <Text style={styles.subtitle}>{resolvedSubtitle}</Text>
@@ -141,7 +142,7 @@ export const PremiumPaywallModal: React.FC<PremiumPaywallModalProps> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(15, 23, 42, 0.5)',
+    backgroundColor: 'rgba(59, 46, 42, 0.55)',
     justifyContent: 'center',
     padding: spacing.lg,
   },
@@ -152,6 +153,14 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     marginBottom: spacing.lg,
+  },
+  eyebrow: {
+    fontSize: typography.fontSize.xs,
+    fontFamily: typography.fontFamily.extrabold,
+    color: colors.warm.clay,
+    letterSpacing: 1.6,
+    textTransform: 'uppercase',
+    marginBottom: spacing.md,
   },
   iconContainer: {
     width: 68,
@@ -164,8 +173,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: typography.fontSize['2xl'],
-    fontFamily: typography.fontFamily.bold,
+    fontFamily: typography.fontFamily.extrabold,
     color: colors.warm.ink,
+    letterSpacing: -0.4,
     marginBottom: spacing.xs,
     textAlign: 'center',
   },

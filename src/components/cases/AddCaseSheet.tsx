@@ -353,8 +353,8 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
         <View style={styles.heroCopy}>
           <Text style={styles.heroEyebrow}>
             {caseSource === 'uscis'
-              ? tx('addCase.hero.uscis.eyebrow', 'Seguimiento instantaneo')
-              : tx('addCase.hero.eoir.eyebrow', 'Validacion EOIR en vivo')}
+              ? tx('addCase.hero.uscis.eyebrow', 'CASO USCIS · 30 SEGUNDOS')
+              : tx('addCase.hero.eoir.eyebrow', 'CASO DE CORTE · VALIDACIÓN EN VIVO')}
           </Text>
           <Text style={styles.heroTitle}>
             {caseSource === 'uscis'
@@ -363,8 +363,8 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
           </Text>
           <Text style={styles.heroDescription}>
             {caseSource === 'uscis'
-              ? tx('addCase.hero.uscis.description', 'Inmigreat deduce el tipo de caso desde USCIS y crea el seguimiento para este usuario sin pedir datos extra.')
-              : tx('addCase.hero.eoir.description', 'La app resuelve hCaptcha, consulta EOIR y envia el resultado validado al backend para la persistencia inicial.')}
+              ? tx('addCase.hero.uscis.description', 'Detectamos el tipo de caso desde USCIS, armamos el timeline, y te avisamos cuando algo cambia. No pedimos más de lo necesario.')
+              : tx('addCase.hero.eoir.description', 'Validamos contra EOIR antes de guardar. Si tu caso no aparece, te lo decimos en segundos para que no esperes en falso.')}
           </Text>
         </View>
       </View>
@@ -406,7 +406,7 @@ export const AddCaseSheet: React.FC<AddCaseSheetProps> = ({
     <PlatformBottomSheet
       visible={visible}
       onClose={onClose}
-      title={tx('addCase.title', 'Agregar caso')}
+      title={tx('addCase.title', 'Agregar tu caso')}
       heightPercent={0.86}
       dismissOnBackdropPress={!isSubmitting}
       dismissOnDrag={Platform.OS === 'ios' && !isSubmitting}
