@@ -76,8 +76,12 @@ type CommunityTranslate = (
 
 /** Role badge styles */
 const ROLE_BADGES: Record<string, { backgroundColor: string; textColor: string }> = {
-  'Moderador': { backgroundColor: colors.accent, textColor: colors.warm.cream },
-  'Pro': { backgroundColor: colors.pro, textColor: colors.warm.cream },
+  // EI: warm role badges. Moderador → clay, Pro → sand+clay outline,
+  // Admin → urgent burnt-orange, Experto → sage. Cool brand-purple/blue
+  // for community roles felt like an AWS console — too cold for a peer
+  // support thread.
+  'Moderador': { backgroundColor: colors.warm.clay, textColor: colors.warm.cream },
+  'Pro': { backgroundColor: colors.warm.sand, textColor: colors.warm.clay },
   'Admin': { backgroundColor: colors.status.urgentWarm, textColor: colors.warm.cream },
   'Experto': { backgroundColor: colors.warm.sage, textColor: colors.warm.cream },
 };

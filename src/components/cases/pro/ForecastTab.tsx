@@ -99,13 +99,13 @@ const SparklineChart: React.FC<SparklineProps> = ({
       {/* Gradient area under curve */}
       <Path
         d={`${pathD} L ${points[points.length - 1].x} ${padding.top + chartHeight} L ${padding.left} ${padding.top + chartHeight} Z`}
-        fill={`${colors.pro}15`}
+        fill={`${colors.warm.clay}15`}
       />
       
       {/* Main curve */}
       <Path
         d={pathD}
-        stroke={colors.pro}
+        stroke={colors.warm.clay}
         strokeWidth={2}
         fill="none"
       />
@@ -149,13 +149,13 @@ const SparklineChart: React.FC<SparklineProps> = ({
             cx={peakPoint.x}
             cy={peakPoint.y}
             r={5}
-            fill={colors.pro}
+            fill={colors.warm.clay}
           />
           <SvgText
             x={peakPoint.x}
             y={peakPoint.y - 10}
             fontSize={10}
-            fill={colors.pro}
+            fill={colors.warm.clay}
             textAnchor="middle"
             fontWeight="600"
           >
@@ -288,7 +288,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
       <GlassCard style={styles.dateRangeCard}>
         <View style={styles.dateRangeContent}>
           <View style={styles.dateRangeIconContainer}>
-            <ForecastIcon size={28} color={colors.pro} />
+            <ForecastIcon size={28} color={colors.warm.clay} />
           </View>
           <View style={styles.dateRangeTextContainer}>
             <Text style={styles.dateRangeLabel}>{tx('forecast.estimatedApprovalDate', 'Fecha estimada de aprobacion')}</Text>
@@ -346,7 +346,7 @@ export const ForecastTab: React.FC<ForecastTabProps> = ({ data, style }) => {
             label={tx('forecast.remainingTime', 'Tiempo restante')}
             value={data.weeksRemaining}
             subtext={tx('forecast.weeks', 'semanas')}
-            color={colors.pro}
+            color={colors.warm.clay}
           />
         </GlassCard>
 
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.pro}15`,
+    backgroundColor: `${colors.warm.clay}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,

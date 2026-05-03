@@ -81,7 +81,7 @@ const TabButton: React.FC<TabButtonProps> = ({ tab, label, isActive, onPress }) 
       style={styles.tabButton}
     >
       <Animated.View style={[styles.tabButtonContent, animatedStyle]}>
-        <Icon size={20} color={isActive ? colors.pro : colors.warm.inkFaint} />
+        <Icon size={20} color={isActive ? colors.warm.clay : colors.warm.inkFaint} />
         <Text style={[styles.tabLabel, isActive && styles.tabLabelActive]}>
           {label}
         </Text>
@@ -107,7 +107,7 @@ const PaywallOverlay: React.FC<{
       >
         <Animated.View style={[styles.paywallContent, animatedStyle]}>
           <View style={styles.paywallIconContainer}>
-            <ForecastIcon size={32} color={colors.pro} />
+            <ForecastIcon size={32} color={colors.warm.clay} />
           </View>
           <Text style={styles.paywallTitle}>{tx('proTabs.unlockTitle', 'Desbloquea Pro')}</Text>
           <Text style={styles.paywallDescription}>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.xs,
     textAlign: 'center',
   },
-  tabLabelActive: { color: colors.pro, fontFamily: typography.fontFamily.semibold },
+  tabLabelActive: { color: colors.warm.clay, fontFamily: typography.fontFamily.semibold },
   indicator: {
     position: 'absolute',
     top: spacing.xs,
@@ -260,10 +260,10 @@ const styles = StyleSheet.create({
   paywallTouchable: { flex: 1 },
   paywallContent: {
     flex: 1,
-    backgroundColor: `${colors.pro}10`,
+    backgroundColor: `${colors.warm.clay}10`,
     borderRadius: borderRadius['2xl'],
     borderWidth: 1,
-    borderColor: `${colors.pro}30`,
+    borderColor: `${colors.warm.clay}30`,
     padding: spacing.xl,
     alignItems: 'center',
     justifyContent: 'center',
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
-    backgroundColor: `${colors.pro}20`,
+    backgroundColor: `${colors.warm.clay}20`,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing.base,
@@ -292,10 +292,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.base,
   },
   paywallPriceContainer: { flexDirection: 'row', alignItems: 'baseline', marginBottom: spacing.lg },
-  paywallPrice: { fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.bold, color: colors.pro },
+  paywallPrice: { fontSize: typography.fontSize['3xl'], fontFamily: typography.fontFamily.bold, color: colors.warm.clay },
   paywallPeriod: { fontSize: typography.fontSize.md, color: colors.warm.inkSoft, marginLeft: spacing.xs },
   paywallButton: {
-    backgroundColor: colors.pro,
+    backgroundColor: colors.warm.clay,
     paddingHorizontal: spacing.xl,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.full,

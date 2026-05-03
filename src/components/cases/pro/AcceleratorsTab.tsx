@@ -130,7 +130,7 @@ const AcceleratorCard: React.FC<AcceleratorCardProps> = ({
         style={styles.acceleratorHeader}
       >
         <View style={styles.acceleratorIconContainer}>
-          {getAcceleratorIcon(accelerator.icon, colors.pro)}
+          {getAcceleratorIcon(accelerator.icon, colors.warm.clay)}
         </View>
         <View style={styles.acceleratorContent}>
           <View style={styles.acceleratorTitleRow}>
@@ -271,7 +271,7 @@ export const AcceleratorsTab: React.FC<AcceleratorsTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <AccelerateIcon size={28} color={colors.pro} />
+            <AccelerateIcon size={28} color={colors.warm.clay} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('accelerators.headerTitle', 'Aceleradores')}</Text>
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.pro}15`,
+    backgroundColor: `${colors.warm.clay}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: `${colors.pro}10`,
+    backgroundColor: `${colors.warm.clay}10`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     lineHeight: typography.fontSize.sm * 1.5,
   },
   actionButton: {
-    backgroundColor: colors.pro,
+    backgroundColor: colors.warm.clay,
     paddingVertical: spacing.md,
     paddingHorizontal: spacing.lg,
     borderRadius: 12,

@@ -128,7 +128,7 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
       <Svg width={280} height={140} viewBox="0 0 280 140">
         <Path
           d="M20,30 L60,25 L100,20 L140,22 L180,20 L220,25 L260,35 L265,60 L260,90 L240,100 L200,110 L160,115 L120,115 L80,110 L40,100 L25,80 L20,50 Z"
-          fill={`${colors.pro}10`}
+          fill={`${colors.warm.clay}10`}
           stroke={colors.border.light}
           strokeWidth={1}
         />
@@ -139,7 +139,7 @@ const USMapVisualization: React.FC<{ centers: ServiceCenterData[]; tx: CasesTran
           return (
             <React.Fragment key={center.name}>
               {center.isUserCenter && (
-                <Circle cx={pos.x} cy={pos.y} r={14} fill="none" stroke={colors.pro} strokeWidth={2} strokeDasharray="4,2" />
+                <Circle cx={pos.x} cy={pos.y} r={14} fill="none" stroke={colors.warm.clay} strokeWidth={2} strokeDasharray="4,2" />
               )}
               <Circle cx={pos.x} cy={pos.y} r={8} fill={speedColor} />
               <SvgText x={pos.x} y={pos.y + 20} fontSize={8} fill={colors.warm.inkSoft} textAnchor="middle">
@@ -192,7 +192,7 @@ export const IntelligenceTab: React.FC<IntelligenceTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <IntelIcon size={28} color={colors.pro} />
+            <IntelIcon size={28} color={colors.warm.clay} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('intelligence.headerTitle', 'Inteligencia USCIS')}</Text>
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   headerCard: { padding: spacing.lg, marginBottom: spacing.md },
   headerContent: { flexDirection: 'row', alignItems: 'center' },
   headerIconContainer: {
-    width: 48, height: 48, borderRadius: 24, backgroundColor: `${colors.pro}15`,
+    width: 48, height: 48, borderRadius: 24, backgroundColor: `${colors.warm.clay}15`,
     alignItems: 'center', justifyContent: 'center', marginRight: spacing.md,
   },
   headerTextContainer: { flex: 1 },
@@ -270,12 +270,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.warm.sand, borderRadius: 12, padding: spacing.md,
     marginBottom: spacing.sm, borderWidth: 1, borderColor: colors.border.warm,
   },
-  centerCardHighlighted: { borderColor: colors.pro, borderWidth: 2, backgroundColor: `${colors.pro}05` },
+  centerCardHighlighted: { borderColor: colors.warm.clay, borderWidth: 2, backgroundColor: `${colors.warm.clay}05` },
   centerHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.sm },
   centerNameContainer: { flexDirection: 'row', alignItems: 'center', flex: 1 },
   centerName: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink },
-  userCenterBadge: { backgroundColor: `${colors.pro}15`, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 10, marginLeft: spacing.sm },
-  userCenterBadgeText: { fontSize: typography.fontSize.xs, color: colors.pro, fontFamily: typography.fontFamily.medium },
+  userCenterBadge: { backgroundColor: `${colors.warm.clay}15`, paddingHorizontal: spacing.sm, paddingVertical: 2, borderRadius: 10, marginLeft: spacing.sm },
+  userCenterBadgeText: { fontSize: typography.fontSize.xs, color: colors.warm.clay, fontFamily: typography.fontFamily.medium },
   speedBadge: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: spacing.sm, paddingVertical: spacing.xs, borderRadius: 12 },
   speedIconText: { fontSize: 12, marginRight: 4 },
   speedLabel: { fontSize: typography.fontSize.xs, fontFamily: typography.fontFamily.medium },
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   bulletinItemValue: { fontSize: typography.fontSize.md, fontFamily: typography.fontFamily.semibold, color: colors.warm.ink },
   estimatedWaitContainer: { backgroundColor: colors.warm.sand, borderRadius: 8, padding: spacing.md, marginBottom: spacing.md },
   estimatedWaitLabel: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft, marginBottom: spacing.xs },
-  estimatedWaitValue: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.pro },
+  estimatedWaitValue: { fontSize: typography.fontSize.lg, fontFamily: typography.fontFamily.bold, color: colors.warm.clay },
   comparisonContainer: { borderTopWidth: 1, borderTopColor: colors.border.warm, paddingTop: spacing.md },
   comparisonLabel: { fontSize: typography.fontSize.xs, color: colors.warm.inkSoft, marginBottom: spacing.xs },
   comparisonValue: { fontSize: typography.fontSize.sm, color: colors.warm.ink },

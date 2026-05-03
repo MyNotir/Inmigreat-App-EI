@@ -94,13 +94,13 @@ const getAlertColor = (type: AlertType, severity?: Alert['severity']): string =>
     case 'approval':
       return colors.success;
     case 'speed':
-      return colors.pro;
+      return colors.warm.clay;
     case 'bulletin':
       return colors.accent;
     case 'risk':
       return severity === 'high' ? colors.error : severity === 'medium' ? colors.warning : colors.warm.inkSoft;
     case 'matched':
-      return colors.pro;
+      return colors.warm.clay;
     default:
       return colors.warm.inkSoft;
   }
@@ -302,7 +302,7 @@ export const AlertsTab: React.FC<AlertsTabProps> = ({
       <GlassCard style={styles.headerCard}>
         <View style={styles.headerContent}>
           <View style={styles.headerIconContainer}>
-            <AlertsIcon size={28} color={colors.pro} />
+            <AlertsIcon size={28} color={colors.warm.clay} />
           </View>
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{tx('alerts.headerTitle', 'Alertas Pro')}</Text>
@@ -339,7 +339,7 @@ export const AlertsTab: React.FC<AlertsTabProps> = ({
           <AlertSection
             title={tx('alerts.sections.speed', 'Cambios de velocidad')}
             alerts={speedAlerts}
-            icon={<AlertSpeedIcon size={18} color={colors.pro} />}
+            icon={<AlertSpeedIcon size={18} color={colors.warm.clay} />}
             tx={tx}
           />
 
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: `${colors.pro}15`,
+    backgroundColor: `${colors.warm.clay}15`,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: spacing.md,
@@ -566,7 +566,7 @@ const styles = StyleSheet.create({
   similarityValue: {
     fontSize: typography.fontSize.lg,
     fontFamily: typography.fontFamily.bold,
-    color: colors.pro,
+    color: colors.warm.clay,
   },
   similarityLabel: {
     fontSize: typography.fontSize.xs,

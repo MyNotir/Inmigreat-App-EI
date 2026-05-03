@@ -33,18 +33,22 @@ export interface PostCardProps {
 }
 
 const ROLE_BADGES: Record<string, { backgroundColor: string; textColor: string }> = {
-  'Moderador': { backgroundColor: colors.accent, textColor: colors.warm.cream },
-  'Pro': { backgroundColor: colors.pro, textColor: colors.warm.cream },
+  // EI warm role palette — see ThreadView.tsx for rationale.
+  'Moderador': { backgroundColor: colors.warm.clay, textColor: colors.warm.cream },
+  'Pro': { backgroundColor: colors.warm.sand, textColor: colors.warm.clay },
   'Admin': { backgroundColor: colors.status.urgentWarm, textColor: colors.warm.cream },
   'Experto': { backgroundColor: colors.warm.sage, textColor: colors.warm.cream },
 };
 
 const TAG_STYLES: Record<string, { backgroundColor: string; textColor: string }> = {
-  'Pregunta': { backgroundColor: 'rgba(21, 52, 128, 0.12)', textColor: colors.caseAccent.workPermit },
-  'Experiencia': { backgroundColor: 'rgba(68, 93, 153, 0.12)', textColor: colors.caseAccent.greenCard },
-  'Consejo': { backgroundColor: 'rgba(99, 78, 204, 0.12)', textColor: colors.caseAccent.citizenship },
-  'Noticia': { backgroundColor: 'rgba(149, 129, 255, 0.16)', textColor: colors.caseAccent.visa },
-  'Alerta': { backgroundColor: 'rgba(176, 0, 32, 0.12)', textColor: colors.error },
+  // EI: warm tag palette — sand+clay for routine tags, peach+urgentWarm
+  // for crisis tags. Cool brand-blue tags read as 'cold catalog UI' on
+  // a peer-support thread.
+  'Pregunta': { backgroundColor: colors.warm.sand, textColor: colors.warm.clay },
+  'Experiencia': { backgroundColor: 'rgba(184, 201, 185, 0.32)', textColor: '#5A7660' },
+  'Consejo': { backgroundColor: colors.warm.sand, textColor: colors.warm.ink },
+  'Noticia': { backgroundColor: colors.warm.cream, textColor: colors.warm.clay },
+  'Alerta': { backgroundColor: colors.warm.peach, textColor: colors.status.urgentWarm },
 };
 
 type CommunityTranslate = (
