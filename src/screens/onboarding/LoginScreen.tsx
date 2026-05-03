@@ -104,7 +104,7 @@ const LockIcon: React.FC<{ size?: number; color?: string }> = ({
 );
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) => {
-  const { loginWithCredentials, registerUser, loginWithSocial, userName, language } = useAuth();
+  const { loginWithCredentials, registerUser, loginWithSocial, userName, language, __devBypassAuth } = useAuth();
   const { showAlert, showError } = useAppAlert();
   const { t } = useViewTranslation('onboarding');
 
@@ -786,6 +786,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) =
                         : tx('login.helper.footerLogin', 'Ya tienes cuenta? Iniciar sesion')}
                     </Text>
                   </TouchableOpacity>
+
+                  {__devBypassAuth ? (
+                    <TouchableOpacity
+                      onPress={__devBypassAuth}
+                      style={styles.devLoginButton}
+                      accessibilityRole="button"
+                      accessibilityLabel="Demo login — entrar sin password"
+                    >
+                      <Text style={styles.devLoginLabel}>Demo Login (sin password) →</Text>
+                    </TouchableOpacity>
+                  ) : null}
                 </Animated.View>
               </View>
             </View>
@@ -1016,6 +1027,20 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.base,
     fontFamily: typography.fontFamily.medium,
     marginTop: spacing.xl,
+  },
+  devLoginButton: {
+    marginTop: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.full,
+    backgroundColor: colors.accent,
+    alignItems: 'center',
+  },
+  devLoginLabel: {
+    fontSize: typography.fontSize.base,
+    fontFamily: typography.fontFamily.bold,
+    color: colors.text.inverse,
+    letterSpacing: 0.4,
   },
 });
 
